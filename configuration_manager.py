@@ -19,3 +19,32 @@ class ConfigurationManager:
 		else:
 			config = Configuration(key=key, value=str(value))
 		commit()
+
+	def get_scale_type(self):
+		return self.get(SystemSettings.SCALE_TYPE)
+
+	def set_scale_type(self, value):
+		return self.set(SystemSettings.SCALE_TYPE, value)
+
+	def get_analyzer_type(self):
+		return self.get(SystemSettings.ANALYZER_TYPE)
+
+	def set_analyzer_type(self, value):
+		return self.set(SystemSettings.ANALYZER_TYPE, value)
+
+	def get_rate_type(self):
+		return self.get(SystemSettings.RATE_TYPE)
+
+	def set_rate_type(self, value):
+		return self.set(SystemSettings.RATE_TYPE, value)
+
+	def get_all_settings(self):
+		settings = {}
+		for x in SystemSettings._get_keys():
+			settings[x] = self.get(x)
+		return settings
+
+	def set_all_settings(self, settings):
+		for x in settings.keys():
+			if x in SystemSettings._get_keys():
+				self.set(x, settings[x])
