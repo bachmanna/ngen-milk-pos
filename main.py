@@ -7,51 +7,17 @@ import gtk
 
 
 class MilkPOSLauncher:
-    # This is a callback function. The data arguments are ignored
-    # in this example. More on callbacks below.
-    def hello(self, widget, data=None):
-        print "Hello World"
-
-    def delete_event(self, widget, event, data=None):
-        # If you return FALSE in the "delete_event" signal handler,
-        # GTK will emit the "destroy" signal. Returning TRUE means
-        # you don't want the window to be destroyed.
-        # This is useful for popping up 'are you sure you want to quit?'
-        # type dialogs.
-        print "delete event occurred"
-
-        # Change FALSE to TRUE and the main window will not be destroyed
-        # with a "delete_event".
-        return False
 
     def destroy(self, widget, data=None):
         gtk.main_quit()
 
     def __init__(self):
-        # create a new window
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.connect("delete_event", self.delete_event)
-        self.window.connect("destroy", self.destroy)
+        self.builder = gtk.Builder()
+        self.builder.add_from_file("resources/glade/system_settings.glade")
+        self.window = self.builder.get_object("mainWindow")
+        if self.window:
+            self.window.connect("destroy", self.destroy)
 
-        # Sets the border width of the window.
-        self.window.set_border_width(10)
-
-        # Creates a new button with the label "Hello World".
-        self.button = gtk.Button("Hello World")
-        self.button.connect("clicked", self.hello, None)
-
-        # This will cause the window to be destroyed by calling
-        # gtk_widget_destroy(window) when "clicked".  Again, the destroy
-        # signal could come from here, or the window manager.
-        self.button.connect_object("clicked", gtk.Widget.destroy, self.window)
-
-        # This packs the button into the window (a GTK container).
-        self.window.add(self.button)
-
-        # The final step is to display this newly created widget.
-        self.button.show()
-
-        # and the window
         self.window.show()
 
     def main(self):
