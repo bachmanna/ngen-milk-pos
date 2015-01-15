@@ -29,15 +29,18 @@ class MilkPOSLauncher:
         settings = gtk.settings_get_for_screen(screen)
         gtk.rc_reset_styles(settings)
 
-        self.window.fullscreen()
         self.window.show()
+        self.window.fullscreen()
 
 
     def accelerator_keys(self, window, event):
-        #key, mods = gtk.accelerator_parse("F10")
+        #key, mods = gtk.accelerator_parse("Alt L + F10")
         keyval = event.keyval
+        if keyval == 65479:
+            self.destroy(self.window)
+            return
         mod = gtk.accelerator_get_label(keyval, event.state)
-        #print mod
+        #print mod, keyval
         self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
         pass
 
