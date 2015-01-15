@@ -53,3 +53,8 @@ class SystemSettings(BaseType):
     EXTERNAL_DISPLAY = "EXTERNAL_DISPLAY"
     COLLECTION_PRINTER_TYPE = "COLLECTION_PRINTER_TYPE"
 
+
+class CollectionPrinterType(BaseType):
+    THERMAL = "THERMAL"
+    LPT = "LPT"
+    LASER = "LASER"

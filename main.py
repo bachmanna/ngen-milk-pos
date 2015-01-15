@@ -5,6 +5,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
+from ui.settings import SettingsUI
 
 class MilkPOSLauncher:
 
@@ -13,11 +14,14 @@ class MilkPOSLauncher:
 
     def __init__(self):
         self.builder = gtk.Builder()
-        self.builder.add_from_file("resources/glade/system_settings.glade")
+        self.builder.add_from_file("resources/glade/home.glade")
         self.window = self.builder.get_object("mainWindow")
         if self.window:
             self.window.connect("destroy", self.destroy)
 
+            self.container = self.builder.get_object("mainContainer")
+
+        setting = SettingsUI(self.container, None)
         self.window.show()
 
     def main(self):
@@ -170,10 +174,10 @@ if __name__ == "__main__":
     #db.create_tables()
 
     with db_session:
-        #    create_test_data()
-        test_settings()
+        #create_test_data()
+        #test_settings()
 
-    #datetime_test()
+        #datetime_test()
 
-    launcher = MilkPOSLauncher()
-    launcher.main()
+        launcher = MilkPOSLauncher()
+        launcher.main()
