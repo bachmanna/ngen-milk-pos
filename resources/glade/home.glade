@@ -145,10 +145,11 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="label8">
+              <object class="GtkLabel" id="lblKeyHints">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">HINTS &amp; SHORTCUT DETAILS</property>
+                <property name="label" translatable="yes">HINTS &amp;amp; SHORTCUT DETAILS</property>
+                <property name="use_markup">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>

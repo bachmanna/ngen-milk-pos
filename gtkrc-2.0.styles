@@ -1,0 +1,6 @@
+style "font"
+{
+font_name = "Tahoma 14"
+}
+widget_class "*" style "font"
+gtk-font-name = "Tahoma 14"

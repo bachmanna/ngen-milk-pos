@@ -21,6 +21,7 @@ class SettingsUI:
 
         self.parent.add(self.container)
         self.container.show()
+        self.builder.get_object("cbScaleType").grab_focus()
         pass
 
     def set_combobox_values(self, obj_id, values):

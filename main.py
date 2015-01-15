@@ -16,13 +16,30 @@ class MilkPOSLauncher:
         self.builder = gtk.Builder()
         self.builder.add_from_file("resources/glade/home.glade")
         self.window = self.builder.get_object("mainWindow")
-        if self.window:
-            self.window.connect("destroy", self.destroy)
+        self.lblKeyHints = self.builder.get_object("lblKeyHints")
 
-            self.container = self.builder.get_object("mainContainer")
+        self.window.connect("destroy", self.destroy)
+        self.window.connect('key-press-event', self.accelerator_keys)
 
-        setting = SettingsUI(self.container, None)
+        self.container = self.builder.get_object("mainContainer")
+        SettingsUI(self.container, None)
+
+        gtk.rc_parse("gtkrc-2.0.styles")
+        screen = self.window.get_screen()
+        settings = gtk.settings_get_for_screen(screen)
+        gtk.rc_reset_styles(settings)
+
+        self.window.fullscreen()
         self.window.show()
+
+
+    def accelerator_keys(self, window, event):
+        #key, mods = gtk.accelerator_parse("F10")
+        keyval = event.keyval
+        mod = gtk.accelerator_get_label(keyval, event.state)
+        #print mod
+        self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
+        pass
 
     def main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
