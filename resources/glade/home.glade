@@ -12,40 +12,63 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkVBox" id="vbox2">
+          <object class="GtkHBox" id="hbox3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkImage" id="imgLogo">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">JEPIAAR MILK COLLECTION CENTER</property>
-                <attributes>
-                  <attribute name="style" value="normal"/>
-                  <attribute name="weight" value="bold"/>
-                  <attribute name="gravity" value="north"/>
-                  <attribute name="gravity-hint" value="strong"/>
-                  <attribute name="size" value="500"/>
-                  <attribute name="absolute-size" value="500"/>
-                  <attribute name="foreground" value="#ffff00000000"/>
-                </attributes>
+                <property name="pixbuf">logo.jpg</property>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label2">
+              <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">No. 6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307</property>
+                <child>
+                  <object class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">JEPIAAR MILK COLLECTION CENTER</property>
+                    <attributes>
+                      <attribute name="style" value="normal"/>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="gravity" value="north"/>
+                      <attribute name="gravity-hint" value="strong"/>
+                      <attribute name="size" value="500"/>
+                      <attribute name="absolute-size" value="500"/>
+                      <attribute name="foreground" value="#ffff00000000"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">No. 6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>

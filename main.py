@@ -11,6 +11,7 @@ from ui.ticket_settings import TicketSettingsUI
 
 
 class MilkPOSLauncher:
+    LOGO_IMAGE_FILE = "resources/icons/logo.jpg"
     def destroy(self, widget, data=None):
         gtk.main_quit()
 
@@ -24,6 +25,9 @@ class MilkPOSLauncher:
         self.window.connect('key-press-event', self.accelerator_keys)
 
         self.container = self.builder.get_object("mainContainer")
+        logo = self.builder.get_object("imgLogo")
+        logo.set_from_file(MilkPOSLauncher.LOGO_IMAGE_FILE)
+        
         #SettingsUI(self.container, None)
         #TicketSettingsUI(self.container, None)
         MemberListUI(self.container, None)
@@ -202,7 +206,7 @@ if __name__ == "__main__":
     #db.create_tables()
 
     with db_session:
-        create_test_data()
+        #create_test_data()
         test_settings()
 
         #datetime_test()
