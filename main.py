@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 import pygtk
+from ui.member_list import MemberListUI
 
 pygtk.require('2.0')
 import gtk
 
 from ui.settings import SettingsUI
+from ui.ticket_settings import TicketSettingsUI
+
 
 class MilkPOSLauncher:
-
     def destroy(self, widget, data=None):
         gtk.main_quit()
 
@@ -22,7 +24,9 @@ class MilkPOSLauncher:
         self.window.connect('key-press-event', self.accelerator_keys)
 
         self.container = self.builder.get_object("mainContainer")
-        SettingsUI(self.container, None)
+        #SettingsUI(self.container, None)
+        #TicketSettingsUI(self.container, None)
+        MemberListUI(self.container, None)
 
         gtk.rc_parse("gtkrc-2.0.styles")
         screen = self.window.get_screen()
@@ -34,15 +38,16 @@ class MilkPOSLauncher:
 
 
     def accelerator_keys(self, window, event):
-        #key, mods = gtk.accelerator_parse("Alt L + F10")
+        # key, mods = gtk.accelerator_parse("Alt L + F10")
         keyval = event.keyval
+        mod = gtk.accelerator_get_label(keyval, event.state)
+        print mod, keyval
+        self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
         if keyval == 65479:
             self.destroy(self.window)
-            return
-        mod = gtk.accelerator_get_label(keyval, event.state)
-        #print mod, keyval
-        self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
-        pass
+        elif keyval == 65360:
+            #show menu
+            pass
 
     def main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
@@ -98,7 +103,7 @@ def create_test_data():
                               rate=random.randint(1, 5) * 12.3,
                               created_by=1)
     sale = saleService.get(sale_id)
-    #print_sale(sale)
+    # print_sale(sale)
 
     for x in saleService.search(_id=sale_id):
         print_sale(sale)
@@ -160,6 +165,9 @@ def test_settings():
 
     configManager = ConfigurationManager()
     settings = {}
+
+    settings[SystemSettings.SOCIETY_NAME] = "JEPPIAAR MILK COLLECTION CENTER"
+    settings[SystemSettings.SOCIETY_ADDRESS] = "NO.6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307."
     settings[SystemSettings.SCALE_TYPE] = ScaleType.HEAVY
     settings[SystemSettings.ANALYZER_TYPE] = AnalyzerType.TVS
     settings[SystemSettings.RATE_TYPE] = CollectionRateType.FAT
@@ -190,12 +198,12 @@ if __name__ == "__main__":
 
     sql_debug(False)
     db.generate_mapping(create_tables=True)
-    # db.drop_all_tables(with_all_data=True)
+    #db.drop_all_tables(with_all_data=True)
     #db.create_tables()
 
     with db_session:
-        #create_test_data()
-        #test_settings()
+        create_test_data()
+        test_settings()
 
         #datetime_test()
 

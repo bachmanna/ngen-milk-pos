@@ -16,7 +16,14 @@ class MemberService:
         return member
 
     def search(self, name=None, mobile=None, cattle_type=None):
-        lst = select(p for p in Member if p.mobile == mobile)[:]
+        query = select(p for p in Member)
+        if name:
+            query = query.filter(lambda x: x.name == name)
+        if mobile:
+            query = query.filter(lambda x: x.mobile == mobile)
+        if cattle_type:
+            query = query.filter(lambda x: x.cattle_type == cattle_type)
+        lst = query[:]
         return lst
 
     def delete(self, _id):

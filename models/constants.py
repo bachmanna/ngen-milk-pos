@@ -9,8 +9,8 @@ class BaseType(object):
 
 
 class CattleType(BaseType):
-    COW = "C"
-    BUFFALO = "B"
+    COW = "COW"
+    BUFFALO = "BUFFALO"
 
 
 class CollectionShift(BaseType):
@@ -39,7 +39,13 @@ class AnalyzerType(BaseType):
 
 
 class SystemSettings(BaseType):
+    TICKET_WIDTH = "TICKET_WIDTH"
+    TICKET_HEIGHT = "TICKET_HEIGHT"
+    TICKET_MARGIN = "TICKET_MARGIN"
+    TICKET_FONT_SIZE = "TICKET_FONT_SIZE"
+
     SOCIETY_NAME = "SOCIETY_NAME"
+    SOCIETY_ADDRESS = "SOCIETY_ADDRESS"
 
     HEADER_LINE1 = "HEADER_LINE1"
     HEADER_LINE2 = "HEADER_LINE2"
