@@ -1,5 +1,18 @@
 from models import *
 from pony.orm import commit, select
+import os
+
+pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+
+
+class ResourceFilesConstants:
+    HOME_GLADE_FILE = pwd + "/resources/glade/home.glade"
+    LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.jpg"
+    GTK_THEME_FILE = pwd + "/resources/CandidoCandy/gtkrc"
+    # GTK_THEME_FILE = pwd + "/resources/DarkOrange/gtkrc"
+
+    def __init__(self):
+        pass
 
 
 class ConfigurationManager:

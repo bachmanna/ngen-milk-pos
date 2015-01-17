@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 import os
 import sys
+from configuration_manager import ResourceFilesConstants
 
-pwd = os.path.dirname(__file__)
-sys.path.append(os.path.abspath(os.path.join(pwd, '.')))
+pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+sys.path.append(pwd)
 
 import pygtk
 from ui.member_list import MemberListUI
@@ -15,16 +16,9 @@ from GUI.main import PosMain
 
 
 class MilkPOSLauncher:
-    HOME_GLADE_FILE = pwd + "/resources/glade/home.glade"
-    LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.jpg"
-    # GTK_THEME_FILE = pwd + "/resources/CandidoCandy/gtkrc"
-    GTK_THEME_FILE = pwd + "/resources/DarkOrange/gtkrc"
-
-    def destroy(self, widget, data=None):
-        gtk.main_quit()
-
     def __init__(self):
         self.pos = PosMain()
+<<<<<<< HEAD
         self.pos.showWindow()
         self.pos.accelMap = {65470:"MainMenu", 65471:"Collection", 65472:"MemberList"}
         self.pos.window.connect("destroy", self.destroy)
@@ -71,10 +65,13 @@ class MilkPOSLauncher:
         elif keyval == 65360:
             # show menu
             pass
+=======
+>>>>>>> refactored some code in main.py
 
     def main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
         # and waits for an event to occur (like a key press or mouse event).
+        self.pos.showWindow()
         gtk.main()
 
 
