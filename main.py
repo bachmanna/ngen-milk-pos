@@ -19,43 +19,9 @@ class MilkPOSLauncher:
     def __init__(self):
         self.pos = PosMain()
         self.pos.showWindow()
-
-        #       self.builder = gtk.Builder()
-        #self.builder.add_from_file("resources/glade/home.glade")
-        #self.window = self.builder.get_object("mainWindow")
-        #self.lblKeyHints = self.builder.get_object("lblKeyHints")
-
+        self.pos.accelMap = {65470:"mainmenu", 65471:"collectionpage", 65472:"member_edit"}
         self.pos.window.connect("destroy", self.destroy)
-        self.pos.window.connect('key-press-event', self.accelerator_keys)
-#
-#       self.container = self.builder.get_object("mainContainer")
-#       logo = self.builder.get_object("imgLogo")
-#       logo.set_from_file(MilkPOSLauncher.LOGO_IMAGE_FILE)
-#
-        #SettingsUI(self.container, None)
-        #TicketSettingsUI(self.container, None)
-#        MemberListUI(self.container, None)
 
-#        gtk.rc_parse("gtkrc-2.0.styles")
-#        screen = self.window.get_screen()
-#        settings = gtk.settings_get_for_screen(screen)
-#       gtk.rc_reset_styles(settings)
-
-#        self.window.show()
-#       self.window.fullscreen()
-
-
-    def accelerator_keys(self, window, event):
-        # key, mods = gtk.accelerator_parse("Alt L + F10")
-        keyval = event.keyval
-        mod = gtk.accelerator_get_label(keyval, event.state)
-        print mod, keyval
-        self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
-        if keyval == 65479:
-            self.destroy(self.window)
-        elif keyval == 65360:
-            #show menu
-            pass
 
     def main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
