@@ -52,6 +52,7 @@ class PosMain:
     def keypress(self, widget, data=None):
         print "this key was pressed" + str(data.keyval)
         if data.keyval in self.accelMap.keys():
+            self.clean_bclabels()
             self.changePage(self.accelMap[data.keyval])
 
     def btnClicked(self, widget, data=None):
@@ -65,3 +66,10 @@ class PosMain:
         c = getattr(m, className)
         c(self)
 
+    def clean_bclabels(self):
+        bc_label1 = self.builder.get_object("label1")
+        bc_label2 = self.builder.get_object("label2")
+        bc_label3 = self.builder.get_object("label3")
+        bc_label1.set_text('')
+        bc_label2.set_text('')
+        bc_label3.set_text('')

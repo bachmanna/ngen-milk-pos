@@ -26,7 +26,7 @@ class MilkPOSLauncher:
     def __init__(self):
         self.pos = PosMain()
         self.pos.showWindow()
-        self.pos.accelMap = {65470:"MainMenu", 65471:"Collection", 65472:"member_edit"}
+        self.pos.accelMap = {65470:"MainMenu", 65471:"Collection", 65472:"MemberList"}
         self.pos.window.connect("destroy", self.destroy)
         self.changeTheme(self.GTK_THEME_FILE, self.pos.window)
 
