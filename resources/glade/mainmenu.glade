@@ -37,13 +37,28 @@
       <placeholder/>
     </child>
     <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkButton" id="btnsysSetting">
         <property name="label" translatable="yes">System Setting - F4</property>
         <property name="height_request">45</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="systemSetting" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -60,7 +75,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="basicSetting" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">3</property>
@@ -77,7 +92,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="dataReset" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">3</property>
@@ -88,13 +103,16 @@
       </packing>
     </child>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkButton" id="btnSales">
         <property name="label" translatable="yes">Sales - F2</property>
         <property name="height_request">45</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="sales" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">2</property>
@@ -113,7 +131,7 @@
         <property name="can_focus">True</property>
         <property name="has_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="collection" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">1</property>
@@ -124,13 +142,16 @@
       </packing>
     </child>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkButton" id="btnReports">
         <property name="label" translatable="yes">Reports - F5</property>
         <property name="height_request">45</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="reports" swapped="no"/>
+        <signal name="clicked" handler="btnClicked" swapped="no"/>
       </object>
       <packing>
         <property name="left_attach">2</property>
@@ -139,6 +160,9 @@
         <property name="bottom_attach">3</property>
         <property name="y_options">GTK_EXPAND</property>
       </packing>
+    </child>
+    <child>
+      <placeholder/>
     </child>
     <child>
       <placeholder/>

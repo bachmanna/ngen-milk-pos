@@ -157,7 +157,7 @@
       <module fileurl="file://$PROJECT_DIR$/ngen-milk-pos.iml" filepath="$PROJECT_DIR$/ngen-milk-pos.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Python 2.7.3 (C:\Python27\python.exe)" project-jdk-type="Python SDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Python 2.7.5 (/usr/bin/python)" project-jdk-type="Python SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">

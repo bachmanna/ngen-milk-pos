@@ -35,7 +35,7 @@
                   <object class="GtkLabel" id="lblCompanyName">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">JEPIAAR MILK COLLECTION CENTER</property>
+                    <property name="label" translatable="yes">SOCIETY NAME</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -48,7 +48,7 @@
                   <object class="GtkLabel" id="lblCompanyAddress">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">No. 6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307</property>
+                    <property name="label" translatable="yes">Address</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
