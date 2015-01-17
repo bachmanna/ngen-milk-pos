@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+import os
+import sys
+
+pwd = os.path.dirname(__file__)
+sys.path.append(os.path.abspath(os.path.join(pwd, '.')))
 
 import pygtk
 from ui.member_list import MemberListUI
@@ -10,9 +15,12 @@ from ui.settings import SettingsUI
 from ui.ticket_settings import TicketSettingsUI
 from GUI.main import PosMain
 
-
 class MilkPOSLauncher:
-    LOGO_IMAGE_FILE = "resources/icons/logo.jpg"
+    HOME_GLADE_FILE = pwd + "/resources/glade/home.glade"
+    LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.jpg"
+    #GTK_THEME_FILE = pwd + "/resources/CandidoCandy/gtkrc"
+    GTK_THEME_FILE = pwd + "/resources/DarkOrange/gtkrc"
+
     def destroy(self, widget, data=None):
         gtk.main_quit()
 
@@ -22,6 +30,47 @@ class MilkPOSLauncher:
         self.pos.accelMap = {65470:"mainmenu", 65471:"collectionpage", 65472:"member_edit"}
         self.pos.window.connect("destroy", self.destroy)
 
+    def old(self):
+        self.builder = gtk.Builder()
+        self.builder.add_from_file(MilkPOSLauncher.HOME_GLADE_FILE)
+        self.window = self.builder.get_object("mainWindow")
+        self.lblKeyHints = self.builder.get_object("lblKeyHints")
+
+        self.window.connect("destroy", self.destroy)
+        self.window.connect('key-press-event', self.accelerator_keys)
+
+        self.container = self.builder.get_object("mainContainer")
+        logo = self.builder.get_object("imgLogo")
+        logo.set_from_file(MilkPOSLauncher.LOGO_IMAGE_FILE)
+
+        #SettingsUI(self.container, None)
+        #TicketSettingsUI(self.container, None)
+        MemberListUI(self.container, None)
+
+        self.changeTheme(MilkPOSLauncher.GTK_THEME_FILE)
+        self.window.show()
+        self.window.fullscreen()
+
+    def changeTheme(self, theme_rc_file):
+        gtk.rc_set_default_files([theme_rc_file])
+        gtk.rc_reparse_all_for_settings(gtk.settings_get_default(), True)
+        gtk.rc_reset_styles(gtk.settings_get_for_screen(self.window.get_screen()))
+        #gtk.rc_parse(theme_rc_file)
+        #screen = self.window.get_screen()
+        #settings = gtk.settings_get_for_screen(screen)
+        #gtk.rc_reset_styles(settings)
+
+    def accelerator_keys(self, window, event):
+        # key, mods = gtk.accelerator_parse("Alt L + F10")
+        keyval = event.keyval
+        mod = gtk.accelerator_get_label(keyval, event.state)
+        print mod, keyval
+        self.lblKeyHints.set_markup("<span size='xx-large'>%s   -- %d</span>" % (mod, keyval))
+        if keyval == 65479:
+            self.destroy(self.window)
+        elif keyval == 65360:
+            #show menu
+            pass
 
     def main(self):
         # All PyGTK applications must have a gtk.main(). Control ends here
@@ -177,7 +226,7 @@ if __name__ == "__main__":
 
     with db_session:
         #create_test_data()
-        test_settings()
+        #test_settings()
 
         #datetime_test()
 
