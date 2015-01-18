@@ -11,5 +11,3 @@ class MainMenuUI:
         container = self.builder.get_object("mainmenu")
         parent.add(container)
         parent.pageTitle.set_text("Main Menu")
-
-

@@ -2,136 +2,144 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkHBox" id="mainmenu">
+  <object class="GtkAlignment" id="mainmenu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="homogeneous">True</property>
+    <property name="xscale">0.5</property>
+    <property name="yscale">0</property>
     <child>
-      <object class="GtkVBox" id="vbox3">
+      <object class="GtkHBox" id="gtkHBox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="homogeneous">True</property>
         <child>
-          <object class="GtkButton" id="btnCollectionUI">
-            <property name="label" translatable="yes">Collection - F1</property>
-            <property name="height_request">45</property>
+          <object class="GtkVBox" id="vbox3">
             <property name="visible">True</property>
-            <property name="app_paintable">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkButton" id="btnCollectionUI">
+                <property name="label" translatable="yes">Collection - F1</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="app_paintable">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnSalesUI">
+                <property name="label" translatable="yes">Sales - F2</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnBasicSetupUI">
+                <property name="label" translatable="yes">Basic Setup - F3</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="padding">20</property>
+            <property name="padding">60</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnSalesUI">
-            <property name="label" translatable="yes">Sales - F2</property>
-            <property name="height_request">45</property>
+          <object class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkButton" id="btnSystemSetupUI">
+                <property name="label" translatable="yes">System Setup - F4</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnReportsUI">
+                <property name="label" translatable="yes">Reports - F5</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btnDataResetUI">
+                <property name="label" translatable="yes">Data Reset - F6</property>
+                <property name="height_request">45</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="btnClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">20</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="padding">20</property>
+            <property name="padding">60</property>
             <property name="position">1</property>
           </packing>
         </child>
-        <child>
-          <object class="GtkButton" id="btnBasicSetupUI">
-            <property name="label" translatable="yes">Basic Setup - F3</property>
-            <property name="height_request">45</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="padding">20</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="padding">60</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkVBox" id="vbox2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkButton" id="btnSystemSetupUI">
-            <property name="label" translatable="yes">System Setup - F4</property>
-            <property name="height_request">45</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="padding">20</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnReportsUI">
-            <property name="label" translatable="yes">Reports - F5</property>
-            <property name="height_request">45</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="padding">20</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnDataResetUI">
-            <property name="label" translatable="yes">Data Reset - F6</property>
-            <property name="height_request">45</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
-            <signal name="clicked" handler="btnClicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="padding">20</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="padding">60</property>
-        <property name="position">1</property>
-      </packing>
     </child>
   </object>
 </interface>

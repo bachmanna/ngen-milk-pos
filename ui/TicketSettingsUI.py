@@ -2,17 +2,15 @@ import gobject
 import gtk
 
 from models import *
-from configuration_manager import ConfigurationManager
+from configuration_manager import ConfigurationManager, ResourceFilesConstants
 
 
 class TicketSettingsUI:
-    TICKET_TEMPLATE_THERMAL_FILE = "resources/ticket/ticket_template_thermal.txt"
 
-    def __init__(self, parent, navigate):
-        self.navigate = navigate
+    def __init__(self, parent):
         self.parent = parent
         self.builder = gtk.Builder()
-        self.builder.add_from_file("resources/glade/ticket_settings.glade")
+        self.builder.add_from_file(ResourceFilesConstants.TICKET_SETTINGS_GLADE_FILE)
         self.container = self.builder.get_object("ticketSettingsContainer")
 
         self.btnSave = self.builder.get_object("btnSaveTicketSettings")
@@ -30,7 +28,7 @@ class TicketSettingsUI:
         config_manager = ConfigurationManager()
         config_manager.set_all_settings(settings)
         self.set_control_value("txtPreviewTicket", self.get_ticket_template())
-        self.destroy()
+
 
     def gather_settings(self):
         settings = {}
@@ -47,10 +45,6 @@ class TicketSettingsUI:
         settings[SystemSettings.TICKET_FONT_SIZE] = self.get_control_value("txtTicketFontSize")
         return settings
 
-    def destroy(self):
-        if self.navigate:
-            self.navigate.back()
-        pass
 
     def load_settings(self):
         config_manager = ConfigurationManager()
@@ -103,7 +97,7 @@ class TicketSettingsUI:
                 control.set_text(str(value))
 
     def get_ticket_template(self):
-        with open(TicketSettingsUI.TICKET_TEMPLATE_THERMAL_FILE, "r") as template_file:
+        with open(ResourceFilesConstants.TICKET_TEMPLATE_THERMAL_FILE, "r") as template_file:
             template = template_file.read()
             transformed = template
             settings = self.gather_settings()

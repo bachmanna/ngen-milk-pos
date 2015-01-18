@@ -43,36 +43,44 @@ class CollectionUI:
         m_code = widget.get_text()
         if not m_code or len(m_code) == 0:
             return
-        self.m_details = self.m_service.get(int(m_code))
-        m_name = self.builder.get_object("lblMName")
-        m_name.modify_font(pango.FontDescription("sans 16"))
-        m_cattle = self.builder.get_object("lblCattle")
-        m_cattle.modify_font(pango.FontDescription("sans 16"))
+        try:
+            self.m_details = self.m_service.get(int(m_code))
+            m_name = self.builder.get_object("lblMName")
+            m_name.modify_font(pango.FontDescription("sans 16"))
+            m_cattle = self.builder.get_object("lblCattle")
+            m_cattle.modify_font(pango.FontDescription("sans 16"))
 
-        m_name.set_text(self.m_details.name)
-        m_cattle.set_text(self.m_details.cattle_type)
-        self.change_focus(widget)
+            m_name.set_text(self.m_details.name)
+            m_cattle.set_text(self.m_details.cattle_type)
+            self.change_focus(widget)
+        except Exception as e:
+            print e
+            pass
 
     def change_focus(self, widget, data=None):
         widget.get_toplevel().child_focus(gtk.DIR_TAB_FORWARD)
 
     def save_data(self, widget, data=None):
-        collection = {}
-        collection['member'] = self.m_details
-        collection['shift'] = self.shift
-        collection['fat'] = float(self.builder.get_object("Efat").get_text())
-        collection['snf'] = float(self.builder.get_object("Esnf").get_text())
-        collection['qty'] = float(self.builder.get_object("Eqty").get_text())
-        collection['clr'] = float(self.builder.get_object("Eclr").get_text())
-        collection['aw'] = float(self.builder.get_object("Eaw").get_text())
-        collection['rate'] = float(self.builder.get_object("Erate").get_text())
-        collection['total'] = float(
-            self.builder.get_object("Eamount").get_text())  # collection['rate'] * collection['qty']
-        collection['created_by'] = 1
+        try:
+            collection = {}
+            collection['member'] = self.m_details
+            collection['shift'] = self.shift
+            collection['fat'] = float(self.builder.get_object("Efat").get_text())
+            collection['snf'] = float(self.builder.get_object("Esnf").get_text())
+            collection['qty'] = float(self.builder.get_object("Eqty").get_text())
+            collection['clr'] = float(self.builder.get_object("Eclr").get_text())
+            collection['aw'] = float(self.builder.get_object("Eaw").get_text())
+            collection['rate'] = float(self.builder.get_object("Erate").get_text())
+            collection['total'] = float(
+                self.builder.get_object("Eamount").get_text())  # collection['rate'] * collection['qty']
+            collection['created_by'] = 1
 
-        colService = MilkCollectionService()
-        col_id = colService.add(collection)
-        # self.m_code.grab_focus()
+            collection_service = MilkCollectionService()
+            col_id = collection_service.add(collection)
+        except Exception as e:
+            print e
+            # TODO: SHOW ERROR DIALOG
+            pass
 
     def clear_data(self, widget, data=None):
         self.m_code.set_text('')

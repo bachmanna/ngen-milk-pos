@@ -16,7 +16,11 @@ class ResourceFilesConstants:
     SYSTEM_SETUP_GLADE_FILE = pwd + "/resources/glade/system_setup.glade"
     REPORTS_GLADE_FILE = pwd + "/resources/glade/reports.glade"
     DATA_RESET_GLADE_FILE = pwd + "/resources/glade/data_reset.glade"
+    SYSTEM_SETTINGS_GLADE_FILE = pwd + "/resources/glade/system_settings.glade"
+    TICKET_SETTINGS_GLADE_FILE = pwd + "/resources/glade/ticket_settings.glade"
+    MEMBER_SETUP_GLADE_FILE = pwd + "/resources/glade/member_list.glade"
 
+    TICKET_TEMPLATE_THERMAL_FILE = "resources/ticket/ticket_template_thermal.txt"
 
     GTK_THEME_FILE = pwd + "/resources/CandidoCandy/gtkrc"
     # GTK_THEME_FILE = pwd + "/resources/DarkOrange/gtkrc"

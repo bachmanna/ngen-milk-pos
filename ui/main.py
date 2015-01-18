@@ -20,6 +20,7 @@ class PosMain:
     def __init__(self):
         self.builder = gtk.Builder()
         self.currentPage = None
+        self.previousPage = None
 
         config_manager = ConfigurationManager()
         settings = config_manager.get_all_settings()
@@ -73,14 +74,22 @@ class PosMain:
 
     def show_window(self):
         self.window.show_all()
-        # self.window.fullscreen()
+        self.window.fullscreen()
 
     def keypress(self, widget, data=None):
         mod = gtk.accelerator_get_label(data.keyval, data.state)
         print "This key was pressed ", data.keyval, mod
-        if data.keyval in self.key_maps.keys():
-            self.clean_bclabels()
-            self.change_page(self.key_maps[data.keyval])
+        handled = False
+
+        if self.currentPage and getattr(self.currentPage, "handle_keypress", None) is not None:
+            handled = self.currentPage.handle_keypress(widget, data)
+
+        if not handled and data.keyval in self.key_maps.keys():
+            page = self.key_maps[data.keyval]
+            #if page == "MainMenuUI" or isinstance(self.currentPage, MainMenuUI):
+            self.change_page(page)
+
+        return handled
 
     def btnClicked(self, widget, data=None):
         name = gtk.Buildable.get_name(widget)
@@ -93,10 +102,10 @@ class PosMain:
         c = getattr(m, class_name)
 
         if c != self.currentPage:
-            self.currentPage = c
             self.clean_bclabels()
             self.clear_container()
-            c(self)
+            self.previousPage = self.currentPage
+            self.currentPage = c(self)
 
     def clean_bclabels(self):
         bc_label1 = self.builder.get_object("label1")

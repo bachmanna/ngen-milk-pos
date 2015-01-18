@@ -1,17 +1,16 @@
 import gtk
 
 from models import *
-from configuration_manager import ConfigurationManager
+from configuration_manager import ConfigurationManager, ResourceFilesConstants
 from services.member_service import MemberService
 
 
-class MemberListUI:
+class MemberSetupUI:
 
-    def __init__(self, parent, navigate):
-        self.navigate = navigate
+    def __init__(self, parent):
         self.parent = parent
         self.builder = gtk.Builder()
-        self.builder.add_from_file("resources/glade/member_list.glade")
+        self.builder.add_from_file(ResourceFilesConstants.MEMBER_SETUP_GLADE_FILE)
         self.container = self.builder.get_object("memberListContainer")
 
         self.load()
@@ -23,11 +22,6 @@ class MemberListUI:
         pass
 
     def save(self, obj):
-        self.destroy()
-
-    def destroy(self):
-        if self.navigate:
-            self.navigate.back()
         pass
 
     def load(self):
