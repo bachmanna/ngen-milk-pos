@@ -2,15 +2,14 @@ import gobject
 import gtk
 
 from models import *
-from configuration_manager import ConfigurationManager
+from configuration_manager import ConfigurationManager, ResourceFilesConstants
 
 
-class SettingsUI:
-    def __init__(self, parent, navigate):
-        self.navigate = navigate
+class BasicSetupUI:
+    def __init__(self, parent):
         self.parent = parent
         self.builder = gtk.Builder()
-        self.builder.add_from_file("resources/glade/system_settings.glade")
+        self.builder.add_from_file(ResourceFilesConstants.BASIC_SETUP_GLADE_FILE)
         self.container = self.builder.get_object("settingContainer")
 
         self.btnSave = self.builder.get_object("btnSettingsSave")
@@ -68,13 +67,7 @@ class SettingsUI:
 
         config_manager = ConfigurationManager()
         config_manager.set_all_settings(settings)
-        self.destroy()
-        pass
 
-    def destroy(self):
-        if self.navigate:
-            self.navigate.back()
-        pass
 
     def load_settings(self):
         config_manager = ConfigurationManager()

@@ -1,51 +1,48 @@
-import pygtk
 import gtk
 import pango
+from configuration_manager import ResourceFilesConstants
 from services.member_service import MemberService
 from services.milkcollection_service import MilkCollectionService
 from models import *
 
-import os
 
-pwd = os.path.dirname(__file__)
-resource_dir = os.path.join(pwd, "../resources/glade/")
-
-
-class Collection:
-    """This is an Hello World GTK application"""
-
-    def __init__(self, PosMain):
-        newPageFile = resource_dir + "collectionpage.glade"
+class CollectionUI:
+    def __init__(self, parent):
         self.builder = gtk.Builder()
-        self.builder.add_from_file(newPageFile)
+        self.builder.add_from_file(ResourceFilesConstants.COLLECTION_GLADE_FILE)
         self.builder.connect_signals(self)
-        newPage = self.builder.get_object("collectionpage")
+
+        container = self.builder.get_object("collectionpage")
         self.m_code = self.builder.get_object("Emcode")
         self.m_service = MemberService()
-        bc_label1 = PosMain.builder.get_object("label1")
+        bc_label1 = parent.builder.get_object("label1")
         self.shift = CollectionShift.MORNING
+
         if self.shift == "M":
             shift_label = "Morning Shift"
         else:
             shift_label = "Evening Shift"
+
         bc_label1.set_text(shift_label)
         bc_label1.modify_font(pango.FontDescription("sans 16"))
 
-        bc_label2 = PosMain.builder.get_object("label2")
+        bc_label2 = parent.builder.get_object("label2")
         lbl_new = "New - N"
         bc_label2.set_text(lbl_new)
-        bc_label3 = PosMain.builder.get_object("label3")
+        bc_label3 = parent.builder.get_object("label3")
         lbl_print = "Print - P"
         bc_label3.set_text(lbl_print)
 
-        PosMain.mainContainer.add(newPage)
-        PosMain.pageTitle.set_text("Collection")
-        PosMain.currentPage = newPage
+        parent.mainContainer.add(container)
+        parent.pageTitle.set_text("Collection")
+
         self.builder.get_object("Erate").set_text('20.0')
         self.m_code.grab_focus()
 
     def get_member_details(self, widget, data=None):
         m_code = widget.get_text()
+        if not m_code or len(m_code) == 0:
+            return
         self.m_details = self.m_service.get(int(m_code))
         m_name = self.builder.get_object("lblMName")
         m_name.modify_font(pango.FontDescription("sans 16"))
@@ -75,7 +72,7 @@ class Collection:
 
         colService = MilkCollectionService()
         col_id = colService.add(collection)
-        #self.m_code.grab_focus()
+        # self.m_code.grab_focus()
 
     def clear_data(self, widget, data=None):
         self.m_code.set_text('')
@@ -97,11 +94,12 @@ class Collection:
         btnSave.grab_focus()
 
     def keypress(self, widget, data=None):
-        data_keyval = data.keyval
-        if (data_keyval == ord("n")):
+        key = data.keyval
+        if key == ord("n"):
             self.clear_data(widget)
-        elif (data_keyval == ord("p")):
+        elif key == ord("p"):
+            self.print_ticket()
             pass
-            # TO DO: Print
 
-
+    def print_ticket(self):
+        pass

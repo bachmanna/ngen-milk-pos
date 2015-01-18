@@ -6,8 +6,18 @@ pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 
 
 class ResourceFilesConstants:
+    MENU_GLADE_FILE = pwd + "/resources/glade/mainmenu.glade"
     HOME_GLADE_FILE = pwd + "/resources/glade/home.glade"
     LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.jpg"
+
+    COLLECTION_GLADE_FILE = pwd + "/resources/glade/collection.glade"
+    SALES_GLADE_FILE = pwd + "/resources/glade/sales.glade"
+    BASIC_SETUP_GLADE_FILE = pwd + "/resources/glade/basic_setup.glade"
+    SYSTEM_SETUP_GLADE_FILE = pwd + "/resources/glade/system_setup.glade"
+    REPORTS_GLADE_FILE = pwd + "/resources/glade/reports.glade"
+    DATA_RESET_GLADE_FILE = pwd + "/resources/glade/data_reset.glade"
+
+
     GTK_THEME_FILE = pwd + "/resources/CandidoCandy/gtkrc"
     # GTK_THEME_FILE = pwd + "/resources/DarkOrange/gtkrc"
 

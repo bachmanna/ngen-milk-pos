@@ -1,18 +1,20 @@
 import gtk
-
 import pango
 
 from configuration_manager import ConfigurationManager, ResourceFilesConstants
-
 from models import *
-import MainMenu
+from ui.MainMenuUI import MainMenuUI
 
 
 class PosMain:
     key_maps = {
-        65360: "MainMenu",
-        65470: "Collection",
-        65472: "member_edit"
+        65360: "MainMenuUI",
+        65470: "CollectionUI",
+        65471: "SalesUI",
+        65472: "BasicSetupUI",
+        65473: "SystemSetupUI",
+        65474: "ReportsUI",
+        65475: "DataResetUI",
     }
 
     def __init__(self):
@@ -51,7 +53,7 @@ class PosMain:
         self.mainContainer = self.builder.get_object("mainContainer")
         self.change_app_theme(ResourceFilesConstants.GTK_THEME_FILE, self.window)
 
-        MainMenu.MainMenu(self)
+        self.currentPage = MainMenuUI(self)
 
 
     def change_app_theme(self, theme_rc_file, win):
@@ -69,28 +71,31 @@ class PosMain:
         gtk.main_quit()
 
 
-    def showWindow(self):
+    def show_window(self):
         self.window.show_all()
-        self.window.fullscreen()
+        # self.window.fullscreen()
 
     def keypress(self, widget, data=None):
         mod = gtk.accelerator_get_label(data.keyval, data.state)
         print "This key was pressed ", data.keyval, mod
         if data.keyval in self.key_maps.keys():
             self.clean_bclabels()
-            self.changePage(self.key_maps[data.keyval])
+            self.change_page(self.key_maps[data.keyval])
 
     def btnClicked(self, widget, data=None):
         name = gtk.Buildable.get_name(widget)
-        if name and len(name) > 4:
-            pageName = name[3:]
-            self.changePage(pageName)
+        page_name = name[3:]
+        self.change_page(page_name)
 
-    def changePage(self, className):
-        self.mainContainer.remove(self.currentPage)
-        if className and len(className) > 0:
-            m = __import__(className, globals(), locals(), className)
-            c = getattr(m, className)
+    def change_page(self, class_name):
+        module_name = "ui." + class_name
+        m = __import__(module_name, globals(), locals(), class_name)
+        c = getattr(m, class_name)
+
+        if c != self.currentPage:
+            self.currentPage = c
+            self.clean_bclabels()
+            self.clear_container()
             c(self)
 
     def clean_bclabels(self):
@@ -100,3 +105,10 @@ class PosMain:
         bc_label1.set_text('')
         bc_label2.set_text('')
         bc_label3.set_text('')
+
+    def clear_container(self):
+        for item in self.mainContainer.get_children():
+            self.mainContainer.remove(item)
+
+    def add(self, child):
+        self.mainContainer.add(child)
