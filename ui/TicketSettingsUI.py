@@ -73,6 +73,8 @@ class TicketSettingsUI:
             value = control.get_active()
         elif isinstance(control, gtk.Entry):
             value = control.get_text()
+        if value is None:
+            value = ""
         return value
 
     def set_control_value(self, obj_id, value):

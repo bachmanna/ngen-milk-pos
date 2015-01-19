@@ -10,34 +10,6 @@
     <property name="column_spacing">5</property>
     <signal name="key-press-event" handler="keypress" swapped="no"/>
     <child>
-      <object class="GtkLabel" id="members">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Total Members: 150</property>
-      </object>
-      <packing>
-        <property name="left_attach">7</property>
-        <property name="right_attach">8</property>
-        <property name="top_attach">5</property>
-        <property name="bottom_attach">6</property>
-        <property name="x_options">GTK_FILL</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="milk">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Total Milk: 20 Liters</property>
-      </object>
-      <packing>
-        <property name="left_attach">7</property>
-        <property name="right_attach">8</property>
-        <property name="top_attach">6</property>
-        <property name="bottom_attach">7</property>
-        <property name="x_options">GTK_FILL</property>
-      </packing>
-    </child>
-    <child>
       <object class="GtkLabel" id="mcode">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -113,7 +85,7 @@
         <property name="top_attach">1</property>
         <property name="bottom_attach">2</property>
         <property name="x_options">GTK_FILL</property>
-        <property name="y_options"/>
+        <property name="y_options"></property>
       </packing>
     </child>
     <child>
@@ -155,9 +127,6 @@ Amount :</property>
         <property name="top_attach">5</property>
         <property name="bottom_attach">7</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <object class="GtkEntry" id="Efat">
@@ -232,11 +201,8 @@ Amount :</property>
         <property name="right_attach">4</property>
         <property name="top_attach">5</property>
         <property name="bottom_attach">7</property>
-        <property name="y_options"/>
+        <property name="y_options"></property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <object class="GtkEntry" id="Eclr">
@@ -293,75 +259,8 @@ Amount :</property>
         <property name="right_attach">7</property>
         <property name="top_attach">5</property>
         <property name="bottom_attach">7</property>
-        <property name="y_options"/>
+        <property name="y_options"></property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkLabel" id="liters">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Liters</property>
-      </object>
-      <packing>
-        <property name="left_attach">7</property>
-        <property name="right_attach">8</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="label2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Press "z" to reset to zero</property>
-      </object>
-      <packing>
-        <property name="left_attach">7</property>
-        <property name="right_attach">8</property>
-        <property name="top_attach">4</property>
-        <property name="bottom_attach">5</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkImage" id="image1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="stock">gtk-missing-image</property>
-      </object>
-      <packing>
-        <property name="left_attach">7</property>
-        <property name="right_attach">8</property>
-        <property name="top_attach">1</property>
-        <property name="bottom_attach">4</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <object class="GtkLabel" id="lblMName">
@@ -389,12 +288,6 @@ Amount :</property>
         <property name="top_attach">1</property>
         <property name="bottom_attach">2</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <object class="GtkLabel" id="label1">
@@ -425,21 +318,14 @@ Type</property>
       </packing>
     </child>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkButton" id="btnCancel">
-        <property name="label">gtk-cancel</property>
+        <property name="label">Clear</property>
+        <property name="width_request">100</property>
+        <property name="height_request">50</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <property name="use_stock">True</property>
+        <property name="use_action_appearance">False</property>
         <signal name="activate" handler="clear_data" swapped="no"/>
         <signal name="clicked" handler="clear_data" swapped="no"/>
       </object>
@@ -448,15 +334,20 @@ Type</property>
         <property name="right_attach">4</property>
         <property name="top_attach">7</property>
         <property name="bottom_attach">8</property>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
         <property name="y_padding">10</property>
       </packing>
     </child>
     <child>
       <object class="GtkButton" id="btnSave">
         <property name="label">gtk-save</property>
+        <property name="width_request">100</property>
+        <property name="height_request">50</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
+        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="save_data" swapped="no"/>
         <signal name="clicked" handler="save_data" swapped="no"/>
@@ -466,8 +357,70 @@ Type</property>
         <property name="right_attach">7</property>
         <property name="top_attach">7</property>
         <property name="bottom_attach">8</property>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
         <property name="y_padding">10</property>
       </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>

@@ -42,8 +42,10 @@ class PosMain:
         time = self.builder.get_object("lblTime")
         self.pageTitle = self.builder.get_object("pagetitle")
 
-        title.set_text(settings[SystemSettings.SOCIETY_NAME])
-        address.set_text(settings[SystemSettings.SOCIETY_ADDRESS])
+        if settings[SystemSettings.SOCIETY_NAME]:
+            title.set_text(settings[SystemSettings.SOCIETY_NAME])
+        if settings[SystemSettings.SOCIETY_ADDRESS]:
+            address.set_text(settings[SystemSettings.SOCIETY_ADDRESS])
 
         title.modify_font(pango.FontDescription("sans 48"))
         address.modify_font(pango.FontDescription("sans 28"))
@@ -74,7 +76,7 @@ class PosMain:
 
     def show_window(self):
         self.window.show_all()
-        self.window.fullscreen()
+        #self.window.fullscreen()
 
     def keypress(self, widget, data=None):
         mod = gtk.accelerator_get_label(data.keyval, data.state)
