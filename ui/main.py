@@ -8,13 +8,14 @@ from ui.MainMenuUI import MainMenuUI
 
 class PosMain:
     key_maps = {
-        65360: "MainMenuUI",
-        65470: "CollectionUI",
-        65471: "SalesUI",
-        65472: "BasicSetupUI",
-        65473: "SystemSetupUI",
-        65474: "ReportsUI",
-        65475: "DataResetUI",
+        65360: "MainMenuUI",  # HOME
+        65476: "MainMenuUI",  #F7
+        65470: "CollectionUI",  #F1
+        65471: "SalesUI",  #F2
+        65472: "BasicSetupUI",  #F3
+        65473: "SystemSetupUI",  #F4
+        65474: "ReportsUI",  #F5
+        65475: "DataResetUI",  #F6
     }
 
     def __init__(self):
@@ -32,6 +33,17 @@ class PosMain:
         self.window.connect('key-press-event', self.keypress)
         self.window.connect("destroy", self.destroy)
 
+        self.window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+
+        self.builder.get_object("vbox1").connect('expose-event', self.draw_pixbuf)
+
+        # set colors
+        hc = self.builder.get_object("headerContainer")
+        hc.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#1eb3d9"))
+
+        self.builder.get_object("breadcrumbContainer").modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#ad85cc"))
+        self.builder.get_object("footerContainer").modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#ad85cc"))
+
         # set logo
         logo = self.builder.get_object("imgLogo")
         logo.set_from_file(ResourceFilesConstants.LOGO_IMAGE_FILE)
@@ -40,7 +52,6 @@ class PosMain:
         address = self.builder.get_object("lblCompanyAddress")
         date = self.builder.get_object("lblDate")
         time = self.builder.get_object("lblTime")
-        self.pageTitle = self.builder.get_object("pagetitle")
 
         if settings[SystemSettings.SOCIETY_NAME]:
             title.set_text(settings[SystemSettings.SOCIETY_NAME])
@@ -51,13 +62,16 @@ class PosMain:
         address.modify_font(pango.FontDescription("sans 28"))
         date.modify_font(pango.FontDescription("sans 16"))
         time.modify_font(pango.FontDescription("sans 16"))
-        self.pageTitle.modify_font(pango.FontDescription("sans 20"))
 
         self.mainContainer = self.builder.get_object("mainContainer")
         self.change_app_theme(ResourceFilesConstants.GTK_THEME_FILE, self.window)
 
         self.currentPage = MainMenuUI(self)
 
+    def draw_pixbuf(self, widget, event):
+        path = ResourceFilesConstants.BG_IMAGE_FILE
+        pixbuf = gtk.gdk.pixbuf_new_from_file(path)
+        widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL], pixbuf, 0, 0, 0,0)
 
     def change_app_theme(self, theme_rc_file, win):
         print theme_rc_file
@@ -76,7 +90,7 @@ class PosMain:
 
     def show_window(self):
         self.window.show_all()
-        #self.window.fullscreen()
+        # self.window.fullscreen()
 
     def keypress(self, widget, data=None):
         mod = gtk.accelerator_get_label(data.keyval, data.state)
@@ -88,7 +102,7 @@ class PosMain:
 
         if not handled and data.keyval in self.key_maps.keys():
             page = self.key_maps[data.keyval]
-            #if page == "MainMenuUI" or isinstance(self.currentPage, MainMenuUI):
+            # if page == "MainMenuUI" or isinstance(self.currentPage, MainMenuUI):
             self.change_page(page)
 
         return handled
@@ -104,18 +118,9 @@ class PosMain:
         c = getattr(m, class_name)
 
         if c != self.currentPage:
-            self.clean_bclabels()
             self.clear_container()
             self.previousPage = self.currentPage
             self.currentPage = c(self)
-
-    def clean_bclabels(self):
-        bc_label1 = self.builder.get_object("label1")
-        bc_label2 = self.builder.get_object("label2")
-        bc_label3 = self.builder.get_object("label3")
-        bc_label1.set_text('')
-        bc_label2.set_text('')
-        bc_label3.set_text('')
 
     def clear_container(self):
         for item in self.mainContainer.get_children():

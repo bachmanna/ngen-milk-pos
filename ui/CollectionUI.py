@@ -12,10 +12,9 @@ class CollectionUI:
         self.builder.add_from_file(ResourceFilesConstants.COLLECTION_GLADE_FILE)
         self.builder.connect_signals(self)
 
-        container = self.builder.get_object("collectionpage")
+        self.container = self.builder.get_object("collectionpage")
         self.m_code = self.builder.get_object("Emcode")
         self.m_service = MemberService()
-        bc_label1 = parent.builder.get_object("label1")
         self.shift = CollectionShift.MORNING
 
         if self.shift == "M":
@@ -23,18 +22,10 @@ class CollectionUI:
         else:
             shift_label = "Evening Shift"
 
-        bc_label1.set_text(shift_label)
-        bc_label1.modify_font(pango.FontDescription("sans 16"))
+        #bc_label1.set_text(shift_label)
+        #bc_label1.modify_font(pango.FontDescription("sans 16"))
 
-        bc_label2 = parent.builder.get_object("label2")
-        lbl_new = "New - N"
-        bc_label2.set_text(lbl_new)
-        bc_label3 = parent.builder.get_object("label3")
-        lbl_print = "Print - P"
-        bc_label3.set_text(lbl_print)
-
-        parent.mainContainer.add(container)
-        parent.pageTitle.set_text("Collection")
+        parent.add(self.container)
 
         self.builder.get_object("Erate").set_text('20.0')
         self.m_code.grab_focus()

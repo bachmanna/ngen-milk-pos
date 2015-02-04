@@ -16,8 +16,6 @@ class MemberSetupUI:
         self.load()
 
         self.parent.add(self.container)
-        parent.pageTitle.set_text("Member List")
-
         self.container.show()
         pass
 

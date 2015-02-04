@@ -1,8 +1,6 @@
-import gobject
 import gtk
 
-from models import *
-from configuration_manager import ConfigurationManager, ResourceFilesConstants
+from configuration_manager import ResourceFilesConstants
 
 
 class BasicSetupUI:

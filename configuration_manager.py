@@ -6,9 +6,10 @@ pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 
 
 class ResourceFilesConstants:
+    BG_IMAGE_FILE = pwd + "/resources/icons/bg.png"
     MENU_GLADE_FILE = pwd + "/resources/glade/mainmenu.glade"
     HOME_GLADE_FILE = pwd + "/resources/glade/home.glade"
-    LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.jpg"
+    LOGO_IMAGE_FILE = pwd + "/resources/icons/logo.png"
 
     COLLECTION_GLADE_FILE = pwd + "/resources/glade/collection.glade"
     SALES_GLADE_FILE = pwd + "/resources/glade/sales.glade"
