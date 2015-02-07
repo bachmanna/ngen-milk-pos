@@ -89,7 +89,7 @@ class PosMain:
 
     def show_window(self):
         self.window.show_all()
-        # self.window.fullscreen()
+        self.window.fullscreen()
 
     def keypress(self, widget, data=None):
         mod = gtk.accelerator_get_label(data.keyval, data.state)

@@ -37,9 +37,7 @@ class CollectionUI:
         try:
             self.m_details = self.m_service.get(int(m_code))
             m_name = self.builder.get_object("lblMName")
-            m_name.modify_font(pango.FontDescription("sans 16"))
             m_cattle = self.builder.get_object("lblCattle")
-            m_cattle.modify_font(pango.FontDescription("sans 16"))
 
             m_name.set_text(self.m_details.name)
             m_cattle.set_text(self.m_details.cattle_type)
