@@ -33,6 +33,7 @@ class PosMain:
         self.window.connect('key-press-event', self.keypress)
         self.window.connect("destroy", self.destroy)
 
+        self.mainContainer = self.builder.get_object("mainContainer")
         self.window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
 
         self.builder.get_object("vbox1").connect('expose-event', self.draw_pixbuf)
@@ -58,15 +59,14 @@ class PosMain:
         if settings[SystemSettings.SOCIETY_ADDRESS]:
             address.set_text(settings[SystemSettings.SOCIETY_ADDRESS])
 
-        title.modify_font(pango.FontDescription("sans 48"))
-        address.modify_font(pango.FontDescription("sans 28"))
-        date.modify_font(pango.FontDescription("sans 16"))
-        time.modify_font(pango.FontDescription("sans 16"))
+        title.modify_font(pango.FontDescription("LucidaGrande 36"))
+        address.modify_font(pango.FontDescription("LucidaGrande 22"))
+        #date.modify_font(pango.FontDescription("sans 16"))
+        #time.modify_font(pango.FontDescription("sans 16"))
 
-        self.mainContainer = self.builder.get_object("mainContainer")
-        self.change_app_theme(ResourceFilesConstants.GTK_THEME_FILE, self.window)
 
         self.currentPage = MainMenuUI(self)
+        self.change_app_theme(ResourceFilesConstants.GTK_THEME_FILE, self.window)
 
     def draw_pixbuf(self, widget, event):
         path = ResourceFilesConstants.BG_IMAGE_FILE
@@ -74,7 +74,6 @@ class PosMain:
         widget.window.draw_pixbuf(widget.style.bg_gc[gtk.STATE_NORMAL], pixbuf, 0, 0, 0,0)
 
     def change_app_theme(self, theme_rc_file, win):
-        print theme_rc_file
         gtk.rc_set_default_files([theme_rc_file])
         gtk.rc_reparse_all_for_settings(gtk.settings_get_default(), True)
         gtk.rc_reset_styles(gtk.settings_get_for_screen(win.get_screen()))

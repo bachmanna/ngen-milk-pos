@@ -14,12 +14,12 @@ class MainMenuUI:
         secondBtnColor = "#e4f249"
 
         self.set_btn_color(self.builder.get_object("btnMainMenuUI"), mainBtnColor)
-        self.set_btn_color(self.builder.get_object("btnCollectionUI"), secondBtnColor)
-        self.set_btn_color(self.builder.get_object("btnSalesUI"), secondBtnColor)
-        self.set_btn_color(self.builder.get_object("btnBasicSetupUI"), secondBtnColor)
-        self.set_btn_color(self.builder.get_object("btnSystemSetupUI"), secondBtnColor)
-        self.set_btn_color(self.builder.get_object("btnReportsUI"), secondBtnColor)
-        self.set_btn_color(self.builder.get_object("btnDataResetUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnCollectionUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnSalesUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnBasicSetupUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnSystemSetupUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnReportsUI"), secondBtnColor)
+        # self.set_btn_color(self.builder.get_object("btnDataResetUI"), secondBtnColor)
 
         parent.add(container)
 
@@ -28,3 +28,4 @@ class MainMenuUI:
         btn.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(color))
         btn.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(color))
         btn.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse(color))
+        pass

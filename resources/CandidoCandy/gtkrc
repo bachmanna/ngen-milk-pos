@@ -1,3 +1,62 @@
+style "font"
+{
+    font_name = "LucidaGrande 28"
+}
+
+style "header-font"
+{
+    font_name = "LucidaGrande 42"
+    text[NORMAL] = "#4be3cf"
+}
+
+widget_class "*" style "font"
+gtk-font-name = "LucidaGrande 28"
+
+widget  "mainWindow.GtkLabel.lblCompanyName" style "header-font"
+
+style "button"
+{
+  # This shows all the possible states for a button.  The only one that
+  # doesn't apply is the SELECTED state.
+
+  bg[PRELIGHT] = "#e4f249"
+  bg[ACTIVE] = "#e4f249"
+  fg[ACTIVE] = "#000000"
+  bg[NORMAL] = "#e4f249"
+  fg[NORMAL] = "#000000"
+  bg[INSENSITIVE] = "#e4f249"
+  fg[INSENSITIVE] = "#000000"
+}
+
+style "main-menu-button"
+{
+  bg[PRELIGHT] = "#4be3cf"
+  bg[ACTIVE] = "#4be3cf"
+  bg[NORMAL] = "#4be3cf"
+  bg[INSENSITIVE] = "#4be3cf"
+}
+
+style "text"
+{
+  #bg_pixmap[NORMAL] = "marble.xpm"
+  fg[NORMAL] = { 1.0, 1.0, 1.0 }
+}
+
+widget_class "*GtkButton*" style "button"
+widget_class "*GtkText" style "text"
+
+widget "*.GtkButton*.btnMainMenuUI" style "main-menu-button"
+
+style "app-header"
+{
+    bg[NORMAL] = "#1eb3d9"
+}
+
+#widget "GtkWindow.GtkVBox.GtkEventBox.headerContainer.*" style   "app-header"
+#widget_class "GtkWindow.GtkVBox.GtkEventBox" style "app-header"
+
+
+
 style "candido-default"
 {
   GtkButton      ::default_border    = { 0, 0, 0, 0 }
@@ -12,7 +71,7 @@ style "candido-default"
   GtkTreeView    ::expander_size     = 14
   GtkExpander    ::expander_size     = 16
   GtkScale       ::slider-length     = 24
-  
+
   xthickness = 1
   ythickness = 1
 
@@ -40,10 +99,10 @@ style "candido-default"
   text[SELECTED]    = "#ffffff"
   text[INSENSITIVE] = "#b5b5b5"
 
-  engine "candido" 
+  engine "candido"
   {
 	scrollbar_color   = "#c0d3e5"
-   menubarstyle      = 1 # 0 = flat, 1 = gradient
+    menubarstyle      = 1 # 0 = flat, 1 = gradient
 	menubaritemstyle  = 1 # 0 = flat, 1 = button-ish style
 	squaredstyle 		= 0 # 0 = default (rounded), 1 = squared
 	animation         = TRUE
