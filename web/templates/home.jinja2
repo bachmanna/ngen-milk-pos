@@ -1,0 +1,65 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ settings["SOCIETY_NAME"] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css')}}"/>
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+</head>
+<body>
+
+<div class="row">
+    <div class="large-9 columns">
+        <h2>{{ settings["SOCIETY_NAME"] }}</h2>
+        <h5>{{ settings["SOCIETY_ADDRESS"] }}</h5>
+    </div>
+    <div class="large-3 columns">
+        {% if current_user.is_authenticated() %}
+        Hi {{ current_user.name }}!
+        <a href="/logout">Logout</a>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns text-center">
+        <div class="panel">
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <h3> Main Menu</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-4 medium-4 columns">
+                    <a href="/collection" class="large button">Collection</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a href="/reports" class="large button">Reports</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a href="/basic_setup" class="large button">Basic Setup</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-4 medium-4 columns">
+                    <a href="/system_setup" class="large button">System Setup</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a href="/datareset" class="large button">Data Reset</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a href="/Shutdown" class="alert large button">Shutdown</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
+<script>
+      $(document).foundation();
+
+</script>
+</body>
+</html>
