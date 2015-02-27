@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ settings["SOCIETY_NAME"] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css')}}"/>
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+</head>
+<body>
+
+    <div class="row">
+        <div class="large-9 columns">
+            <h2>{{ settings["SOCIETY_NAME"] }}</h2>
+            <h5>{{ settings["SOCIETY_ADDRESS"] }}</h5>
+        </div>
+        <div class="large-3 columns">
+            {% if current_user.is_authenticated() %}
+            Hi {{ current_user.name }}!
+            <a href="/logout">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <ul class="breadcrumbs">
+        <li>Date: <span id="date"></span></li>
+        <li>Time: <span id="date"></span></li>
+        {% block breadcrumb %}
+        {% endblock %}
+    </ul>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="medium-9 columns">
+                {% block body %}
+
+                {% endblock %}
+            </div>
+            <div class="medium-3 columns end">
+                {% block sidebar %}
+
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+               {% block statusbar %}
+
+               {% endblock %}
+           </div>
+       </div>
+
+       <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/mousetrap.min.js') }}"></script>
+       <script>
+          $(document).foundation();
+
+          $(function(){
+            Mousetrap.bind("home", function(e) {
+                window.location.replace("/");
+                return false;
+            });
+            $("[data-key]").each(function(){
+                var key = $(this).data("key");
+                var $that = $(this);
+                Mousetrap.bind(key, function(e) {
+                    $that[0].click();
+                    return false;
+                });
+            });
+        });
+
+      </script>
+  </body>
+  </html>

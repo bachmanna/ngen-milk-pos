@@ -1,0 +1,52 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="large-12 columns text-center">
+        <h3>Member Setup</h3>
+    </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+    <div class="medium-6 columns">
+        <label>Member Code
+            <input type="text" name="code"/>
+        </label>
+    </div>
+    <div class="medium-6 columns">
+        <label>Member Name
+            <input type="text" name="name"/>
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-6 columns">
+        <label>Cattle Type
+            <select name="cattle_type">
+                <option>Cow</option>
+                <option>Buffalo</option>
+            </select>
+        </label>
+    </div>
+    <div class="medium-6 columns">
+        <label>Phone
+            <input type="text" name="phone"/>
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-2 columns">
+        <button type="button" data-key="s" class="success button expand">S - SAVE</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block statusbar %}
+<div class="row">
+    <div class="medium-2 columns end">
+        <a href="/system_setup" data-key="esc" class="warning button expand">ESC - EXIT</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "layout.jinja2" %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h1>Settings</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<form name="frmBasicSetup" method="post" action="/save_basic_setup">
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Scale Type
+						<select name="scale_type">
+							<option>HEAVY</option>
+						</select>
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Analyzer Type
+						<select name="analyzer_type">
+							<option>TVS</option>
+						</select>
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Rate Type
+						<select name="rate_type">
+							<option>FAT</option>
+						</select>
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Collection Printer
+						<select name="collection_printer">
+							<option>Thermal</option>
+						</select>
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Manual FAT
+						<input type="checkbox" name="manual_fat" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Manual SNF
+						<input type="checkbox" name="manual_snf" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Manual QTY
+						<input type="checkbox" name="manual_quanity" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Print CLR
+						<input type="checkbox" name="print_clr" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Print Water
+						<input type="checkbox" name="print_water" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Print Bill
+						<input type="checkbox" name="print_bill" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Quantity 2 Decimal
+						<input type="checkbox" name="quantity_2_decimal" />
+					</label>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+{% block statusbar %}
+<div class="row">
+	<div class="medium-2 columns">
+		<button type="button" data-key="s" class="success button expand">S - SAVE</button>
+	</div>
+	<div class="medium-2 columns end">
+		<a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>
+	</div>
+</div>
+{% endblock %}

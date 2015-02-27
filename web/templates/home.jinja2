@@ -1,65 +1,48 @@
-<!doctype html>
-<html class="no-js" lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{ settings["SOCIETY_NAME"] }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css')}}"/>
-    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
-</head>
-<body>
+{% extends "layout.jinja2" %}
+{% block body %}
 
 <div class="row">
-    <div class="large-9 columns">
-        <h2>{{ settings["SOCIETY_NAME"] }}</h2>
-        <h5>{{ settings["SOCIETY_ADDRESS"] }}</h5>
-    </div>
-    <div class="large-3 columns">
-        {% if current_user.is_authenticated() %}
-        Hi {{ current_user.name }}!
-        <a href="/logout">Logout</a>
-        {% endif %}
-    </div>
-</div>
-<div class="row">
-    <div class="large-12 columns text-center">
+    <div class="medium-12 columns text-center">
         <div class="panel">
             <div class="row">
-                <div class="large-12 columns text-center">
+                <div class="medium-12 columns text-center">
                     <h3> Main Menu</h3>
                 </div>
             </div>
+            <br/>
+            <br/>
             <div class="row">
-                <div class="large-4 medium-4 columns">
-                    <a href="/collection" class="large button">Collection</a>
+                <div class="medium-4 columns">
+                    <a href="/collection" class="large button expand" data-key="f1">Collection - F1</a>
                 </div>
-                <div class="large-4 medium-4 columns">
-                    <a href="/reports" class="large button">Reports</a>
+                <div class="medium-4 columns">
+                    <a href="/reports" class="large button expand" data-key="f2">Reports - F2</a>
                 </div>
-                <div class="large-4 medium-4 columns">
-                    <a href="/basic_setup" class="large button">Basic Setup</a>
+                <div class="medium-4 columns">
+                    <a href="/basic_setup" class="large button expand" data-key="f3">Basic Setup - F3</a>
                 </div>
             </div>
             <div class="row">
-                <div class="large-4 medium-4 columns">
-                    <a href="/system_setup" class="large button">System Setup</a>
+                <div class="medium-4 columns">
+                    <a href="/settings" class="large button expand" data-key="f4">Settings - F4</a>
                 </div>
-                <div class="large-4 medium-4 columns">
-                    <a href="/datareset" class="large button">Data Reset</a>
+                <div class="medium-4 columns">
+                    <a href="/system_setup" class="large button expand" data-key="f5">System Setup - F5</a>
                 </div>
-                <div class="large-4 medium-4 columns">
-                    <a href="/Shutdown" class="alert large button">Shutdown</a>
+                <div class="medium-4 columns">
+                    <a href="/data_reset" class="large button expand" data-key="f6">Data Reset - F6</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-4 columns">
+                    <a href="/user" class="large button expand" data-key="f8">User - F8</a>
+                </div>
+                <div class="medium-4 columns end">
+                    <a href="/shutdown" class="alert large button expand" data-key="f12">Shutdown - F12</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
-<script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
-<script>
-      $(document).foundation();
-
-</script>
-</body>
-</html>
+{% endblock %}

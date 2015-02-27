@@ -20,6 +20,7 @@ login_manager.login_view = "login"
 login_manager.login_message = None
 
 from models.User import User
+
 user_list = {1: User(user_id=1, name='User1', email='User1@milkpos.com', roles=['user']),
              2: User(user_id=2, name='User2', email='User2@milkpos.com', roles=['user']),
              3: User(user_id=3, name='SettingsUser', email='SettingsUser@milkpos.com', roles=['setting']),
@@ -46,14 +47,38 @@ def set_user_on_request_g():
 def home():
     return render_template('home.jinja2')
 
+@app.route("/collection")
+@login_required
+def collection():
+    return render_template('collection.jinja2')
+
+@app.route("/basic_setup")
+@login_required
+def basic_setup():
+    return render_template("basic_setup.jinja2")
+
+@app.route("/settings")
+@login_required
+def settings():
+    return render_template("settings.jinja2")
+
+@app.route("/system_setup")
+@login_required
+def system_setup():
+    return render_template("system_setup.jinja2")
+
+@app.route("/member")
+@login_required
+def member():
+    return render_template("member.jinja2")
 
 @app.context_processor
 def settings_provider():
     from configuration_manager import ConfigurationManager
+
     config_manager = ConfigurationManager()
     settings = config_manager.get_all_settings()
     return dict(settings=settings)
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

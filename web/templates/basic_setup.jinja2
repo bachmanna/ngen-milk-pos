@@ -1,0 +1,67 @@
+{% extends "layout.jinja2" %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h1>Basic Setup</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<form name="frmBasicSetup" method="post" action="/save_basic_setup">
+			<div class="row">
+				<div class="medium-6 columns end">
+					<label>Date
+						<input type="text" placeholder="" name="date" />
+					</label>
+				</div>
+				<div class="medium-6 columns">
+					<label>Time
+						<input type="text" placeholder="" name="time" />
+					</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Society Name</label>
+					<input type="text" placeholder="" name="society_name" />
+					<input type="text" placeholder="" name="society_address" />
+					<input type="text" placeholder="" name="society_address1" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Header</label>
+					<input type="text" placeholder="" name="header1" />
+					<input type="text" placeholder="" name="header2" />
+					<input type="text" placeholder="" name="header3" />
+					<input type="text" placeholder="" name="header4" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<label>Footer</label>
+					<input type="text" placeholder="" name="footer1" />
+					<input type="text" placeholder="" name="footer2" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+{% block statusbar %}
+<div class="row">
+	<div class="medium-2 columns">
+		<button type="button" data-key="s" class="success button expand">S - SAVE</button>
+	</div>
+	<div class="medium-2 columns end">
+		<a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>
+	</div>
+</div>
+{% endblock %}
