@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h3>Member Setup</h3>
+        <h3>Rate Setup - FAT - {{cattle_type}}</h3>
     </div>
 </div>
 <br/>
@@ -19,31 +19,30 @@
 </div>
 {% endif %}
 {% endwith %}
-<form name="frmMember" id="frmMember" action="/member" method="post">
+<form name="frmFatRateSetup" id="frmMember" action="" method="post">
     <div class="row">
         <div class="medium-6 columns">
-            <label>Member Code
-                <input type="text" name="code"/>
+            <label>Slab No
+                <input type="text" name="id"/>
             </label>
         </div>
         <div class="medium-6 columns">
-            <label>Member Name
-                <input type="text" name="name"/>
-            </label>
         </div>
     </div>
     <div class="row">
-        <div class="medium-6 columns">
-            <label>Cattle Type
-                <select name="cattle_type">
-                    <option>COW</option>
-                    <option>BUFFALO</option>
-                </select>
+        <div class="medium-4 columns">
+            <label>Min Value
+                <input type="text" name="min_value"/>
             </label>
         </div>
-        <div class="medium-6 columns">
-            <label>Mobile
-                <input type="text" name="mobile"/>
+        <div class="medium-4 columns">
+            <label>Max Value
+                <input type="text" name="max_value"/>
+            </label>
+        </div>
+        <div class="medium-4 columns">
+            <label>Rate TS
+                <input type="text" name="rate"/>
             </label>
         </div>
     </div>
@@ -56,26 +55,22 @@
 <hr/>
 <div class="row">
     <div class="medium-12 columns">
-        <label>Total Member: {{member_list|count}}</label>
-        <br/>
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th>Member Code</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Cattle Type</th>
-                    <th>Created on</th>
+                    <th>Slab No</th>
+                    <th>Min FAT</th>
+                    <th>Max FAT</th>
+                    <th>RATE TS</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in member_list %}
+                {% for item in rate_list %}
                 <tr>
                     <td>{{item.id}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.mobile}}</td>
-                    <td>{{item.cattle_type}}</td>
-                    <td>{{item.created_at.strftime("%d/%m/%Y %I:%M%p")}}</td>
+                    <td>{{item.min_value}}</td>
+                    <td>{{item.max_value}}</td>
+                    <td>{{item.rate}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -87,9 +82,8 @@
 {% block sidebar %}
 <div class="row">
     <div class="medium-12 columns end">
-        <p>
-            Free member codes {{", ".join(free_list)}}
-        </p>
+        <a href="/rate_fat?cattle_type=COW" data-key="f1" class="button expand">F1 - COW</a>
+        <a href="/rate_fat?cattle_type=BUFFALO" data-key="f2" class="button expand">F2 - BUFFALO</a>
     </div>
 </div>
 {% endblock %}
@@ -97,7 +91,7 @@
 {% block statusbar %}
 <div class="row">
     <div class="medium-2 columns end">
-        <a href="/system_setup" data-key="esc" class="warning button expand">ESC - EXIT</a>
+        <a href="/rate_setup" data-key="esc" class="warning button expand">ESC - EXIT</a>
     </div>
 </div>
 {% endblock %}

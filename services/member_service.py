@@ -7,7 +7,10 @@ class MemberService:
         pass
 
     def add(self, name, cattle_type, mobile, _id=None):
-        member = Member(id=_id, name=name, cattle_type=cattle_type, mobile=mobile, status=True)
+        if _id:
+            member = Member(id=_id, name=name, cattle_type=cattle_type, mobile=mobile, status=True)
+        else:
+            member = Member(name=name, cattle_type=cattle_type, mobile=mobile, status=True)
         commit()
         return member.id
 

@@ -6,6 +6,7 @@ from datetime import datetime
 
 from services.user_service import UserService
 from services.member_service import MemberService
+from services.rate_service import RateService
 
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -140,6 +141,30 @@ def settings():
 @login_required
 def system_setup():
   return render_template("system_setup.jinja2")
+
+
+@app.route("/rate_setup", methods=['GET', 'POST'])
+@login_required
+def rate_setup():
+  return render_template("rate_setup.jinja2")
+
+
+@app.route("/rate_fat", methods=['GET', 'POST'])
+@login_required
+def rate_fat():
+  cattle_type = request.args.get("cattle_type", "COW")
+  rate_service = RateService()
+
+  if request.method == 'POST':
+    id = int(request.form.get("id", 0))
+    min_value = float(request.form.get("min_value", 0.0))
+    max_value = float(request.form.get("max_value", 0.0))
+    rate = float(request.form.get("rate", 0.0))
+    cattle_type = request.form.get("cattle_type", "COW")
+    rate_service.update_fat_collection_rate(cattle_type,id,min_value,max_value,rate)
+
+  rate_list = rate_service.get_fat_collection_rate(cattle_type=cattle_type)
+  return render_template("rate_fat.jinja2", cattle_type=cattle_type, rate_list=rate_list)
 
 
 @app.route("/member", methods=['GET', 'POST'])

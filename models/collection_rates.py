@@ -4,7 +4,8 @@ from pony.orm import Required
 
 class FATCollectionRate(db.Entity):
     cattle_type = Required(str, 8)
-    fat_value = Required(float)
+    min_value = Required(float)
+    max_value = Required(float)
     rate = Required(float)
 
 

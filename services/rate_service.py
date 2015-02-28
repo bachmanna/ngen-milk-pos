@@ -28,6 +28,21 @@ class RateService:
         lst = query[:]
         return lst
 
+    def add_fat_collection_rate(self, cattle_type, id, min_value, max_value, rate):
+        entity = FATCollectionRate(id=id,cattle_type=cattle_type,min_value=min_value, max_value=max_value, rate=rate)
+        commit()
+        return entity.id
+
+    def update_fat_collection_rate(self, cattle_type, id, min_value, max_value, rate):
+        entity = FATCollectionRate[id]
+        if entity:
+            entity.min_value=min_value
+            entity.max_value=max_value
+            entity.rate = rate
+            commit()
+        else:
+            self.add_fat_collection_rate(cattle_type, id, min_value, max_value, rate)
+
     def get_fat_and_snf_collection_rate(self, cattle_type):
         query = select(p for p in FATAndSNFCollectionRate if p.cattle_type == cattle_type)
         lst = query[:]
@@ -48,7 +63,8 @@ class RateService:
         db.create_tables()
         for x in data:
             fatcolrate = FATCollectionRate(cattle_type=cattle_type,
-                                           fat_value=x['fat_value'],
+                                           min_value=x['min_value'],
+                                           max_value=x['max_value'],
                                            rate=x['rate'])
         commit()
 
