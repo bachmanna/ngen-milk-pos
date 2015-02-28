@@ -3,26 +3,66 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
-#,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-28 18:20+0530\n"
-"PO-Revision-Date: 2015-02-28 18:28+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-02-28 18:40+0530\n"
+"PO-Revision-Date: 2015-02-28 18:52+0530\n"
 "Language-Team: ta <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+"Last-Translator: \n"
+"Language: ta\n"
+"X-Generator: Poedit 1.7.4\n"
 
-#: templates/layout.jinja2:25
+#: templates/home.jinja2:9
+msgid "Main Menu"
+msgstr "முக்கிய மெனு"
+
+#: templates/home.jinja2:16
+msgid "Collection"
+msgstr "பால் சேகரிப்பு"
+
+#: templates/home.jinja2:19
+msgid "Reports"
+msgstr "அறிக்கைகள்"
+
+#: templates/home.jinja2:22
+msgid "Basic Setup"
+msgstr "அடிப்படை அமைப்பு"
+
+#: templates/home.jinja2:27
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+#: templates/home.jinja2:30
+msgid "System Setup"
+msgstr "கணினி அமைப்பு"
+
+#: templates/home.jinja2:33
+msgid "Data Reset"
+msgstr "தரவு ரீசெட்"
+
+#: templates/home.jinja2:38
+msgid "Manage User"
+msgstr "பயனர் நிர்வகிக்க"
+
+#: templates/home.jinja2:41
+msgid "Logout"
+msgstr "வெளியேறு"
+
+#: templates/home.jinja2:44
+msgid "Shutdown"
+msgstr "சாதனம் பணிநிறுத்தம்"
+
+#: templates/layout.jinja2:26
 msgid "Date"
 msgstr "தேதி"
 
-#: templates/layout.jinja2:26
+#: templates/layout.jinja2:27
 msgid "Time"
 msgstr "நேரம்"
-

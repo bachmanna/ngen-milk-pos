@@ -13,10 +13,11 @@
     <div class="medium-9 columns">
       <h2>{{ settings["SOCIETY_NAME"] }}</h2>
       <h5>{{ settings["SOCIETY_ADDRESS"] }}</h5>
+      <h6>{{ settings.get("SOCIETY_ADDRESS1", "") }}</h6>
     </div>
     <div class="medium-3 columns">
       {% if current_user.is_authenticated() %}
-      Hi {{ current_user.name }}!
+      {{_("Hi")}} {{ current_user.name }}!
       {% endif %}
     </div>
   </div>

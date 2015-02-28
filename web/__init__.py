@@ -1,9 +1,10 @@
-from flask import Flask, session, render_template, request, redirect, g, flash
+from flask import Flask, session, render_template, request, redirect, g, flash, jsonify
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
 from passlib.handlers.md5_crypt import md5_crypt
 from pony.orm import sql_debug, db_session
 from datetime import datetime
 from flask.ext.babel import Babel
+import json
 
 
 from services.user_service import UserService
@@ -98,8 +99,27 @@ def home():
 @app.route("/collection")
 @login_required
 def collection():
-  return render_template('collection.jinja2')
+  morning_shift = False
+  date = datetime.now()
+  if date.hour < 15:
+    morning_shift = True
+  member_service = MemberService()
+  member_list = member_service.search()
+  members_json = json.dumps([{'id': x.id, 'name': x.name, 'cattle_type': x.cattle_type} for x in member_list])
+  return render_template('collection.jinja2',morning_shift=morning_shift,member_list=member_list,members_json=members_json)
 
+@app.route("/get_collection_data")
+@login_required
+def get_collection_data():
+  fat = 8.3
+  snf = 12.33
+  clr = 23.1
+  water = 33.65
+  rate = 12.6
+  qty = 2.3
+  total = float("{0:.2f}".format(rate * qty))
+  data = {'fat': fat, 'snf': snf, 'clr': clr, 'water': water, 'qty': qty, 'rate': rate, 'total': total}
+  return jsonify(**data)
 
 @app.route("/basic_setup", methods=['GET', 'POST'])
 @login_required
