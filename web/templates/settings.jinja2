@@ -18,7 +18,10 @@
 				<div class="medium-12 columns">
 					<label>Scale Type
 						<select name="scale_type">
-							<option>HEAVY</option>
+							<option>ULTRA</option>
+							<option>ULTRA-PRO</option>
+							<option>LACTO-SCAN</option>
+							<option>KSHEERA</option>
 						</select>
 					</label>
 				</div>
@@ -27,7 +30,10 @@
 				<div class="medium-12 columns">
 					<label>Analyzer Type
 						<select name="analyzer_type">
-							<option>TVS</option>
+							<option>SATHIYAM</option>
+							<option>D-SONIC</option>
+							<option>ISHATA</option>
+							<option>OPAL</option>
 						</select>
 					</label>
 				</div>
@@ -36,7 +42,10 @@
 				<div class="medium-12 columns">
 					<label>Rate Type
 						<select name="rate_type">
-							<option>FAT</option>
+							<option value="fat">FAT</option>
+							<option value="fatsnf">FAT and SNF</option>
+							<option value="ts">Total Solid</option>
+							<option value="ts1">Total Solid 1</option>
 						</select>
 					</label>
 				</div>
@@ -46,57 +55,91 @@
 					<label>Collection Printer
 						<select name="collection_printer">
 							<option>Thermal</option>
+							<option>LPT</option>
+							<option>Laser</option>
 						</select>
 					</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Manual FAT
-						<input type="checkbox" name="manual_fat" />
+					<label>Data Export format
+						<select name="collection_printer">
+							<option>TXT</option>
+							<option>PDF</option>
+						</select>
 					</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>Manual SNF
-						<input type="checkbox" name="manual_snf" />
-					</label>
+				<div class="medium-3 columns">
+					<label>Manual FAT</label>
+				</div>
+				<div class="medium-3 columns">
+					<div class="switch round large">
+						<input type="checkbox" id="manual_fat" name="manual_fat" />
+						<label for="manual_fat"></label>
+					</div>
+				</div>
+				<div class="medium-3 columns">
+					<label>Manual SNF</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="manual_snf" name="manual_snf" />
+						<label for="manual_snf"></label>
+					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>Manual QTY
-						<input type="checkbox" name="manual_quanity" />
-					</label>
+				<div class="medium-3 columns">
+					<label>Manual Quantity</label>
+				</div>
+				<div class="medium-3 columns">
+					<div class="switch round large">
+						<input type="checkbox" id="manual_quantity" name="manual_quantity" />
+						<label for="manual_quantity"></label>
+					</div>
+				</div>
+				<div class="medium-3 columns">
+					<label>Print CLR</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="print_clr" name="print_clr" />
+						<label for="print_clr"></label>
+					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>Print CLR
-						<input type="checkbox" name="print_clr" />
-					</label>
+				<div class="medium-3 columns">
+					<label>Print Water</label>
+				</div>
+				<div class="medium-3 columns">
+					<div class="switch round large">
+						<input type="checkbox" id="print_water" name="print_water" />
+						<label for="print_water"></label>
+					</div>
+				</div>
+				<div class="medium-3 columns">
+					<label>Print Bill</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="print_bill" name="print_bill" />
+						<label for="print_bill"></label>
+					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>Print Water
-						<input type="checkbox" name="print_water" />
-					</label>
+				<div class="medium-3 columns">
+					<label>Quantity 2 Decimal</label>
 				</div>
-			</div>
-			<div class="row">
-				<div class="medium-12 columns">
-					<label>Print Bill
-						<input type="checkbox" name="print_bill" />
-					</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-12 columns">
-					<label>Quantity 2 Decimal
-						<input type="checkbox" name="quantity_2_decimal" />
-					</label>
+				<div class="medium-6 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" />
+						<label for="quantity_2_decimal"></label>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -108,6 +151,9 @@
 <div class="row">
 	<div class="medium-2 columns">
 		<button type="button" data-key="s" class="success button expand">S - SAVE</button>
+	</div>
+	<div class="medium-2 columns">
+		<button type="button" data-key="c" class="button expand">C - CLEAR</button>
 	</div>
 	<div class="medium-2 columns end">
 		<a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>

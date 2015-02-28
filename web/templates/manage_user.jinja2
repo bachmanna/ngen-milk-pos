@@ -1,0 +1,81 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="medium-12 columns text-center">
+        <h3> Manage User</h3>
+    </div>
+</div>
+<br/>
+<br/>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert-box warning">
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<form name="frmUser" action="/user" method="post">
+   <div class="row">
+       <div class="medium-6 columns end">
+        <label>User Id
+            <input type="text" name="id" value="{{user.user_id}}" />
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-6 columns">
+        <label>Name
+            <input type="text" name="name" value="{{user.name}}"/>
+        </label>
+    </div>
+    <div class="medium-6 columns">
+        <label>Password
+            <input type="password" name="password"/>
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-2 columns">
+    <button type="submit" id="btnSave" class="success button expand">SAVE</button>
+    </div>
+</div>
+</form>
+<hr/>
+<div class="row">
+    <div class="medium-12 columns">
+        <table class="expand" style="width:100%;" role="grid">
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in user_list %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.roles}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block statusbar %}
+<div class="row">
+    <div class="medium-2 columns end">
+        <a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

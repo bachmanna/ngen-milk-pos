@@ -1,0 +1,38 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="large-12 columns text-center">
+        <div class="panel">
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <h3>Data Reset</h3>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="medium-5 small-centered columns">
+                    <a href="/backup" class="large button expand" data-key="f1">Backup - F1</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 small-centered columns">
+                    <a href="/restore" class="large button expand" data-key="f2">Restore - F2</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 small-centered columns">
+                    <a href="/clear_collection_bills" class="large button expand" data-key="f3">Clear collection bills - F3</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 small-centered columns">
+                    <a href="/factory_reset" class="alert large button expand" data-key="f4">Factory reset - F4</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/" data-key="esc" class="hide"></a>
+{% endblock %}
