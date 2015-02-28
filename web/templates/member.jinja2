@@ -8,7 +8,18 @@
 </div>
 <br/>
 <br/>
-<form name="frmMember" action="/save_member" method="post">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert-box warning">
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<form name="frmMember" id="frmMember" action="/member" method="post">
     <div class="row">
         <div class="medium-6 columns">
             <label>Member Code
@@ -25,23 +36,60 @@
         <div class="medium-6 columns">
             <label>Cattle Type
                 <select name="cattle_type">
-                    <option>Cow</option>
-                    <option>Buffalo</option>
+                    <option>COW</option>
+                    <option>BUFFALO</option>
                 </select>
             </label>
         </div>
         <div class="medium-6 columns">
-            <label>Phone
-                <input type="text" name="phone"/>
+            <label>Mobile
+                <input type="text" name="mobile"/>
             </label>
         </div>
     </div>
     <div class="row">
         <div class="medium-2 columns">
-            <button type="button" data-key="s" class="success button expand">S - SAVE</button>
+            <button type="submit" id="btnSave" class="success button expand">SAVE</button>
         </div>
     </div>
 </form>
+<hr/>
+<div class="row">
+    <div class="medium-12 columns">
+        <table class="expand" style="width:100%;" role="grid">
+            <thead>
+                <tr>
+                    <th>Member Code</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Cattle Type</th>
+                    <th>Created on</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in member_list %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td>{{item.cattle_type}}</td>
+                    <td>{{item.created_at.strftime("%d/%m/%Y %I:%M%p")}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="row">
+    <div class="medium-12 columns end">
+        <p>
+            Free member codes {{", ".join(free_list)}}
+        </p>
+    </div>
+</div>
 {% endblock %}
 
 {% block statusbar %}
