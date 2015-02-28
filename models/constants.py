@@ -31,11 +31,17 @@ class CollectionRateType(BaseType):
 
 
 class ScaleType(BaseType):
-    HEAVY = "HEAVY"
+    SATHIYAM = "SATHIYAM"
+    D_SONIC = "D_SONIC"
+    ISHATA = "ISHATA"
+    OPAL = "OPAL"
 
 
 class AnalyzerType(BaseType):
-    TVS = "TVS"
+    ULTRA = "ULTRA"
+    ULTRA_PRO = "ULTRA_PRO"
+    LACTO_SCAN = "LACTO_SCAN"
+    KSHEERA = "KSHEERA"
 
 
 class SystemSettings(BaseType):
@@ -46,6 +52,7 @@ class SystemSettings(BaseType):
 
     SOCIETY_NAME = "SOCIETY_NAME"
     SOCIETY_ADDRESS = "SOCIETY_ADDRESS"
+    SOCIETY_ADDRESS1 = "SOCIETY_ADDRESS1"
 
     HEADER_LINE1 = "HEADER_LINE1"
     HEADER_LINE2 = "HEADER_LINE2"

@@ -4,6 +4,8 @@ from passlib.handlers.md5_crypt import md5_crypt
 from pony.orm import sql_debug, db_session
 from datetime import datetime
 
+from services.user_service import UserService
+
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
@@ -11,6 +13,18 @@ from models import *
 
 sql_debug(False)
 db.generate_mapping(create_tables=True)
+
+
+def create_default_users():
+  user_service = UserService()
+  created_by = 4
+  if current_user:
+    created_by = current_user.id
+  user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by)
+  user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by)
+  user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by)
+  user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by)
+
 
 def testdata():
   db.drop_all_tables(with_all_data=True)
@@ -20,6 +34,7 @@ def testdata():
       test = TestData()
       test.create_members()
       test.test_settings()
+      create_default_users()
       #test.datetime_test()
 
 #testdata()
@@ -33,8 +48,7 @@ login_manager.login_view = "login"
 login_manager.login_message = None
 
 from models.User import User
-from services.user_service import UserService
-
+from configuration_manager import ConfigurationManager
 
 @login_manager.user_loader
 def get_user(id):
@@ -50,40 +64,74 @@ def set_user_on_request_g():
   setattr(g, 'user', current_user)
 
 
+@app.context_processor
+def settings_provider():
+    config_manager = ConfigurationManager()
+    settings = config_manager.get_all_settings()
+
+    d = datetime.now().strftime("%d/%m/%Y")
+    t = datetime.now().strftime("%I:%M%p")
+
+    return dict(settings=settings, date=d, time=t)
+
+
 @app.route("/")
 @login_required
 def home():
   return render_template('home.jinja2')
+
 
 @app.route("/collection")
 @login_required
 def collection():
   return render_template('collection.jinja2')
 
-@app.route("/basic_setup")
+
+@app.route("/basic_setup", methods=['GET', 'POST'])
 @login_required
 def basic_setup():
+  if request.method == 'POST':
+    settings = {}
+    settings[SystemSettings.SOCIETY_NAME] = request.form["society_name"]
+    settings[SystemSettings.SOCIETY_ADDRESS] = request.form["society_address"]
+    settings[SystemSettings.SOCIETY_ADDRESS1] = request.form["society_address1"]
+
+    settings[SystemSettings.HEADER_LINE1] = request.form["header_line1"]
+    settings[SystemSettings.HEADER_LINE2] = request.form["header_line2"]
+    settings[SystemSettings.HEADER_LINE3] = request.form["header_line3"]
+    settings[SystemSettings.HEADER_LINE4] = request.form["header_line4"]
+
+    settings[SystemSettings.FOOTER_LINE1] = request.form["footer_line1"]
+    settings[SystemSettings.FOOTER_LINE2] = request.form["footer_line2"]
+    configManager = ConfigurationManager()
+    configManager.set_all_settings(settings)
+
   return render_template("basic_setup.jinja2")
+
 
 @app.route("/settings")
 @login_required
 def settings():
   return render_template("settings.jinja2")
 
+
 @app.route("/system_setup")
 @login_required
 def system_setup():
   return render_template("system_setup.jinja2")
+
 
 @app.route("/member")
 @login_required
 def member():
   return render_template("member.jinja2")
 
+
 @app.route("/data_reset")
 @login_required
 def data_reset():
   return render_template("data_reset.jinja2")
+
 
 @app.route("/user", methods=['GET', 'POST'])
 @login_required
@@ -107,29 +155,13 @@ def manage_user():
   user_list = service.search()
   return render_template("manage_user.jinja2", user=user, user_list=user_list)
 
+
 @app.route("/factory_reset")
 @login_required
 def factory_reset():
   create_default_users()
   return render_template("factory_reset.jinja2")
 
-def create_default_users():
-  user_service = UserService()
-  user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], current_user.id)
-  user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], current_user.id)
-  user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], current_user.id)
-  user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], current_user.id)
-
-@app.context_processor
-def settings_provider():
-    from configuration_manager import ConfigurationManager
-    config_manager = ConfigurationManager()
-    settings = config_manager.get_all_settings()
-
-    d = datetime.now().strftime("%d/%m/%Y")
-    t = datetime.now().strftime("%I:%M%p")
-
-    return dict(settings=settings, date=d, time=t)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

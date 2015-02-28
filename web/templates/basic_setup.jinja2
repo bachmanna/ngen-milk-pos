@@ -13,41 +13,41 @@
 
 <div class="row">
 	<div class="medium-12 columns">
-		<form name="frmBasicSetup" method="post" action="/save_basic_setup">
+		<form name="frmBasicSetup" id="frmBasicSetup" method="post" action="">
 			<div class="row">
 				<div class="medium-6 columns end">
 					<label>Date
-						<input type="text" placeholder="" name="date" />
+						<input type="text" placeholder="" name="date" value="{{date}}"/>
 					</label>
 				</div>
 				<div class="medium-6 columns">
 					<label>Time
-						<input type="text" placeholder="" name="time" />
+						<input type="text" placeholder="" name="time" value="{{time}}" />
 					</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>Society Name</label>
-					<input type="text" placeholder="" name="society_name" />
-					<input type="text" placeholder="" name="society_address" />
-					<input type="text" placeholder="" name="society_address1" />
+					<input type="text" placeholder="" name="society_name" value="{{settings['SOCIETY_NAME']}}"/>
+					<input type="text" placeholder="" name="society_address" value="{{settings['SOCIETY_ADDRESS']}}"/>
+					<input type="text" placeholder="" name="society_address1" value="{{settings['SOCIETY_ADDRESS1']}}"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>Header</label>
-					<input type="text" placeholder="" name="header1" />
-					<input type="text" placeholder="" name="header2" />
-					<input type="text" placeholder="" name="header3" />
-					<input type="text" placeholder="" name="header4" />
+					<input type="text" placeholder="" name="header_line1" value="{{settings['HEADER_LINE1']}}"/>
+					<input type="text" placeholder="" name="header_line2"  value="{{settings['HEADER_LINE2']}}"/>
+					<input type="text" placeholder="" name="header_line3"  value="{{settings['HEADER_LINE3']}}"/>
+					<input type="text" placeholder="" name="header_line4"  value="{{settings['HEADER_LINE4']}}"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>Footer</label>
-					<input type="text" placeholder="" name="footer1" />
-					<input type="text" placeholder="" name="footer2" />
+					<input type="text" placeholder="" name="footer_line1" value="{{settings['FOOTER_LINE1']}}"/>
+					<input type="text" placeholder="" name="footer_line2" value="{{settings['FOOTER_LINE2']}}"/>
 				</div>
 			</div>
 		</form>
@@ -58,7 +58,7 @@
 {% block statusbar %}
 <div class="row">
 	<div class="medium-2 columns">
-		<button type="button" data-key="s" class="success button expand">S - SAVE</button>
+		<a data-key="s" onclick="$('#frmBasicSetup').submit();" class="success button expand">S - SAVE</a>
 	</div>
 	<div class="medium-2 columns end">
 		<a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>

@@ -116,8 +116,18 @@ class TestData:
 
         settings[SystemSettings.SOCIETY_NAME] = "JEPPIAAR MILK COLLECTION CENTER"
         settings[SystemSettings.SOCIETY_ADDRESS] = "NO.6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307."
-        settings[SystemSettings.SCALE_TYPE] = ScaleType.HEAVY
-        settings[SystemSettings.ANALYZER_TYPE] = AnalyzerType.TVS
+        settings[SystemSettings.SOCIETY_ADDRESS1] = ""
+
+        settings[SystemSettings.HEADER_LINE1] = "Milk center"
+        settings[SystemSettings.HEADER_LINE2] = "address"
+        settings[SystemSettings.HEADER_LINE3] = "phone"
+        settings[SystemSettings.HEADER_LINE4] = ""
+
+        settings[SystemSettings.FOOTER_LINE1] = ""
+        settings[SystemSettings.FOOTER_LINE2] = "Thank you"
+
+        settings[SystemSettings.SCALE_TYPE] = ScaleType.OPAL
+        settings[SystemSettings.ANALYZER_TYPE] = AnalyzerType.ULTRA
         settings[SystemSettings.RATE_TYPE] = CollectionRateType.FAT
 
         settings[SystemSettings.BILL_OVERWRITE] = True
