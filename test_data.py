@@ -140,6 +140,7 @@ class TestData:
         settings[SystemSettings.QUANTITY_2_DECIMAL] = True
         settings[SystemSettings.EXTERNAL_DISPLAY] = False
         settings[SystemSettings.COLLECTION_PRINTER_TYPE] = "Thermal"
+        settings[SystemSettings.DATA_EXPORT_FORMAT] = "PDF"
 
         configManager.set_all_settings(settings)
 

@@ -13,27 +13,27 @@
 
 <div class="row">
 	<div class="medium-12 columns">
-		<form name="frmBasicSetup" method="post" action="/save_basic_setup">
+		<form name="frmBasicSetup" id="frmBasicSetup" method="post" action="/settings">
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Scale Type
-						<select name="scale_type">
-							<option>ULTRA</option>
-							<option>ULTRA-PRO</option>
-							<option>LACTO-SCAN</option>
-							<option>KSHEERA</option>
+					<label>Analyzer Type
+						<select name="analyzer_type">
+							<option {{ "selected" if settings["ANALYZER_TYPE"] == "SATHIYAM" else "" }}>ULTRA</option>
+							<option {{ "selected" if settings["ANALYZER_TYPE"] == "ULTRA-PRO" else "" }}>ULTRA-PRO</option>
+							<option {{ "selected" if settings["ANALYZER_TYPE"] == "LACTO-SCAN" else "" }}>LACTO-SCAN</option>
+							<option {{ "selected" if settings["ANALYZER_TYPE"] == "KSHEERA" else "" }}>KSHEERA</option>
 						</select>
 					</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Analyzer Type
-						<select name="analyzer_type">
-							<option>SATHIYAM</option>
-							<option>D-SONIC</option>
-							<option>ISHATA</option>
-							<option>OPAL</option>
+					<label>Scale Type
+						<select name="scale_type">
+							<option {{ "selected" if settings["SCALE_TYPE"] == "SATHIYAM" else "" }}>SATHIYAM</option>
+							<option {{ "selected" if settings["SCALE_TYPE"] == "D-SONIC" else "" }}>D-SONIC</option>
+							<option {{ "selected" if settings["SCALE_TYPE"] == "ISHATA" else "" }}>ISHATA</option>
+							<option {{ "selected" if settings["SCALE_TYPE"] == "OPAL" else "" }}>OPAL</option>
 						</select>
 					</label>
 				</div>
@@ -42,10 +42,10 @@
 				<div class="medium-12 columns">
 					<label>Rate Type
 						<select name="rate_type">
-							<option value="fat">FAT</option>
-							<option value="fatsnf">FAT and SNF</option>
-							<option value="ts">Total Solid</option>
-							<option value="ts1">Total Solid 1</option>
+							<option value="FAT" {{ "selected" if settings["RATE_TYPE"] == "FAT" else "" }}>FAT</option>
+							<option value="FAT_AND_SNF" {{ "selected" if settings["RATE_TYPE"] == "FAT_AND_SNF" else "" }}>FAT and SNF</option>
+							<option value="TS_1" {{ "selected" if settings["RATE_TYPE"] == "TS_1" else "" }}>Total Solid</option>
+							<option value="TS_2" {{ "selected" if settings["RATE_TYPE"] == "TS_2" else "" }}>Total Solid 1</option>
 						</select>
 					</label>
 				</div>
@@ -54,9 +54,9 @@
 				<div class="medium-12 columns">
 					<label>Collection Printer
 						<select name="collection_printer">
-							<option>Thermal</option>
-							<option>LPT</option>
-							<option>Laser</option>
+							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Thermal" else "" }}>Thermal</option>
+							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "LPT" else "" }}>LPT</option>
+							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Laser" else "" }}>Laser</option>
 						</select>
 					</label>
 				</div>
@@ -64,9 +64,9 @@
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>Data Export format
-						<select name="collection_printer">
-							<option>TXT</option>
-							<option>PDF</option>
+						<select name="data_export_format">
+							<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "TXT" else "" }}>TXT</option>
+							<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "PDF" else "" }}>PDF</option>
 						</select>
 					</label>
 				</div>
@@ -77,7 +77,7 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_fat" name="manual_fat" />
+						<input type="checkbox" id="manual_fat" name="manual_fat" {{ "checked" if settings["MANUAL_FAT"] == "True" else "" }} value="True"/>
 						<label for="manual_fat"></label>
 					</div>
 				</div>
@@ -86,7 +86,7 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_snf" name="manual_snf" />
+						<input type="checkbox" id="manual_snf" name="manual_snf" {{ "checked" if settings["MANUAL_SNF"] == "True" else "" }} value="True" />
 						<label for="manual_snf"></label>
 					</div>
 				</div>
@@ -97,8 +97,8 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_quantity" name="manual_quantity" />
-						<label for="manual_quantity"></label>
+						<input type="checkbox" id="manual_qty" name="manual_qty" {{ "checked" if settings["MANUAL_QTY"] == "True" else "" }} value="True" />
+						<label for="manual_qty"></label>
 					</div>
 				</div>
 				<div class="medium-3 columns">
@@ -106,7 +106,7 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="print_clr" name="print_clr" />
+						<input type="checkbox" id="print_clr" name="print_clr" {{ "checked" if settings["PRINT_CLR"] == "True" else "" }} value="True" />
 						<label for="print_clr"></label>
 					</div>
 				</div>
@@ -117,7 +117,7 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="print_water" name="print_water" />
+						<input type="checkbox" id="print_water" name="print_water" {{ "checked" if settings["PRINT_WATER"] == "True" else "" }} value="True" />
 						<label for="print_water"></label>
 					</div>
 				</div>
@@ -126,7 +126,7 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="print_bill" name="print_bill" />
+						<input type="checkbox" id="print_bill" name="print_bill" {{ "checked" if settings["PRINT_BILL"] == "True" else "" }} value="True" />
 						<label for="print_bill"></label>
 					</div>
 				</div>
@@ -137,7 +137,7 @@
 				</div>
 				<div class="medium-6 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" />
+						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" {{ "checked" if settings["QUANTITY_2_DECIMAL"] == "True" else "" }}  value="True"/>
 						<label for="quantity_2_decimal"></label>
 					</div>
 				</div>
@@ -150,7 +150,7 @@
 {% block statusbar %}
 <div class="row">
 	<div class="medium-2 columns">
-		<button type="button" data-key="s" class="success button expand">S - SAVE</button>
+		<a href="#" onclick="$('#frmBasicSetup').submit();" data-key="s" class="success button expand">S - SAVE</a>
 	</div>
 	<div class="medium-2 columns">
 		<button type="button" data-key="c" class="button expand">C - CLEAR</button>

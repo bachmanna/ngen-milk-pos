@@ -106,13 +106,33 @@ def basic_setup():
     settings[SystemSettings.FOOTER_LINE2] = request.form["footer_line2"]
     configManager = ConfigurationManager()
     configManager.set_all_settings(settings)
+    return redirect("/")
 
   return render_template("basic_setup.jinja2")
 
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
+  if request.method == 'POST':
+    configManager = ConfigurationManager()
+    settings = {}
+    settings[SystemSettings.SCALE_TYPE] = request.form["scale_type"]
+    settings[SystemSettings.ANALYZER_TYPE] = request.form["analyzer_type"]
+    settings[SystemSettings.RATE_TYPE] = request.form["rate_type"]
+    settings[SystemSettings.COLLECTION_PRINTER_TYPE] = request.form["collection_printer"]
+    settings[SystemSettings.DATA_EXPORT_FORMAT] = request.form["data_export_format"]
+
+    settings[SystemSettings.MANUAL_FAT] = bool(request.form.get("manual_fat", False))
+    settings[SystemSettings.MANUAL_SNF] = bool(request.form.get("manual_snf", False))
+    settings[SystemSettings.MANUAL_QTY] = bool(request.form.get("manual_qty", False))
+    settings[SystemSettings.PRINT_CLR] = bool(request.form.get("print_clr", False))
+    settings[SystemSettings.PRINT_WATER] = bool(request.form.get("print_water", False))
+    settings[SystemSettings.PRINT_BILL] = bool(request.form.get("print_bill", False))
+    settings[SystemSettings.QUANTITY_2_DECIMAL] = bool(request.form.get("quantity_2_decimal", False))
+    configManager.set_all_settings(settings)
+    return redirect("/")
+
   return render_template("settings.jinja2")
 
 
