@@ -3,6 +3,8 @@ from flask_login import login_required, login_user, logout_user, current_user, L
 from passlib.handlers.md5_crypt import md5_crypt
 from pony.orm import sql_debug, db_session
 from datetime import datetime
+from flask.ext.babel import Babel
+
 
 from services.user_service import UserService
 from services.member_service import MemberService
@@ -10,6 +12,9 @@ from services.rate_service import RateService
 
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+# localization
+babel = Babel(app)
 
 from models import *
 
@@ -52,6 +57,10 @@ login_manager.login_message = None
 from models.User import User
 from configuration_manager import ConfigurationManager
 
+@babel.localeselector
+def get_locale():
+  return g.get('current_lang', 'ta')
+
 @login_manager.user_loader
 def get_user(id):
   service = UserService()
@@ -63,13 +72,16 @@ def get_user(id):
 
 @app.before_request
 def set_user_on_request_g():
+  config_manager = ConfigurationManager()
+  settings = config_manager.get_all_settings()
   setattr(g, 'user', current_user)
+  setattr(g, 'app_settings', settings)
+  setattr(g, 'current_lang', settings.get("LANGUAGE", "ta"))
 
 
 @app.context_processor
 def settings_provider():
-    config_manager = ConfigurationManager()
-    settings = config_manager.get_all_settings()
+    settings = g.app_settings
 
     d = datetime.now().strftime("%d/%m/%Y")
     t = datetime.now().strftime("%I:%M%p")
