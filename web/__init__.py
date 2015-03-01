@@ -9,6 +9,7 @@ import json
 
 from services.user_service import UserService
 from services.member_service import MemberService
+from services.milkcollection_service import MilkCollectionService
 from services.rate_service import RateService
 
 app = Flask(__name__, instance_relative_config=False)
@@ -96,17 +97,41 @@ def home():
   return render_template('home.jinja2')
 
 
-@app.route("/collection")
+@app.route("/collection", methods=['GET', 'POST'])
 @login_required
 def collection():
   morning_shift = False
   date = datetime.now()
   if date.hour < 15:
     morning_shift = True
+
   member_service = MemberService()
+
+  if request.method == "POST":
+    entity = {}
+    mcode = int(request.form.get("member_code"))
+    entity["member"] = member_service.get(mcode)
+    entity["shift"] = "MORNING" if morning_shift else "EVENING"
+    entity["fat"] = float(request.form.get("fat"))
+    entity["snf"] = float(request.form.get("snf"))
+    entity["clr"] = float(request.form.get("clr"))
+    entity["aw"] = float(request.form.get("water"))
+    entity["qty"] = float(request.form.get("qty"))
+    entity["rate"] = float(request.form.get("rate"))
+    entity["total"] = float(request.form.get("total"))
+    entity["created_by"] = current_user.id
+    entity["created_at"] = date
+    entity["status"] = True
+
+    collectionService = MilkCollectionService()
+    collectionService.add(entity)
+    flash("Saved successfully!")
+    return redirect("/collection")
+  
   member_list = member_service.search()
   members_json = json.dumps([{'id': x.id, 'name': x.name, 'cattle_type': x.cattle_type} for x in member_list])
   return render_template('collection.jinja2',morning_shift=morning_shift,member_list=member_list,members_json=members_json)
+
 
 @app.route("/get_collection_data")
 @login_required
@@ -263,6 +288,57 @@ def manage_user():
 def factory_reset():
   create_default_users()
   return render_template("factory_reset.jinja2")
+
+
+@app.route("/reports")
+@login_required
+def reports():
+  return render_template("reports.jinja2")
+
+
+@app.route("/member_list")
+@login_required
+def report_member_list():
+  member_service = MemberService()
+  member_list = member_service.search()
+  return render_template("member_list.jinja2",member_list=member_list)
+
+@app.route("/detail_shift")
+@login_required
+def report_detail_shift():
+  shift = request.args.get("shift", "MORNING")
+  date = datetime.now().date()
+  search_date = date.strftime("%d/%m/%Y")
+  member_service = MemberService()
+  member_list = member_service.search()  
+  members = {}
+  for x in member_list:
+    members[x.id] = x
+  collectionService = MilkCollectionService()
+  mcollection = collectionService.search(shift=shift, date=date)
+
+  cow_collection = [x for x in mcollection if members[x.id].cattle_type == "COW"]
+  buffalo_collection = [x for x in mcollection if members[x.id].cattle_type == "BUFFALO"]
+  summary = {}
+  summary["member"] = [len(cow_collection),  len(buffalo_collection)]
+  summary["milk"] = [sum([x.qty for x in cow_collection]), sum([x.qty for x in buffalo_collection])]
+  summary["fat"] = [0,0]
+  summary["snf"] = [0,0]
+  summary["rate"] = [0,0]
+
+  if summary["milk"][0] != 0:
+    summary["fat"][0] = sum([x.fat for x in cow_collection])/summary["milk"][0]
+    summary["snf"][0] = sum([x.snf for x in cow_collection])/summary["milk"][0]
+    summary["rate"][0] = sum([x.rate for x in cow_collection])/summary["milk"][0]
+
+  if summary["milk"][1] != 0:
+    summary["fat"][1] = sum([x.fat for x in buffalo_collection])/summary["milk"][1]
+    summary["snf"][1] = sum([x.snf for x in buffalo_collection])/summary["milk"][1]
+    summary["rate"][1] = sum([x.rate for x in buffalo_collection])/summary["milk"][1]  
+  
+  summary["total"] = [sum([x.total for x in cow_collection]), sum([x.total for x in buffalo_collection])]
+
+  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date)
 
 
 @app.route("/login", methods=['GET', 'POST'])

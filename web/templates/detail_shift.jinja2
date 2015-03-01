@@ -1,0 +1,133 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="medium-12 columns text-center">
+        <h1>Detail Shift Report</h1>
+    </div>
+</div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert-box warning">
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<form id="frmDetailShift" name="frmDetailShift" method="post" action="">
+    <div class="row">
+        <div class="medium-4 columns">
+            <label>Date
+                <input type="text" class="datetime" name="date" value="{{search_date}}"/>
+            </label>    
+        </div>
+        <div class="medium-4 columns end">
+            <label>Shift
+                <select name="shift">
+                    <option>MORNING</option>
+                    <option>EVENING</option>
+                </select>
+            </label>    
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="medium-12 columns">
+        <table class="expand" style="width:100%;" role="grid">
+            <thead>
+                <tr>
+                    <th>{{_("M.Code")}}</th>
+                    <th>{{_("M.Name")}}</th>
+                    <th>{{_("Cattle")}}</th>
+                    <th class="text-right">{{_("FAT")}}</th>
+                    <th class="text-right">{{_("SNF")}}</th>
+                    <th class="text-right">{{_("QTY")}}</th>
+                    <th class="text-right">{{_("Rate")}}</th>
+                    <th class="text-right">{{_("Total")}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in mcollection %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{ member_list[item.id].name }}</td>
+                    <td>{{ member_list[item.id].cattle_type }}</td>
+                    <td>{{item.fat}}</td>
+                    <td>{{item.snf}}</td>
+                    <td>{{item.qty}}</td>
+                    <td>{{item.rate}}</td>
+                    <td>{{item.total}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-12 columns">
+        <table class="expand" style="width:100%;" role="grid">
+            <thead>
+                <tr>
+                    <th>{{_("Cattle")}}</th>
+                    <th class="text-right">{{_("Total Member")}}</th>
+                    <th class="text-right">{{_("Total Milk")}}</th>
+                    <th class="text-right">{{_("Average FAT")}}</th>
+                    <th class="text-right">{{_("Average SNF")}}</th>
+                    <th class="text-right">{{_("Average Rate")}}</th>
+                    <th class="text-right">{{_("Total")}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>{{_("COW")}}</th>
+                    <td class="text-right">{{summary["member"][0]}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["milk"][0]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["fat"][0]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["snf"][0]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["rate"][0]|float)}}</td>
+                    <th class="text-right">{{'%0.2f'| format(summary["total"][0]|float)}}</th>
+                </tr>
+                <tr>
+                    <th>{{_("BUFFALO")}}</th>
+                    <td class="text-right">{{summary["member"][1]}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["milk"][1]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["fat"][1]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["snf"][1]|float)}}</td>
+                    <td class="text-right">{{'%0.2f'| format(summary["rate"][1]|float)}}</td>
+                    <th class="text-right">{{'%0.2f'| format(summary["total"][1]|float)}}</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th class="text-right">{{_("Grand Total")}}</th>
+                    <th class="text-right">{{summary["total"][0] + summary["total"][1]}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block statusbar %}
+<div class="row">
+    <div class="medium-2 columns">
+        <a href="#" onclick="$('#frmDetailShift').submit();" data-key="v" class="button expand">V - {{_("VIEW")}}</a>
+    </div>
+    <div class="medium-2 columns">
+        <a href="/detail_shift?print=True" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
+    </div>
+    <div class="medium-2 columns end">
+        <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+    </div>
+</div>
+{% endblock %}

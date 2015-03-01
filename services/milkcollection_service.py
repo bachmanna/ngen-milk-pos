@@ -23,7 +23,7 @@ class MilkCollectionService:
         if shift:
             query = query.filter(lambda x: x.shift == shift)
         if date:
-            query = query.filter(lambda x: x.created_at == date)
+            query = query.filter(lambda x: x.created_at.date() == date)
 
         query = query.order_by(MilkCollection.created_at.desc())
         lst = query[:]

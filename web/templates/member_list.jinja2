@@ -1,0 +1,59 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="large-12 columns text-center">
+        <h1>Member List</h1>
+    </div>
+</div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert-box warning">
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row">
+    <div class="medium-12 columns">
+        <table class="expand" style="width:100%;" role="grid">
+            <thead>
+                <tr>
+                    <th>Member Code</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Cattle Type</th>
+                    <th>Created on</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in member_list %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td>{{item.cattle_type}}</td>
+                    <td>{{item.created_at.strftime("%d/%m/%Y %I:%M%p")}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <label>Total Member: <b>{{member_list|count}}</b></label>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block statusbar %}
+<div class="row">
+    <div class="medium-2 columns end">
+        <a href="/reports" data-key="esc" class="warning button expand">ESC - EXIT</a>
+    </div>
+</div>
+{% endblock %}

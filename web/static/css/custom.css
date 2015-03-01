@@ -1,0 +1,83 @@
+h1{
+	margin: 0rem 0 1.5rem;
+}
+
+.sidebar{
+	border-left: 1px solid #aaa;
+	min-height: 500px;
+	height:100%;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -80px;
+}
+
+footer, .push {
+	clear: both;
+	height: 45px;
+}
+
+.login-container{
+	margin-top: 18%;
+	height: auto !important;
+}
+
+header.banner{
+	margin-bottom: 0;
+}
+
+.banner h1,
+.banner h3,
+.banner h4 {
+	color:#fff;
+	margin: 0;
+}
+
+.banner h1{
+	font-size: 32px;    
+}
+.banner h3{
+	font-size: 22px;    
+}
+.banner h4{
+	font-size: 20px;    
+}
+
+.breadcrumbs__bg{
+	background-color: #3f3f3f;
+	border-color: #3f3f3f;
+	border-style: solid;
+	border-width: 1px;
+	margin-bottom: 1.25rem;
+}
+
+.breadcrumbs {
+	background: none;
+	border: none;
+	padding: 1.22em;
+	margin-bottom: 0;
+}
+
+.breadcrumbs li{
+	font-size: 18px;
+}
+.breadcrumbs li span{
+	font-weight: bolder;
+}
+
+#member_name, #member_cattle_type{
+	font-size: 1.6875rem;
+}
+
+#total, #rate{
+	margin-bottom: 0;
+    margin-top: 6px;
+}
+
+#total{
+	font-size: 3.2875rem;	
+	color:#ff5115;
+}

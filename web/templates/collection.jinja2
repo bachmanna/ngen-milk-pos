@@ -98,7 +98,7 @@
 </div>
 <div class="row">
 	<div class="medium-12 columns">
-		CAN IMG ANIMATED
+		TODO: CAN IMAGE
 	</div>
 </div>
 <div class="row">
@@ -116,6 +116,19 @@
 	<div class="medium-12 columns hide">
 		<div class="alert-box alert" id="member_status"></div>
 	</div>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<div class="medium-12 columns hide">
+		<div class="alert-box">
+			<ul class="flashes">
+				{% for message in messages %}
+				<li>{{ message }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+	{% endwith %}
 </div>
 <div class="row">
 	<div class="medium-2 columns">
@@ -156,6 +169,7 @@
 		}
 
 		function clearData(){
+			$("ul.flashes").remove();
 			$("#member_status").parent().addClass("hide");
 			$("#member_status").text("");
 			$("#member_name").text("");
@@ -183,6 +197,7 @@
 					$("#member_cattle_type").text(m.cattle_type);
 					updateData();
 				}else{
+					$("ul.flashes").remove();
 					$("#member_status").parent().removeClass("hide");
 					$("#member_status").text(error_member_no_found);
 				}
@@ -190,6 +205,7 @@
 		});
 
 		$("#btnSave").click(function(){
+			$("input[disabled]").prop("disabled", null);
 			$("#frmCollection").submit();
 			return false;
 		});
