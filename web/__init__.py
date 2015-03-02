@@ -304,6 +304,25 @@ def report_detail_shift():
   year  = int(request.args.get("year", today.year))
   search_date = datetime(year, month, day).date()
 
+  members, mcollection, summary = get_milk_collection_and_summary(shift, search_date)
+
+  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+
+@app.route("/shift_summary")
+@login_required
+def report_shift_summary():
+  shift = request.args.get("shift", "MORNING")
+  today = datetime.now().date()
+  day   = int(request.args.get("day", today.day))
+  month = int(request.args.get("month", today.month))
+  year  = int(request.args.get("year", today.year))
+  search_date = datetime(year, month, day).date()
+
+  members, mcollection, summary = get_milk_collection_and_summary(shift, search_date)
+  return render_template("shift_summary.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+
+
+def get_milk_collection_and_summary(shift, search_date):
   member_service = MemberService()
   member_list = member_service.search()  
   members = {}
@@ -332,9 +351,7 @@ def report_detail_shift():
     summary["rate"][1] = sum([x.rate for x in buffalo_collection])/summary["milk"][1]  
   
   summary["total"] = [sum([x.total for x in cow_collection]), sum([x.total for x in buffalo_collection])]
-
-  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
-
+  return members, mcollection, summary
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
