@@ -24,16 +24,6 @@ sql_debug(False)
 db.generate_mapping(create_tables=True)
 
 
-def create_default_users():
-  user_service = UserService()
-  created_by = 4
-  if current_user:
-    created_by = current_user.id
-  user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by)
-  user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by)
-  user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by)
-  user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by)
-
 
 def testdata():
   db.drop_all_tables(with_all_data=True)
@@ -43,7 +33,8 @@ def testdata():
       test = TestData()
       test.create_members()
       test.test_settings()
-      create_default_users()
+      test.test_rate_setup()
+      test.create_default_users()
       #test.datetime_test()
 
 #testdata()
@@ -286,7 +277,7 @@ def manage_user():
 @app.route("/factory_reset")
 @login_required
 def factory_reset():
-  create_default_users()
+  testdata()
   return render_template("factory_reset.jinja2")
 
 
@@ -307,18 +298,22 @@ def report_member_list():
 @login_required
 def report_detail_shift():
   shift = request.args.get("shift", "MORNING")
-  date = datetime.now().date()
-  search_date = date.strftime("%d/%m/%Y")
+  today = datetime.now().date()
+  day   = int(request.args.get("day", today.day))
+  month = int(request.args.get("month", today.month))
+  year  = int(request.args.get("year", today.year))
+  search_date = datetime(year, month, day).date()
+
   member_service = MemberService()
   member_list = member_service.search()  
   members = {}
   for x in member_list:
     members[x.id] = x
   collectionService = MilkCollectionService()
-  mcollection = collectionService.search(shift=shift, date=date)
+  mcollection = collectionService.search(shift=shift, date=search_date)
 
-  cow_collection = [x for x in mcollection if members[x.id].cattle_type == "COW"]
-  buffalo_collection = [x for x in mcollection if members[x.id].cattle_type == "BUFFALO"]
+  cow_collection = [x for x in mcollection if members[x.member.id].cattle_type == "COW"]
+  buffalo_collection = [x for x in mcollection if members[x.member.id].cattle_type == "BUFFALO"]
   summary = {}
   summary["member"] = [len(cow_collection),  len(buffalo_collection)]
   summary["milk"] = [sum([x.qty for x in cow_collection]), sum([x.qty for x in buffalo_collection])]
@@ -338,7 +333,7 @@ def report_detail_shift():
   
   summary["total"] = [sum([x.total for x in cow_collection]), sum([x.total for x in buffalo_collection])]
 
-  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date)
+  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
 
 
 @app.route("/login", methods=['GET', 'POST'])

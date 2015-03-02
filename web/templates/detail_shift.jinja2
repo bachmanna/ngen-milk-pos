@@ -17,20 +17,37 @@
 </div>
 {% endif %}
 {% endwith %}
-<form id="frmDetailShift" name="frmDetailShift" method="post" action="">
+<form id="frmDetailShift" name="frmDetailShift" method="get" action="">
     <div class="row">
-        <div class="medium-4 columns">
-            <label>Date
-                <input type="text" class="datetime" name="date" value="{{search_date}}"/>
-            </label>    
+        <div class="medium-1 columns">
+            <label>{{_("Date")}}</label>
+        </div>
+        <div class="medium-1 columns" style="padding: 0px; margin: 0px;">
+            <input type="text" class="mousetrap" name="day" value="{{search_date.day}}" />
+        </div>
+        <div class="medium-1 columns" style="padding: 0px; margin: 0px; width: 10px;">
+            /
+        </div>
+        <div class="medium-1 columns" style="padding: 0px; margin: 0px;">
+            <input type="text" class="mousetrap" name="month" value="{{search_date.month}}"/>
+        </div>
+        <div class="medium-1 columns" style="padding: 0px; margin: 0px; width: 10px;">
+            /
+        </div>
+        <div class="medium-1 columns" style="padding: 0px; margin: 0px;">
+           <input type="text" class="mousetrap" name="year" value="{{search_date.year}}"/>
+        </div>
+        <div class="medium-2 columns">
+            &nbsp;
+        </div>
+        <div class="medium-1 columns">
+            <label>{{_("Shift")}}</label>
         </div>
         <div class="medium-4 columns end">
-            <label>Shift
-                <select name="shift">
-                    <option>MORNING</option>
-                    <option>EVENING</option>
-                </select>
-            </label>    
+            <select name="shift" class="mousetrap">
+                <option {{ "selected" if shift == "MORNING" else ""}} value="MORNING">{{_("MORNING")}}</option>
+                <option {{ "selected" if shift == "EVENING" else ""}} value="EVENING">{{_("EVENING")}}</option>
+            </select>
         </div>
     </div>
 </form>
@@ -53,13 +70,13 @@
                 {% for item in mcollection %}
                 <tr>
                     <td>{{item.id}}</td>
-                    <td>{{ member_list[item.id].name }}</td>
-                    <td>{{ member_list[item.id].cattle_type }}</td>
-                    <td>{{item.fat}}</td>
-                    <td>{{item.snf}}</td>
-                    <td>{{item.qty}}</td>
-                    <td>{{item.rate}}</td>
-                    <td>{{item.total}}</td>
+                    <td>{{ member_list[item.member.id].name }}</td>
+                    <td>{{ member_list[item.member.id].cattle_type }}</td>
+                    <td class="text-right">{{item.fat}}</td>
+                    <td class="text-right">{{item.snf}}</td>
+                    <td class="text-right">{{item.qty}}</td>
+                    <td class="text-right">{{item.rate}}</td>
+                    <td class="text-right">{{item.total}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -125,6 +142,9 @@
     </div>
     <div class="medium-2 columns">
         <a href="/detail_shift?print=True" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
+    </div>
+     <div class="medium-2 columns">
+        <a href="/detail_shift?export=True" data-key="e" class="button expand">E - {{_("EXPORT")}}</a>
     </div>
     <div class="medium-2 columns end">
         <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>

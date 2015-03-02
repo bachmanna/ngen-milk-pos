@@ -1,7 +1,10 @@
 import random
 from models import *
 from services.member_service import MemberService
+from services.rate_service import RateService
+from services.user_service import UserService
 from services.milkcollection_service import MilkCollectionService
+from services.milksale_service import MilkSaleService
 from configuration_manager import ConfigurationManager
 
 
@@ -18,10 +21,6 @@ class TestData:
                                  mobile=mobile)
 
         member = mservice.get(member_id)
-        print member.id
-        print member.name
-        print member.cattle_type
-        print member.mobile
 
         collection = {}
         collection['member'] = member
@@ -44,8 +43,6 @@ class TestData:
         for x in colService.search(member_id=member_id):
             self.print_collection(x)
 
-        from services.milksale_service import MilkSaleService
-
         saleService = MilkSaleService()
         sale_id = saleService.add(shift=CollectionShift.MORNING,
                                   qty=random.randint(1, 5) * 2.3,
@@ -60,8 +57,6 @@ class TestData:
 
 
         # rate service test
-        from services.rate_service import RateService
-
         rateService = RateService()
         rateService.set_cow_sale_rate(36.56)
         print "\n\nCow Sale Rate :", rateService.get_cow_sale_rate()
@@ -147,3 +142,23 @@ class TestData:
         settings = configManager.get_all_settings()
         for k in settings.keys():
             print k, " = ", settings[k]
+
+    def test_rate_setup(self):
+        rate_service = RateService()
+        rate_service.update_fat_collection_rate("COW",1,2.5,3.5,150)
+        rate_service.update_fat_collection_rate("COW",2,3.6,4.5,170)
+        rate_service.update_fat_collection_rate("COW",3,4.6,6.0,195)
+        rate_service.update_fat_collection_rate("COW",4,6.1,22.0,205)
+
+        rate_service.update_fat_collection_rate("BUFFALO",5,2.5,3.5,150)
+        rate_service.update_fat_collection_rate("BUFFALO",6,3.6,4.5,170)
+        rate_service.update_fat_collection_rate("BUFFALO",7,4.6,6.0,195)
+        rate_service.update_fat_collection_rate("BUFFALO",8,6.1,22.0,205)
+
+    def create_default_users(self):
+        user_service = UserService()
+        created_by = 4
+        user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by)
+        user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by)
+        user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by)
+        user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by)
