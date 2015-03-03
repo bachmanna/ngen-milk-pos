@@ -17,7 +17,15 @@ h1{
 
 footer, .push {
 	clear: both;
-	height: 45px;
+	/*height: 45px;*/
+}
+
+footer{
+	background-color: #eee;
+}
+
+footer .action-buttons{
+	padding-top: 15px;
 }
 
 .login-container{
@@ -27,6 +35,22 @@ footer, .push {
 
 header.banner{
 	margin-bottom: 0;
+}
+
+.collection-wrapper,
+.collection-wrapper label,
+.collection-wrapper input {
+	font-family: "ITC Avant Garde Gothic W01";
+	font-size: 22px; 
+}
+
+.collection-wrapper input{
+	height: auto;
+    padding: 12px;
+}
+
+.collection-wrapper label{
+	line-height: 53px;
 }
 
 .banner h1,
@@ -47,8 +71,8 @@ header.banner{
 }
 
 .breadcrumbs__bg{
-	background-color: #3f3f3f;
-	border-color: #3f3f3f;
+	background-color: #d2d2d2;
+	border-color: #d2d2d2;
 	border-style: solid;
 	border-width: 1px;
 	margin-bottom: 1.25rem;
@@ -69,15 +93,17 @@ header.banner{
 }
 
 #member_name, #member_cattle_type{
-	font-size: 1.6875rem;
+	border: 1px solid #ddd;
+    font-weight: bold;
+    height: 50px;
+    line-height: 53px;
+    width: 100%;
 }
 
-#total, #rate{
-	margin-bottom: 0;
-    margin-top: 6px;
+#total, #rate {
+	font-size: 4.2875rem;
 }
 
-#total{
-	font-size: 3.2875rem;	
+#total {	
 	color:#ff5115;
 }

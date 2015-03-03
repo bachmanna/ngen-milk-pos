@@ -1,117 +1,102 @@
 {% extends "layout.jinja2" %}
 
 {% block breadcrumb %}
-<li>{{_("SHIFT")}}: <span id="collection_shift">{{ _("MORNING") if morning_shift else _("EVENING")}}</span></li>
+<li>{{_("SHIFT")}}: <span id="collection_shift">{{ _(shift) }}</span></li>
 {% endblock %}
 
 {% block body %}
 
-<div class="row">
-	<div class="medium-12 columns">
-		<h1>{{_("Milk Collection")}}</h1>
+<div class=" collection-wrapper">
+	<div class="row">
+		<div class="medium-12 columns text-center">
+			<h1>{{_("Milk Collection")}}</h1>
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="medium-12 columns">
-		<form name="frmCollection" id="frmCollection" method="post" action="/collection">
-			<div class="row">
-				<div class="medium-4 columns">
-					<label>{{_("Member Code")}}
-						<input type="text" class="mousetrap" id="member_code" name="member_code" />
-					</label>
-				</div>
-				<div class="medium-4 columns">
-					<label>{{_("Member Name")}}
-						<div id="member_name"></div>
-					</label>
-				</div>
-				<div class="medium-4 columns">
-					<label>{{_("Cattle Type")}}
-						<div id="member_cattle_type"></div>
-					</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-6 columns">
-					<label>{{_("FAT")}}
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
-					</label>
-				</div>
-				<div class="medium-6 columns">
-					<label>{{_("CLR")}}
-						<input class="mousetrap" type="text" name="clr" id="clr"/>
-					</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-6 columns">
-					<label>{{_("SNF")}}
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
-					</label>
-				</div>
-				<div class="medium-6 columns">
-					<label>{{_("WATER")}}
-						<input class="mousetrap" type="text" name="water" id="water" />
-					</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-6 columns">
-					<label>{{_("QUANTITY")}}
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
-					</label>
-				</div>
-				<div class="medium-3 columns">
-					<h4>{{_("RATE/LITER")}}</h4>
-				</div>
-				<div class="medium-3 columns">
-					<div class="text-right">
-						<h2 id="rate">
-							00.00
-						</h2>
+	<div class="row">
+		<div class="medium-12 columns">
+			<form name="frmCollection" id="frmCollection" method="post" action="/collection">
+				<input type="hidden" name="collection_id" id="collection_id" value=""/>
+				<input type="hidden" name="created_at" id="created_at" value="{{date}}"/>
+				<input type="hidden" name="shift" id="shift" value="{{shift}}"/>
+				<div class="row">
+					<div class="medium-2 columns">
+						<label>{{_("M.Code")}}</label>
 					</div>
-					<input type="hidden" name="rate" id="txtRate" />
+					<div class="medium-2 columns">
+						<input type="text" class="mousetrap" id="member_code" name="member_code" />
+					</div>
+					<div class="medium-4 columns">
+						<div id="member_name"></div>
+					</div>
+					<div class="medium-2 columns text-right">
+						<label>{{_("Cattle")}}</label>
+					</div>
+					<div class="medium-2 columns end">
+						<div id="member_cattle_type"></div>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="medium-6 columns text-right">
-					<h2>{{_("TOTAL")}}</h2>
+				<br/>
+				<div class="row">
+					<div class="medium-1 columns">
+						<label>{{_("FAT")}}</label>
+					</div>
+					<div class="medium-5 columns">
+						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
+					</div>
+					<div class="medium-1 columns">
+						<label>{{_("CLR")}}</label>
+					</div>
+					<div class="medium-5 columns">
+						<input class="mousetrap" type="text" name="clr" id="clr"/>
+					</div>
 				</div>
-				<div class="medium-6 columns end text-right">
-					<h2 id="total">000.00</h2>
-					<input type="hidden" name="total" id="txtTotal" />
+				<br/>
+				<div class="row">
+					<div class="medium-1 columns">
+						<label>{{_("SNF")}}</label>
+					</div>
+					<div class="medium-5 columns">
+						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
+					</div>
+					<div class="medium-1 columns">
+						<label>{{_("AW")}}</label>
+					</div>
+					<div class="medium-5 columns">
+						<input class="mousetrap" type="text" name="water" id="water" />
+					</div>
 				</div>
-			</div>
-		</form>
+				<br/>
+				<div class="row">
+					<div class="medium-1 columns">
+						<label>{{_("QTY")}}</label>
+					</div>
+					<div class="medium-5 columns end">
+						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="medium-3 columns" style="line-height: 110px;">
+						<span>{{_("RATE")}}</span>
+					</div>
+					<div class="medium-3 columns">
+						<div class="text-right">
+							<span id="rate">00.00</span>
+						</div>
+						<input type="hidden" name="rate" id="txtRate" />
+					</div>
+					<div class="medium-2 columns text-right" style="line-height: 110px;">
+						<span>{{_("TOTAL")}}</span>
+					</div>
+					<div class="medium-3 columns end text-right">
+						<span id="total">000.00</span>
+						<input type="hidden" name="total" id="txtTotal" />
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
-
-{% endblock %}
-
-{% block sidebar %}
-<div class="row">
-	<div class="medium-12 columns">
-		<p>{{_("Press: <em>T</em> to tare scale")}}</p>
-		<p>{{_("Press: <em>Z</em> to tare can")}}</p>
-	</div>
-</div>
-<div class="row">
-	<div class="medium-12 columns">
-		TODO: CAN IMAGE
-	</div>
-</div>
-<div class="row">
-	<div class="medium-12 columns">
-		<p>{{_("Average FAT")}}: <span id="average_fat">0.0</em></p>
-		<p>{{_("Average SNF")}}: <span id="average_snf">0.0</em></p>
-		<p>{{_("Total MILK (litres)")}}: <span id="total_milk">0.0</em></p>
-		<p>{{_("Total Member")}}: <span id="total_member">0</em></p>
-	</div>
-</div>
-{% endblock %}
-
-{% block statusbar %}
 <div class="row">
 	<div class="medium-12 columns hide">
 		<div class="alert-box alert" id="member_status"></div>
@@ -130,7 +115,42 @@
 	{% endif %}
 	{% endwith %}
 </div>
+
+{% endblock %}
+
+{% block sidebar %}
 <div class="row">
+	<div class="medium-12 columns">
+		<p>{{_("Press: <em>T</em> to tare scale")}}</p>
+		<p>{{_("Press: <em>Z</em> to tare can")}}</p>
+	</div>
+</div>
+<div class="row">
+	<div class="medium-12 columns">
+		TODO: CAN IMAGE
+	</div>
+</div>
+<br/>
+<br/>
+<div class="row">
+	<div class="medium-12 columns">
+		<p>{{_("Total MILK")}}: 
+			<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}<br/>
+			{{_("COW")}}: {{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}<br/>
+			{{_("BUFFALO")}}: {{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
+		</p>
+
+		<p>
+		{{_("Total Members")}}: <b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
+		{{_("COW")}}: {{summary["member"][0]}}<br/>
+		{{_("BUFFALO")}}: {{summary["member"][1]}}
+		</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block statusbar %}
+<div class="row action-buttons">
 	<div class="medium-2 columns">
 		<a href="#" id="btnSave" data-key="s" class="success button expand">
 			S - {{_("SAVE")}}
@@ -152,10 +172,23 @@
 <script>
 	$(function(){
 		var error_member_no_found = '{{_("Member not found!")}}';
+		var error_milk_already_collected = '{{_("Milk already collected!")}}';
 		var members = {{members_json}};
 
-		function updateData(){
-			$.get('/get_collection_data',function(data){
+		function showError (msg) {
+			$("#member_status").parent().removeClass("hide");
+			$("#member_status").text(msg);
+		}
+
+		function hideError () {
+			$("#member_status").parent().addClass("hide");
+			$("#member_status").text("");
+		}
+
+		function updateData(member_id){
+			var shift = $("input[name=shift]").val();
+			var created_at = $("input[name=created_at]").val();
+			$.get('/get_collection_data', {"member_id": member_id,"created_at":created_at,"shift":shift},function(data){
 				$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);
@@ -165,6 +198,13 @@
 				$("#total").text(data.total);
 				$("#txtRate").val(data.rate);
 				$("#txtTotal").val(data.total);
+				$("#collection_id").val("");
+
+				if(data.collection_id && parseInt(data.collection_id) > 0) {
+					$("#collection_id").val(data.collection_id);
+					//$("#shift").val(data.shift);
+					showError(error_milk_already_collected);
+				}
 			});
 		}
 
@@ -174,10 +214,11 @@
 			$("#member_status").text("");
 			$("#member_name").text("");
 			$("#member_cattle_type").text("");
+
 			$("input[type=text]").val("");
+
 			$("#rate").text("00.00");
-			$("#total").text("000.00");
-			$("#member_code").focus();
+			$("#total").text("000.00");			
 			$("#txtRate").val("");
 			$("#txtTotal").val("");
 			$("#member_code").focus();
@@ -185,8 +226,7 @@
 
 		$("#member_code").on("keypress",function(e){
 			if(e.keyCode == 13){
-				$("#member_status").parent().addClass("hide");
-				$("#member_status").text("");
+				hideError();
 				$("#member_name").text("");
 				$("#member_cattle_type").text("");
 				var code = parseInt($(this).val());
@@ -195,11 +235,11 @@
 					var m = res[0];
 					$("#member_name").text(m.name);
 					$("#member_cattle_type").text(m.cattle_type);
-					updateData();
+					updateData(code);
 				}else{
-					$("ul.flashes").remove();
-					$("#member_status").parent().removeClass("hide");
-					$("#member_status").text(error_member_no_found);
+					clearData();
+					$("#member_code").val(code);
+					showError(error_member_no_found);
 				}
 			}
 		});

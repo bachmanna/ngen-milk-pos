@@ -6,7 +6,7 @@ import datetime
 
 class MilkCollection(db.Entity):
     member = Required(Member, lazy=False)
-    shift = Required(str, 10)
+    shift = Required(unicode, 10)
 
     fat = Required(float)
     snf = Required(float)

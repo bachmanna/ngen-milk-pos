@@ -14,8 +14,8 @@ class CattleType(BaseType):
 
 
 class CollectionShift(BaseType):
-    MORNING = "M"
-    EVENING = "E"
+    MORNING = "MORNING"
+    EVENING = "EVENING"
 
 
 class SalesRate(BaseType):

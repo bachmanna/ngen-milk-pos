@@ -14,56 +14,36 @@ class TestData:
 
     def create_members(self):
         mservice = MemberService()
-        name = "John" + str(random.randint(0, 9999))
-        mobile = str(random.randint(111111111, 999999999))
-        member_id = mservice.add(name=name,
-                                 cattle_type=CattleType.COW,
-                                 mobile=mobile)
 
-        member = mservice.get(member_id)
+        for i in range(1,10):
+            name = "John" + str(random.randint(0, 9999))
+            mobile = str(random.randint(111111111, 999999999))
+            member_id = mservice.add(name=name,
+                                     cattle_type=CattleType.COW,
+                                     mobile=mobile)
 
-        collection = {}
-        collection['member'] = member
-        collection['shift'] = CollectionShift.MORNING
-        collection['fat'] = 4.2
-        collection['snf'] = 7.9
-        collection['qty'] = 1.5
-        collection['clr'] = 28.63
-        collection['aw'] = 89.24
-        collection['rate'] = 26.48
-        collection['total'] = collection['rate'] * collection['qty']
-        collection['created_by'] = 1
+            member = mservice.get(member_id)
 
-        colService = MilkCollectionService()
-        col_id = colService.add(collection)
+            collection = {}
+            collection['member'] = member
+            collection['shift'] = CollectionShift.MORNING
+            collection['fat'] = 4.2
+            collection['snf'] = 7.9
+            collection['qty'] = 1.5
+            collection['clr'] = 28.63
+            collection['aw'] = 89.24
+            collection['rate'] = 26.48
+            collection['total'] = collection['rate'] * collection['qty']
+            collection['created_by'] = 1
 
-        col = colService.get(col_id)
-        # print_collection(col)
+            colService = MilkCollectionService()
+            col_id = colService.add(collection)
 
-        for x in colService.search(member_id=member_id):
-            self.print_collection(x)
+            #col = colService.get(col_id)
+            #print_collection(col)
 
-        saleService = MilkSaleService()
-        sale_id = saleService.add(shift=CollectionShift.MORNING,
-                                  qty=random.randint(1, 5) * 2.3,
-                                  cattle_type=CattleType.BUFFALO,
-                                  rate=random.randint(1, 5) * 12.3,
-                                  created_by=1)
-        sale = saleService.get(sale_id)
-        # print_sale(sale)
-
-        for x in saleService.search(_id=sale_id):
-            self.print_sale(sale)
-
-
-        # rate service test
-        rateService = RateService()
-        rateService.set_cow_sale_rate(36.56)
-        print "\n\nCow Sale Rate :", rateService.get_cow_sale_rate()
-
-        rateService.set_buffalo_sale_rate(29.33)
-        print "\nBuffalo Sale Rate :", rateService.get_buffalo_sale_rate()
-
+            for x in colService.search(member_id=member_id):
+                self.print_collection(x)
 
     def print_sale(self, sale):
         print "\n\n===========SALE================"

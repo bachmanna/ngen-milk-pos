@@ -3,6 +3,7 @@ from flask_login import login_required, login_user, logout_user, current_user, L
 from passlib.handlers.md5_crypt import md5_crypt
 from pony.orm import sql_debug, db_session
 from datetime import datetime
+from dateutil import parser
 from flask.ext.babel import Babel
 import json
 
@@ -91,18 +92,19 @@ def home():
 @app.route("/collection", methods=['GET', 'POST'])
 @login_required
 def collection():
-  morning_shift = False
+  shift = "MORNING"
   date = datetime.now()
-  if date.hour < 15:
-    morning_shift = True
+  if date.hour >= 15:
+    shift = "EVENING"
 
   member_service = MemberService()
 
   if request.method == "POST":
     entity = {}
     mcode = int(request.form.get("member_code"))
+    collection_id = request.form.get("collection_id", None)
     entity["member"] = member_service.get(mcode)
-    entity["shift"] = "MORNING" if morning_shift else "EVENING"
+    entity["shift"] = request.form.get("shift", shift)
     entity["fat"] = float(request.form.get("fat"))
     entity["snf"] = float(request.form.get("snf"))
     entity["clr"] = float(request.form.get("clr"))
@@ -111,30 +113,66 @@ def collection():
     entity["rate"] = float(request.form.get("rate"))
     entity["total"] = float(request.form.get("total"))
     entity["created_by"] = current_user.id
-    entity["created_at"] = date
+    entity["created_at"] = parser.parse(request.form.get("created_at", str(date)))
     entity["status"] = True
-
+    print entity
     collectionService = MilkCollectionService()
-    collectionService.add(entity)
+    if collection_id and int(collection_id) > 0:
+      collectionService.update(int(collection_id), entity)
+      print "update", collection_id, 
+    else:
+      collectionService.add(entity)
+      print "add"
+
     flash("Saved successfully!")
     return redirect("/collection")
   
   member_list = member_service.search()
   members_json = json.dumps([{'id': x.id, 'name': x.name, 'cattle_type': x.cattle_type} for x in member_list])
-  return render_template('collection.jinja2',morning_shift=morning_shift,member_list=member_list,members_json=members_json)
+
+  collection_members, mcollection, summary = get_milk_collection_and_summary(shift, date.date())
+
+  return render_template('collection.jinja2',
+    shift=shift,
+    member_list=member_list,
+    members_json=members_json,
+    date=date,
+    collection_members=collection_members,
+    summary=summary)
 
 
 @app.route("/get_collection_data")
 @login_required
 def get_collection_data():
-  fat = 8.3
-  snf = 12.33
-  clr = 23.1
-  water = 33.65
-  rate = 12.6
-  qty = 2.3
-  total = float("{0:.2f}".format(rate * qty))
-  data = {'fat': fat, 'snf': snf, 'clr': clr, 'water': water, 'qty': qty, 'rate': rate, 'total': total}
+  member_id = request.args.get("member_id", None)
+  shift = request.args.get("shift", None)
+  today = datetime.now()
+  created_at = parser.parse(request.form.get("created_at", str(today))).date()
+  data = { "id": None }
+
+  if member_id and shift and created_at:
+    collectionService = MilkCollectionService()
+    lst = collectionService.search(member_id=member_id, shift=shift, created_at=created_at)
+    if lst and len(lst) > 0:
+      entity = lst[0]
+      data["collection_id"] = entity.id
+      data["shift"] = entity.shift
+      data["created_at"] = entity.created_at
+      data["fat"] = entity.fat
+      data["snf"] = entity.snf
+      data["clr"] = entity.clr
+      data["water"] = entity.aw
+      data["qty"] = entity.qty
+      data["rate"] = entity.rate
+      data["total"] = entity.total
+      return jsonify(**data)
+  data["fat"] = 8.3
+  data["snf"] = 12.33
+  data["clr"] = 23.1
+  data["water"] = 33.65
+  qty = data["qty"] = 12.6
+  rate = data["rate"] = 2.3
+  data["total"] = float("{0:.2f}".format(rate * qty))
   return jsonify(**data)
 
 @app.route("/basic_setup", methods=['GET', 'POST'])
@@ -329,8 +367,8 @@ def get_milk_collection_and_summary(shift, search_date):
   for x in member_list:
     members[x.id] = x
   collectionService = MilkCollectionService()
-  mcollection = collectionService.search(shift=shift, date=search_date)
-
+  mcollection = collectionService.search(shift=shift, created_at=search_date)
+  print len(mcollection)
   cow_collection = [x for x in mcollection if members[x.member.id].cattle_type == "COW"]
   buffalo_collection = [x for x in mcollection if members[x.member.id].cattle_type == "BUFFALO"]
   summary = {}
