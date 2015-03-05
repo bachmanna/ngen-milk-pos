@@ -1,6 +1,6 @@
 from models import *
 from pony.orm import commit, select
-
+from datetime import datetime, date
 
 class MilkCollectionService:
     def __init__(self):
@@ -22,14 +22,12 @@ class MilkCollectionService:
 
     def search(self, member_id=None, shift=None, created_at=None):
         query = select(p for p in MilkCollection)
-        if member_id:
+        if member_id and isinstance(member_id, int):
             query = query.filter(lambda x: x.member.id == member_id)
-        if shift:
-            s = unicode(shift)
-            query = query.filter(shift=s)
-        if created_at:
+        if shift and (isinstance(shift, str) or isinstance(shift, unicode)) and len(shift) > 0:
+            query = query.filter(shift=shift)
+        if created_at and isinstance(created_at, date):
             query = query.filter(lambda x: x.created_at.date() == created_at)
-
         query = query.order_by(MilkCollection.created_at.desc())
         lst = query[:]
         return lst

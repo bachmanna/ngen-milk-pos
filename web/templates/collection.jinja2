@@ -187,8 +187,9 @@
 
 		function updateData(member_id){
 			var shift = $("input[name=shift]").val();
+			var cattle_type = $("#member_cattle_type").text().trim();
 			var created_at = $("input[name=created_at]").val();
-			$.get('/get_collection_data', {"member_id": member_id,"created_at":created_at,"shift":shift},function(data){
+			$.get('/get_collection_data', {"member_id": member_id,"created_at":created_at,"shift":shift,"cattle_type": cattle_type},function(data){
 				$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);

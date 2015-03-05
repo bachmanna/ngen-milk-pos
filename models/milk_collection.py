@@ -16,7 +16,7 @@ class MilkCollection(db.Entity):
     rate = Required(float)
     total = Required(float)
 
-    created_at = Required(datetime.datetime, sql_default='CURRENT_TIMESTAMP')
+    created_at = Required(datetime.datetime)
     created_by = Required(int)
     updated_at = Optional(datetime.datetime)
     updated_by = Optional(int)

@@ -6,6 +6,7 @@ from datetime import datetime
 from dateutil import parser
 from flask.ext.babel import Babel
 import json
+import random
 
 
 from services.user_service import UserService
@@ -25,6 +26,49 @@ sql_debug(False)
 db.generate_mapping(create_tables=True)
 
 
+def fmtDecimal(value):
+  if isinstance(value, float):
+    return float("{0:.2f}".format(value))
+  return value
+
+class FATRateCalculator(object):
+  def get_rate(self, cattle_type, fat, snf):
+    rate_service = RateService()
+    rate_list = rate_service.get_fat_collection_rate(cattle_type)
+    if not rate_list or len(rate_list) == 0:
+      return 0.0
+    for x in rate_list:
+      if fat >= x.min_value and fat <= x.max_value:
+        return x.rate/10.0
+    return 0.0
+
+class FATSNFRateCalculator(object):
+  def get_rate(self, cattle_type, fat, snf):
+    return 0
+
+class TS1RateCalculator(object):
+  def get_rate(self, cattle_type, fat, snf):
+    return 0
+
+class TS2RateCalculator(object):
+  def get_rate(self, cattle_type, fat, snf):
+    rate_service = RateService()
+    ts1 = fmtDecimal(fat + snf)
+    rate_list = rate_service.get_ts2_collection_rate(cattle_type)
+    if not rate_list or len(rate_list) == 0:
+      return 0
+    for x in rate_list:
+      if ts1 >= x.min_value and ts1 <= x.max_value:
+        return x.rate/10.0
+    return 0.0
+
+#Rate calculator setup
+rate_calculator = {
+                    CollectionRateType.FAT: FATRateCalculator(),
+                    CollectionRateType.FAT_AND_SNF: FATSNFRateCalculator(),
+                    CollectionRateType.TS_1: TS1RateCalculator(),
+                    CollectionRateType.TS_2: TS2RateCalculator(),
+                  }
 
 def testdata():
   db.drop_all_tables(with_all_data=True)
@@ -146,17 +190,20 @@ def collection():
 def get_collection_data():
   member_id = request.args.get("member_id", None)
   shift = request.args.get("shift", None)
+  cattle_type = request.args.get("cattle_type", "COW")
   today = datetime.now()
   created_at = parser.parse(request.form.get("created_at", str(today))).date()
-  data = { "id": None }
+  data = { "collection_id": None }
 
   if member_id and shift and created_at:
     collectionService = MilkCollectionService()
-    lst = collectionService.search(member_id=member_id, shift=shift, created_at=created_at)
+    lst = collectionService.search(member_id=int(member_id), shift=shift, created_at=created_at)
     if lst and len(lst) > 0:
       entity = lst[0]
       data["collection_id"] = entity.id
       data["shift"] = entity.shift
+      data["member_id"] = entity.member.id
+      data["cattle_type"] = entity.member.cattle_type
       data["created_at"] = entity.created_at
       data["fat"] = entity.fat
       data["snf"] = entity.snf
@@ -166,13 +213,14 @@ def get_collection_data():
       data["rate"] = entity.rate
       data["total"] = entity.total
       return jsonify(**data)
-  data["fat"] = 8.3
-  data["snf"] = 12.33
-  data["clr"] = 23.1
-  data["water"] = 33.65
-  qty = data["qty"] = 12.6
-  rate = data["rate"] = 2.3
-  data["total"] = float("{0:.2f}".format(rate * qty))
+  rateCalc = rate_calculator[g.app_settings[SystemSettings.RATE_TYPE]]
+  fat = data["fat"] = fmtDecimal(random.random()*10.0)
+  snf = data["snf"] = fmtDecimal(random.random()*20.0)
+  data["clr"] = fmtDecimal(random.random()*15.0)
+  data["water"] = fmtDecimal(random.random()*80.0)
+  qty = data["qty"] = fmtDecimal(random.random()*12.0)
+  rate = data["rate"] = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
+  data["total"] = fmtDecimal(rate * qty)
   return jsonify(**data)
 
 @app.route("/basic_setup", methods=['GET', 'POST'])
@@ -367,8 +415,7 @@ def get_milk_collection_and_summary(shift, search_date):
   for x in member_list:
     members[x.id] = x
   collectionService = MilkCollectionService()
-  mcollection = collectionService.search(shift=shift, created_at=search_date)
-  print len(mcollection)
+  mcollection = collectionService.search(None, shift=shift, created_at=search_date)
   cow_collection = [x for x in mcollection if members[x.member.id].cattle_type == "COW"]
   buffalo_collection = [x for x in mcollection if members[x.member.id].cattle_type == "BUFFALO"]
   summary = {}
