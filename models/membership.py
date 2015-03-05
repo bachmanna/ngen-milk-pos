@@ -2,14 +2,15 @@ from db_manager import db
 from pony.orm import Required, Optional
 import datetime
 
-class Membership(db.Entity):
-    name = Required(unicode, 100)
-    password = Required(str, 100)
-    email = Required(str, 255)
-    roles = Required(str, 100)
+class Membership(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    email = db.Column(db.String(255), unique=True)
+    roles = db.Column(db.String(100))
 
-    created_at = Required(datetime.datetime, sql_default='CURRENT_TIMESTAMP')
-    created_by = Required(int)
-    updated_at = Optional(datetime.datetime)
-    updated_by = Optional(int)
-    status = Required(bool, default=True)
+    created_at = db.Column(db.DateTime, nullable=False)
+    created_by = db.Column(db.Integer, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=True)
+    updated_by = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.Boolean, default=True)

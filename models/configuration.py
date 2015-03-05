@@ -1,7 +1,7 @@
 from db_manager import db
-from pony.orm import Required, Optional
 
 
-class Configuration(db.Entity):
-    key = Required(str, 50, unique=True)
-    value = Optional(str, 255)
+class Configuration(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(100), unique=True)
+    value = db.Column(db.String(255), nullable=True)

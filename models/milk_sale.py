@@ -1,18 +1,17 @@
 from db_manager import db
-from pony.orm import Required, Optional
-import datetime
 
 
-class MilkSale(db.Entity):
-    shift = Required(str, 10)
+class MilkSale(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    shift = db.Column(db.String(10))
+    cattle_type = db.Column(db.String(10))
 
-    cattle_type = Required(str, 8)
-    qty = Required(float)
-    rate = Required(float)
-    total = Required(float)
+    qty =db.Column(db.Float(precision=2))
+    rate = db.Column(db.Float(precision=2))
+    total = db.Column(db.Float(precision=2))
 
-    created_at = Required(datetime.datetime, sql_default='CURRENT_TIMESTAMP')
-    created_by = Required(int)
-    updated_at = Optional(datetime.datetime)
-    updated_by = Optional(int)
-    status = Required(bool, default=True)
+    created_at = db.Column(db.DateTime, nullable=False)
+    created_by = db.Column(db.Integer, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=True)
+    updated_by = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.Boolean, default=True)

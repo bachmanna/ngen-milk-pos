@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, request, redirect, g, flash, jsonify
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
 from passlib.handlers.md5_crypt import md5_crypt
-from pony.orm import sql_debug, db_session
+from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 from dateutil import parser
 from flask.ext.babel import Babel
@@ -9,27 +9,29 @@ import json
 import random
 
 
-from services.user_service import UserService
-from services.member_service import MemberService
-from services.milkcollection_service import MilkCollectionService
-from services.rate_service import RateService
-
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
+db.create_all()
 
 # localization
 babel = Babel(app)
 
-from models import *
 
-sql_debug(False)
-db.generate_mapping(create_tables=True)
+from services.user_service import UserService
+from services.member_service import MemberService
+from services.milkcollection_service import MilkCollectionService
+from services.rate_service import RateService
+from models import *
 
 
 def fmtDecimal(value):
   if isinstance(value, float):
     return float("{0:.2f}".format(value))
   return value
+
 
 class FATRateCalculator(object):
   def get_rate(self, cattle_type, fat, snf):
@@ -71,20 +73,18 @@ rate_calculator = {
                   }
 
 def testdata():
-  db.drop_all_tables(with_all_data=True)
-  db.create_tables()
-  with db_session:
-      from test_data import TestData
-      test = TestData()
-      test.create_members()
-      test.test_settings()
-      test.test_rate_setup()
-      test.create_default_users()
-      #test.datetime_test()
+  db.drop_all()
+  db.create_all()
+  from test_data import TestData
+  test = TestData()
+  test.create_members()
+  test.test_settings()
+  test.test_rate_setup()
+  test.create_default_users()
+  #test.datetime_test()
+  db.session.commit()
 
 #testdata()
-
-app.wsgi_app = db_session(app.wsgi_app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -1,5 +1,5 @@
+from db_manager import db
 from models import *
-from pony.orm import commit, select
 import os
 
 pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
@@ -35,7 +35,7 @@ class ConfigurationManager:
         pass
 
     def get(self, key):
-        config = Configuration.get(key=key)
+        config = Configuration.query.filter_by(key=key).first()
         if config:
             return config.value
         else:
@@ -43,14 +43,15 @@ class ConfigurationManager:
 
     def set(self, key, value):
         self._set_no_commit(key, value)
-        commit()
+        db.session.commit()
 
     def _set_no_commit(self, key, value):
-        config = Configuration.get(key=key)
+        config = Configuration.query.filter_by(key=key).first()
         if config:
-            config.set(value=str(value))
+            config.value = str(value)
         else:
             config = Configuration(key=key, value=str(value))
+        db.session.add(config)
 
     def get_scale_type(self):
         return self.get(SystemSettings.SCALE_TYPE)
@@ -80,4 +81,4 @@ class ConfigurationManager:
         for x in settings.keys():
             if x in SystemSettings._get_keys():
                 self._set_no_commit(x, settings[x])
-        commit()
+        db.session.commit()

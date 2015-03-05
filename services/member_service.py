@@ -1,21 +1,22 @@
 from models.member import Member
-from pony.orm import commit, select
-
+from db_manager import db
+from datetime import datetime
 
 class MemberService:
     def __init__(self):
         pass
 
-    def add(self, name, cattle_type, mobile, _id=None):
+    def add(self, name, cattle_type, mobile, created_by, created_at, _id=None):
         if _id:
-            member = Member(id=_id, name=name, cattle_type=cattle_type, mobile=mobile, status=True)
+            member = Member(id=_id, name=name, cattle_type=cattle_type, mobile=mobile, created_by=created_by, created_at=created_at, status=True)
         else:
-            member = Member(name=name, cattle_type=cattle_type, mobile=mobile, status=True)
-        commit()
+            member = Member(name=name, cattle_type=cattle_type, mobile=mobile, created_by=created_by, created_at=created_at, status=True)
+        db.session.add(member)
+        db.session.commit()
         return member.id
 
     def get(self, _id):
-        member = Member[_id]
+        member = Member.query.filter_by(id=_id).one()
         return member
 
     def update(self, _id, name, cattle_type, mobile):
@@ -25,19 +26,19 @@ class MemberService:
         member.name = name
         member.mobile = mobile
         member.cattle_type = cattle_type
-        commit()
+        db.session.commit()
         return True
 
     def search(self, name=None, mobile=None, cattle_type=None):
-        query = select(p for p in Member)
+        query = Member.query
         if name:
-            query = query.filter(lambda x: x.name == name)
+            query = query.filter_by(name=name)
         if mobile:
-            query = query.filter(lambda x: x.mobile == mobile)
+            query = query.filter_by(mobile=mobile)
         if cattle_type:
-            query = query.filter(lambda x: x.cattle_type == cattle_type)
+            query = query.filter_by(cattle_type=cattle_type)
         query = query.order_by(Member.created_at.desc())
-        lst = query[:]
+        lst = query.all()
         return lst
 
     def delete(self, _id):

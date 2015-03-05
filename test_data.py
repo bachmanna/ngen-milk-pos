@@ -6,7 +6,7 @@ from services.user_service import UserService
 from services.milkcollection_service import MilkCollectionService
 from services.milksale_service import MilkSaleService
 from configuration_manager import ConfigurationManager
-
+from datetime import datetime
 
 class TestData:
     def __init__(self):
@@ -20,7 +20,9 @@ class TestData:
             mobile = str(random.randint(111111111, 999999999))
             member_id = mservice.add(name=name,
                                      cattle_type=CattleType.COW,
-                                     mobile=mobile)
+                                     mobile=mobile,
+                                     created_by=1,
+                                     created_at=datetime.now())
 
             member = mservice.get(member_id)
 
@@ -34,7 +36,9 @@ class TestData:
             collection['aw'] = 89.24
             collection['rate'] = 26.48
             collection['total'] = collection['rate'] * collection['qty']
+            collection['created_at'] = datetime.now()
             collection['created_by'] = 1
+            collection['status'] = True
 
             colService = MilkCollectionService()
             col_id = colService.add(collection)
@@ -138,7 +142,8 @@ class TestData:
     def create_default_users(self):
         user_service = UserService()
         created_by = 4
-        user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by)
-        user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by)
-        user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by)
-        user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by)
+        created_at=datetime.now()
+        user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by, created_at)
+        user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by, created_at)
+        user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by, created_at)
+        user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by, created_at)

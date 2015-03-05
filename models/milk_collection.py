@@ -1,23 +1,23 @@
 from db_manager import db
-from member import Member
-from pony.orm import Required, Optional
-import datetime
 
 
-class MilkCollection(db.Entity):
-    member = Required(Member, lazy=False)
-    shift = Required(unicode, 10)
+class MilkCollection(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    shift = db.Column(db.String(80))
+    member_id = db.Column(db.Integer, db.ForeignKey('member.id'))
+    member = db.relationship('Member',
+        backref=db.backref('milk_collections', lazy='dynamic'))
 
-    fat = Required(float)
-    snf = Required(float)
-    qty = Required(float)
-    clr = Required(float)
-    aw = Required(float)
-    rate = Required(float)
-    total = Required(float)
+    fat = db.Column(db.Float(precision=2))
+    snf = db.Column(db.Float(precision=2))
+    qty = db.Column(db.Float(precision=2))
+    clr = db.Column(db.Float(precision=2))
+    aw = db.Column(db.Float(precision=2))
+    rate = db.Column(db.Float(precision=2))
+    total = db.Column(db.Float(precision=2))
 
-    created_at = Required(datetime.datetime)
-    created_by = Required(int)
-    updated_at = Optional(datetime.datetime)
-    updated_by = Optional(int)
-    status = Required(bool, default=True)
+    created_at = db.Column(db.DateTime, nullable=False)
+    created_by = db.Column(db.Integer, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=True)
+    updated_by = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.Boolean, default=True)
