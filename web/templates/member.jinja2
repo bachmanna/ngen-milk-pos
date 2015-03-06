@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>Member Setup</h1>
+        <h1>{{_("Member Setup")}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -20,19 +20,19 @@
 <form name="frmMember" id="frmMember" action="/member" method="post">
     <div class="row">
         <div class="medium-6 columns">
-            <label>Member Code
+            <label>{{_("Member Code")}}
                 <input type="text" name="code"/>
             </label>
         </div>
         <div class="medium-6 columns">
-            <label>Member Name
+            <label>{{_("Member Name")}}
                 <input type="text" name="name"/>
             </label>
         </div>
     </div>
     <div class="row">
         <div class="medium-6 columns">
-            <label>Cattle Type
+            <label>{{_("Cattle Type")}}
                 <select name="cattle_type">
                     <option>COW</option>
                     <option>BUFFALO</option>
@@ -40,30 +40,30 @@
             </label>
         </div>
         <div class="medium-6 columns">
-            <label>Mobile
+            <label>{{_("Mobile")}}
                 <input type="text" name="mobile"/>
             </label>
         </div>
     </div>
     <div class="row">
         <div class="medium-2 columns">
-            <button type="submit" id="btnSave" class="success button expand">SAVE</button>
+            <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
         </div>
     </div>
 </form>
 <hr/>
 <div class="row">
     <div class="medium-12 columns">
-        <label>Total Member: {{member_list|count}}</label>
+        <label>{{_("Total Member")}}: {{member_list|count}}</label>
         <br/>
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th>Member Code</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Cattle Type</th>
-                    <th>Created on</th>
+                    <th>{{_("Member Code")}}</th>
+                    <th>{{_("Name")}}</th>
+                    <th>{{_("Mobile")}}</th>
+                    <th>{{_("Cattle Type")}}</th>
+                    <th>{{_("Created on")}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,7 +86,7 @@
 <div class="row">
     <div class="medium-12 columns end">
         <p>
-            Free member codes {{", ".join(free_list)}}
+            {{_("Free member codes")}} {{", ".join(free_list)}}
         </p>
     </div>
 </div>
@@ -95,7 +95,7 @@
 {% block statusbar %}
 <div class="row">
     <div class="medium-2 columns end">
-        <a href="/system_setup" data-key="esc" class="warning button expand">ESC - EXIT</a>
+        <a href="/system_setup" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
     </div>
 </div>
 {% endblock %}

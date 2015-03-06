@@ -7,7 +7,7 @@
 
 <div class="row">
 	<div class="medium-12 columns">
-		<h1>Basic Setup</h1>
+		<h1>{{_("Basic Setup")}}</h1>
 	</div>
 </div>
 
@@ -16,19 +16,19 @@
 		<form name="frmBasicSetup" id="frmBasicSetup" method="post" action="">
 			<div class="row">
 				<div class="medium-6 columns end">
-					<label>Date
+					<label>{{_("Date")}}
 						<input type="text" placeholder="" name="date" value="{{sys_date}}"/>
 					</label>
 				</div>
 				<div class="medium-6 columns">
-					<label>Time
+					<label>{{_("Time")}}
 						<input type="text" placeholder="" name="time" value="{{sys_time}}" />
 					</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Society Name</label>
+					<label>{{_("Society Name")}}</label>
 					<input type="text" placeholder="" name="society_name" value="{{settings['SOCIETY_NAME']}}"/>
 					<input type="text" placeholder="" name="society_address" value="{{settings['SOCIETY_ADDRESS']}}"/>
 					<input type="text" placeholder="" name="society_address1" value="{{settings['SOCIETY_ADDRESS1']}}"/>
@@ -36,7 +36,7 @@
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Header</label>
+					<label>{{_("Header")}}</label>
 					<input type="text" placeholder="" name="header_line1" value="{{settings['HEADER_LINE1']}}"/>
 					<input type="text" placeholder="" name="header_line2"  value="{{settings['HEADER_LINE2']}}"/>
 					<input type="text" placeholder="" name="header_line3"  value="{{settings['HEADER_LINE3']}}"/>
@@ -45,7 +45,7 @@
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
-					<label>Footer</label>
+					<label>{{_("Footer")}}</label>
 					<input type="text" placeholder="" name="footer_line1" value="{{settings['FOOTER_LINE1']}}"/>
 					<input type="text" placeholder="" name="footer_line2" value="{{settings['FOOTER_LINE2']}}"/>
 				</div>
@@ -58,10 +58,10 @@
 {% block statusbar %}
 <div class="row action-buttons">
 	<div class="medium-2 columns">
-		<a data-key="s" onclick="$('#frmBasicSetup').submit();" class="success button expand">S - SAVE</a>
+		<a data-key="s" onclick="$('#frmBasicSetup').submit();" class="success button expand">S - {{_("SAVE")}}</a>
 	</div>
 	<div class="medium-2 columns end">
-		<a href="/" data-key="esc" class="warning button expand">ESC - EXIT</a>
+		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
 	</div>
 </div>
 {% endblock %}

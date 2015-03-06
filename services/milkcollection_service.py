@@ -2,6 +2,7 @@ from models import *
 from datetime import datetime, date
 from db_manager import db
 from sqlalchemy import Date, cast
+from services.member_service import MemberService
 
 class MilkCollectionService:
     def __init__(self):
@@ -52,3 +53,33 @@ class MilkCollectionService:
 
     def export_data(self):
         return None
+
+
+    def get_milk_collection_and_summary(self, shift, search_date):
+      member_service = MemberService()
+      member_list = member_service.search()
+      members = {}
+      for x in member_list:
+        members[x.id] = x
+      mcollection = self.search(None, shift=shift, created_at=search_date)
+      cow_collection = [x for x in mcollection if members[x.member.id].cattle_type == "COW"]
+      buffalo_collection = [x for x in mcollection if members[x.member.id].cattle_type == "BUFFALO"]
+      summary = {}
+      summary["member"] = [len(cow_collection),  len(buffalo_collection)]
+      summary["milk"] = [sum([x.qty for x in cow_collection]), sum([x.qty for x in buffalo_collection])]
+      summary["fat"] = [0,0]
+      summary["snf"] = [0,0]
+      summary["rate"] = [0,0]
+
+      if summary["milk"][0] != 0:
+        summary["fat"][0] = sum([x.fat for x in cow_collection])/summary["milk"][0]
+        summary["snf"][0] = sum([x.snf for x in cow_collection])/summary["milk"][0]
+        summary["rate"][0] = sum([x.rate for x in cow_collection])/summary["milk"][0]
+
+      if summary["milk"][1] != 0:
+        summary["fat"][1] = sum([x.fat for x in buffalo_collection])/summary["milk"][1]
+        summary["snf"][1] = sum([x.snf for x in buffalo_collection])/summary["milk"][1]
+        summary["rate"][1] = sum([x.rate for x in buffalo_collection])/summary["milk"][1]
+
+      summary["total"] = [sum([x.total for x in cow_collection]), sum([x.total for x in buffalo_collection])]
+      return members, mcollection, summary

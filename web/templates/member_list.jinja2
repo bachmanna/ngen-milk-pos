@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>Member List</h1>
+        <h1>{{_("Member List")}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -22,11 +22,11 @@
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th>Member Code</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Cattle Type</th>
-                    <th>Created on</th>
+                    <th>{{_("Member Code<")}}/th>
+                    <th>{{_("Name")}}</th>
+                    <th>{{_("Mobile")}}</th>
+                    <th>{{_("Cattle Type")}}</th>
+                    <th>{{_("Created on")}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <label>Total Member: <b>{{member_list|count}}</b></label>
+        <label>{{_("Total Member")}}: <b>{{member_list|count}}</b></label>
     </div>
 </div>
 {% endblock %}
@@ -53,7 +53,7 @@
 {% block statusbar %}
 <div class="row">
     <div class="medium-2 columns end">
-        <a href="/reports" data-key="esc" class="warning button expand">ESC - EXIT</a>
+        <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
     </div>
 </div>
 {% endblock %}

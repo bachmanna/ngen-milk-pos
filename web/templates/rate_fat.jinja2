@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>Rate Setup - FAT - {{cattle_type}}</h1>
+        <h1>{{_("Rate Setup")}} - FAT - {{cattle_type}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -20,7 +20,7 @@
 <form name="frmFatRateSetup" id="frmMember" action="" method="post">
     <div class="row">
         <div class="medium-6 columns">
-            <label>Slab No
+            <label>{{_("Slab No")}}
                 <input type="text" name="id"/>
             </label>
         </div>
@@ -29,24 +29,24 @@
     </div>
     <div class="row">
         <div class="medium-4 columns">
-            <label>Min Value
+            <label>{{_("Min Value")}}
                 <input type="text" name="min_value"/>
             </label>
         </div>
         <div class="medium-4 columns">
-            <label>Max Value
+            <label>{{_("Max Value")}}
                 <input type="text" name="max_value"/>
             </label>
         </div>
         <div class="medium-4 columns">
-            <label>Rate TS
+            <label>{{_("Rate TS")}}
                 <input type="text" name="rate"/>
             </label>
         </div>
     </div>
     <div class="row">
         <div class="medium-2 columns">
-            <button type="submit" id="btnSave" class="success button expand">SAVE</button>
+            <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
         </div>
     </div>
 </form>
@@ -56,10 +56,10 @@
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th>Slab No</th>
-                    <th>Min FAT</th>
-                    <th>Max FAT</th>
-                    <th>RATE TS</th>
+                    <th>{{_("Slab No")}}</th>
+                    <th>{{_("Min FAT")}}</th>
+                    <th>{{_("Max FAT")}}</th>
+                    <th>{{_("RATE TS")}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,8 +80,8 @@
 {% block sidebar %}
 <div class="row">
     <div class="medium-12 columns end">
-        <a href="/rate_fat?cattle_type=COW" data-key="f1" class="button expand">F1 - COW</a>
-        <a href="/rate_fat?cattle_type=BUFFALO" data-key="f2" class="button expand">F2 - BUFFALO</a>
+        <a href="/rate_fat?cattle_type=COW" data-key="f1" class="button expand">F1 - {{_("COW")}}</a>
+        <a href="/rate_fat?cattle_type=BUFFALO" data-key="f2" class="button expand">F2 - {{_("BUFFALO")}}</a>
     </div>
 </div>
 {% endblock %}
@@ -89,7 +89,7 @@
 {% block statusbar %}
 <div class="row">
     <div class="medium-2 columns end">
-        <a href="/rate_setup" data-key="esc" class="warning button expand">ESC - EXIT</a>
+        <a href="/rate_setup" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
     </div>
 </div>
 {% endblock %}

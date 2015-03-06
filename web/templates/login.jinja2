@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>LOGIN</title>
+	<title>{{_("LOGIN")}}</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}"/>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css')}}"/>
 	<script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
@@ -13,7 +13,7 @@
 	<div class="login-container">
 		<div class="row">
 			<div class="medium-4 small-centered columns text-center end">
-				<h1>LOGIN</h1>
+				<h1>{{_("LOGIN")}}</h1>
 			</div>
 		</div>
 		<div class="row">
@@ -30,13 +30,13 @@
 				{% endif %}
 				{% endwith %}
 				<form action="/login" method="post">
-					<label>Username
+					<label>{{_("Username")}}
 						<input type="text" name="username" value="{{username}}" />
 					</label>
-					<label>Password
+					<label>{{_("Password")}}
 						<input type="password" name="password"/>
 					</label>
-					<button type="submit" class="button expand">Login</button>
+					<button type="submit" class="button expand">{{_("Login")}}</button>
 				</form>
 			</div>
 		</div>
