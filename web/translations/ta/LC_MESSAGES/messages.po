@@ -7,17 +7,249 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-28 18:40+0530\n"
+"POT-Creation-Date: 2015-03-06 22:53+0530\n"
 "PO-Revision-Date: 2015-02-28 18:52+0530\n"
+"Last-Translator: \n"
 "Language-Team: ta <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
-"Last-Translator: \n"
-"Language: ta\n"
-"X-Generator: Poedit 1.7.4\n"
+
+#: templates/basic_setup.jinja2:10 templates/home.jinja2:24
+msgid "Basic Setup"
+msgstr "அடிப்படை அமைப்பு"
+
+#: templates/basic_setup.jinja2:19 templates/detail_shift.jinja2:23
+#: templates/layout.jinja2:32 templates/shift_summary.jinja2:23
+msgid "Date"
+msgstr "தேதி"
+
+#: templates/basic_setup.jinja2:24 templates/layout.jinja2:33
+msgid "Time"
+msgstr "நேரம்"
+
+#: templates/basic_setup.jinja2:31
+msgid "Society Name"
+msgstr ""
+
+#: templates/basic_setup.jinja2:39
+msgid "Header"
+msgstr ""
+
+#: templates/basic_setup.jinja2:48
+msgid "Footer"
+msgstr ""
+
+#: templates/basic_setup.jinja2:61 templates/collection.jinja2:158
+#: templates/manage_user.jinja2:42 templates/member.jinja2:50
+#: templates/rate_fat.jinja2:49 templates/settings.jinja2:153
+msgid "SAVE"
+msgstr ""
+
+#: templates/basic_setup.jinja2:64 templates/collection.jinja2:167
+#: templates/detail_shift.jinja2:150 templates/manage_user.jinja2:73
+#: templates/member.jinja2:98 templates/member_list.jinja2:56
+#: templates/rate_fat.jinja2:92 templates/settings.jinja2:159
+#: templates/shift_summary.jinja2:122
+msgid "EXIT"
+msgstr ""
+
+#: templates/collection.jinja2:4
+msgid "SHIFT"
+msgstr ""
+
+#: templates/collection.jinja2:12
+#, fuzzy
+msgid "Milk Collection"
+msgstr "பால் சேகரிப்பு"
+
+#: templates/collection.jinja2:24 templates/detail_shift.jinja2:59
+msgid "M.Code"
+msgstr ""
+
+#: templates/collection.jinja2:33 templates/detail_shift.jinja2:61
+#: templates/detail_shift.jinja2:91
+#, fuzzy
+msgid "Cattle"
+msgstr "தேதி"
+
+#: templates/collection.jinja2:42 templates/detail_shift.jinja2:62
+msgid "FAT"
+msgstr ""
+
+#: templates/collection.jinja2:48
+msgid "CLR"
+msgstr ""
+
+#: templates/collection.jinja2:57 templates/detail_shift.jinja2:63
+msgid "SNF"
+msgstr ""
+
+#: templates/collection.jinja2:63
+msgid "AW"
+msgstr ""
+
+#: templates/collection.jinja2:72 templates/detail_shift.jinja2:64
+msgid "QTY"
+msgstr ""
+
+#: templates/collection.jinja2:80
+#, fuzzy
+msgid "RATE"
+msgstr "தேதி"
+
+#: templates/collection.jinja2:89
+msgid "TOTAL"
+msgstr ""
+
+#: templates/collection.jinja2:125
+msgid "Press: <em>T</em> to tare scale"
+msgstr ""
+
+#: templates/collection.jinja2:127
+msgid "Press: <em>Z</em> to tare can"
+msgstr ""
+
+#: templates/collection.jinja2:140
+msgid "Total MILK"
+msgstr ""
+
+#: templates/collection.jinja2:141 templates/collection.jinja2:142
+#: templates/collection.jinja2:143
+msgid "litres"
+msgstr ""
+
+#: templates/collection.jinja2:142 templates/collection.jinja2:148
+#: templates/detail_shift.jinja2:102 templates/rate_fat.jinja2:83
+#: templates/shift_summary.jinja2:60
+msgid "COW"
+msgstr ""
+
+#: templates/collection.jinja2:143 templates/collection.jinja2:149
+#: templates/detail_shift.jinja2:111 templates/rate_fat.jinja2:84
+#: templates/shift_summary.jinja2:61
+msgid "BUFFALO"
+msgstr ""
+
+#: templates/collection.jinja2:147
+msgid "Total Members"
+msgstr ""
+
+#: templates/collection.jinja2:161 templates/settings.jinja2:156
+msgid "CLEAR"
+msgstr ""
+
+#: templates/collection.jinja2:164
+msgid "CHANGE DATE"
+msgstr ""
+
+#: templates/collection.jinja2:176
+msgid "Member not found!"
+msgstr ""
+
+#: templates/collection.jinja2:177
+msgid "Milk already collected!"
+msgstr ""
+
+#: templates/data_reset.jinja2:9 templates/home.jinja2:36
+msgid "Data Reset"
+msgstr "தரவு ரீசெட்"
+
+#: templates/data_reset.jinja2:16
+msgid "Backup"
+msgstr ""
+
+#: templates/data_reset.jinja2:21
+msgid "Restore"
+msgstr ""
+
+#: templates/data_reset.jinja2:26
+msgid "Clear collection bills"
+msgstr ""
+
+#: templates/data_reset.jinja2:31
+#, fuzzy
+msgid "Factory reset"
+msgstr "தரவு ரீசெட்"
+
+#: templates/detail_shift.jinja2:6
+msgid "Detail Shift Report"
+msgstr ""
+
+#: templates/detail_shift.jinja2:44 templates/shift_summary.jinja2:44
+msgid "Shift"
+msgstr ""
+
+#: templates/detail_shift.jinja2:48 templates/shift_summary.jinja2:48
+msgid "MORNING"
+msgstr ""
+
+#: templates/detail_shift.jinja2:49 templates/shift_summary.jinja2:49
+msgid "EVENING"
+msgstr ""
+
+#: templates/detail_shift.jinja2:60
+msgid "M.Name"
+msgstr ""
+
+#: templates/detail_shift.jinja2:65 templates/system_setup.jinja2:21
+#, fuzzy
+msgid "Rate"
+msgstr "தேதி"
+
+#: templates/detail_shift.jinja2:66 templates/detail_shift.jinja2:97
+#: templates/shift_summary.jinja2:91
+msgid "Total"
+msgstr ""
+
+#: templates/detail_shift.jinja2:92 templates/member.jinja2:57
+#: templates/member_list.jinja2:44 templates/shift_summary.jinja2:66
+msgid "Total Member"
+msgstr ""
+
+#: templates/detail_shift.jinja2:93 templates/shift_summary.jinja2:71
+msgid "Total Milk"
+msgstr ""
+
+#: templates/detail_shift.jinja2:94 templates/shift_summary.jinja2:76
+msgid "Average FAT"
+msgstr ""
+
+#: templates/detail_shift.jinja2:95 templates/shift_summary.jinja2:81
+msgid "Average SNF"
+msgstr ""
+
+#: templates/detail_shift.jinja2:96 templates/shift_summary.jinja2:86
+msgid "Average Rate"
+msgstr ""
+
+#: templates/detail_shift.jinja2:125 templates/shift_summary.jinja2:101
+msgid "Grand Total"
+msgstr ""
+
+#: templates/detail_shift.jinja2:141 templates/shift_summary.jinja2:113
+msgid "VIEW"
+msgstr ""
+
+#: templates/detail_shift.jinja2:144 templates/shift_summary.jinja2:116
+msgid "PRINT"
+msgstr ""
+
+#: templates/detail_shift.jinja2:147 templates/shift_summary.jinja2:119
+#, fuzzy
+msgid "EXPORT"
+msgstr "அறிக்கைகள்"
+
+#: templates/factory_reset.jinja2:9
+#, fuzzy
+msgid "Factory Reset"
+msgstr "தரவு ரீசெட்"
+
+#: templates/factory_reset.jinja2:17
+msgid "Successfully reseted the system with factory data!!"
+msgstr ""
 
 #: templates/home.jinja2:9
 msgid "Main Menu"
@@ -27,42 +259,225 @@ msgstr "முக்கிய மெனு"
 msgid "Collection"
 msgstr "பால் சேகரிப்பு"
 
-#: templates/home.jinja2:19
+#: templates/home.jinja2:19 templates/reports.jinja2:9
 msgid "Reports"
 msgstr "அறிக்கைகள்"
 
-#: templates/home.jinja2:22
-msgid "Basic Setup"
-msgstr "அடிப்படை அமைப்பு"
-
-#: templates/home.jinja2:27
+#: templates/home.jinja2:28 templates/settings.jinja2:10
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: templates/home.jinja2:30
+#: templates/home.jinja2:33 templates/system_setup.jinja2:9
 msgid "System Setup"
 msgstr "கணினி அமைப்பு"
 
-#: templates/home.jinja2:33
-msgid "Data Reset"
-msgstr "தரவு ரீசெட்"
-
-#: templates/home.jinja2:38
+#: templates/home.jinja2:41 templates/manage_user.jinja2:6
 msgid "Manage User"
 msgstr "பயனர் நிர்வகிக்க"
 
-#: templates/home.jinja2:41
+#: templates/home.jinja2:46
 msgid "Logout"
 msgstr "வெளியேறு"
 
-#: templates/home.jinja2:44
+#: templates/home.jinja2:49
 msgid "Shutdown"
 msgstr "சாதனம் பணிநிறுத்தம்"
 
-#: templates/layout.jinja2:26
-msgid "Date"
-msgstr "தேதி"
+#: templates/layout.jinja2:23
+msgid "User"
+msgstr ""
 
-#: templates/layout.jinja2:27
-msgid "Time"
-msgstr "நேரம்"
+#: templates/login.jinja2:6 templates/login.jinja2:16
+msgid "LOGIN"
+msgstr ""
+
+#: templates/login.jinja2:33
+msgid "Username"
+msgstr ""
+
+#: templates/login.jinja2:36 templates/manage_user.jinja2:35
+msgid "Password"
+msgstr ""
+
+#: templates/login.jinja2:39
+msgid "Login"
+msgstr ""
+
+#: templates/manage_user.jinja2:23 templates/manage_user.jinja2:52
+msgid "User Id"
+msgstr ""
+
+#: templates/manage_user.jinja2:30 templates/manage_user.jinja2:53
+#: templates/member.jinja2:63 templates/member_list.jinja2:26
+msgid "Name"
+msgstr ""
+
+#: templates/manage_user.jinja2:54
+msgid "Role"
+msgstr ""
+
+#: templates/member.jinja2:6
+msgid "Member Setup"
+msgstr ""
+
+#: templates/member.jinja2:23 templates/member.jinja2:62
+msgid "Member Code"
+msgstr ""
+
+#: templates/member.jinja2:28
+msgid "Member Name"
+msgstr ""
+
+#: templates/member.jinja2:35 templates/member.jinja2:65
+#: templates/member_list.jinja2:28
+msgid "Cattle Type"
+msgstr ""
+
+#: templates/member.jinja2:43 templates/member.jinja2:64
+#: templates/member_list.jinja2:27
+msgid "Mobile"
+msgstr ""
+
+#: templates/member.jinja2:66 templates/member_list.jinja2:29
+msgid "Created on"
+msgstr ""
+
+#: templates/member.jinja2:89
+msgid "Free member codes"
+msgstr ""
+
+#: templates/member_list.jinja2:6
+msgid "Member List"
+msgstr ""
+
+#: templates/member_list.jinja2:25
+msgid "Member Code<"
+msgstr ""
+
+#: templates/rate_fat.jinja2:6
+#, fuzzy
+msgid "Rate Setup"
+msgstr "கணினி அமைப்பு"
+
+#: templates/rate_fat.jinja2:23 templates/rate_fat.jinja2:59
+msgid "Slab No"
+msgstr ""
+
+#: templates/rate_fat.jinja2:32
+msgid "Min Value"
+msgstr ""
+
+#: templates/rate_fat.jinja2:37
+msgid "Max Value"
+msgstr ""
+
+#: templates/rate_fat.jinja2:42
+msgid "Rate TS"
+msgstr ""
+
+#: templates/rate_fat.jinja2:60
+msgid "Min FAT"
+msgstr ""
+
+#: templates/rate_fat.jinja2:61
+msgid "Max FAT"
+msgstr ""
+
+#: templates/rate_fat.jinja2:62
+msgid "RATE TS"
+msgstr ""
+
+#: templates/reports.jinja2:16
+msgid "Detail shift report"
+msgstr ""
+
+#: templates/reports.jinja2:19
+msgid "Shift summary report"
+msgstr ""
+
+#: templates/reports.jinja2:24
+msgid "Member report"
+msgstr ""
+
+#: templates/reports.jinja2:27
+msgid "Payment report"
+msgstr ""
+
+#: templates/reports.jinja2:32
+msgid "Dairy report"
+msgstr ""
+
+#: templates/reports.jinja2:35
+#, fuzzy
+msgid "Settings report"
+msgstr "அமைப்புகள்"
+
+#: templates/reports.jinja2:40
+msgid "Member list"
+msgstr ""
+
+#: templates/reports.jinja2:43
+msgid "Absense list"
+msgstr ""
+
+#: templates/settings.jinja2:19
+msgid "Analyzer Type"
+msgstr ""
+
+#: templates/settings.jinja2:31
+msgid "Scale Type"
+msgstr ""
+
+#: templates/settings.jinja2:43
+msgid "Rate Type"
+msgstr ""
+
+#: templates/settings.jinja2:55
+#, fuzzy
+msgid "Collection Printer"
+msgstr "பால் சேகரிப்பு"
+
+#: templates/settings.jinja2:66
+msgid "Data Export format"
+msgstr ""
+
+#: templates/settings.jinja2:76
+msgid "Manual FAT"
+msgstr ""
+
+#: templates/settings.jinja2:85
+msgid "Manual SNF"
+msgstr ""
+
+#: templates/settings.jinja2:96
+msgid "Manual Quantity"
+msgstr ""
+
+#: templates/settings.jinja2:105
+msgid "Print CLR"
+msgstr ""
+
+#: templates/settings.jinja2:116
+msgid "Print Water"
+msgstr ""
+
+#: templates/settings.jinja2:125
+msgid "Print Bill"
+msgstr ""
+
+#: templates/settings.jinja2:136
+msgid "Quantity 2 Decimal"
+msgstr ""
+
+#: templates/shift_summary.jinja2:6
+msgid "Shift Summary Report"
+msgstr ""
+
+#: templates/system_setup.jinja2:16
+msgid "Member"
+msgstr ""
+
+#: templates/system_setup.jinja2:26
+msgid "Language"
+msgstr ""
+
