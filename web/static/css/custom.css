@@ -47,10 +47,11 @@ header.banner{
 .collection-wrapper input{
 	height: auto;
     padding: 12px;
+    font-size: 36px;
 }
 
 .collection-wrapper label{
-	line-height: 53px;
+	line-height: 65px;
 }
 
 .banner h1,

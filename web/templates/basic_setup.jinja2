@@ -17,12 +17,12 @@
 			<div class="row">
 				<div class="medium-6 columns end">
 					<label>Date
-						<input type="text" placeholder="" name="date" value="{{date}}"/>
+						<input type="text" placeholder="" name="date" value="{{sys_date}}"/>
 					</label>
 				</div>
 				<div class="medium-6 columns">
 					<label>Time
-						<input type="text" placeholder="" name="time" value="{{time}}" />
+						<input type="text" placeholder="" name="time" value="{{sys_time}}" />
 					</label>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 
 {% endblock %}
 {% block statusbar %}
-<div class="row">
+<div class="row action-buttons">
 	<div class="medium-2 columns">
 		<a data-key="s" onclick="$('#frmBasicSetup').submit();" class="success button expand">S - SAVE</a>
 	</div>

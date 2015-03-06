@@ -14,7 +14,6 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
-db.create_all()
 
 # localization
 babel = Babel(app)
@@ -124,7 +123,7 @@ def settings_provider():
     d = datetime.now().strftime("%d/%m/%Y")
     t = datetime.now().strftime("%I:%M%p")
 
-    return dict(settings=settings, date=d, time=t)
+    return dict(settings=settings, sys_date=d, sys_time=t)
 
 
 @app.route("/")

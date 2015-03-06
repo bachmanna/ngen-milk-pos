@@ -121,8 +121,11 @@
 {% block sidebar %}
 <div class="row">
 	<div class="medium-12 columns">
-		<p>{{_("Press: <em>T</em> to tare scale")}}</p>
-		<p>{{_("Press: <em>Z</em> to tare can")}}</p>
+		<p>
+			{{_("Press: <em>T</em> to tare scale")}}
+			<br/>
+			{{_("Press: <em>Z</em> to tare can")}}
+		</p>
 	</div>
 </div>
 <div class="row">
@@ -141,9 +144,9 @@
 		</p>
 
 		<p>
-		{{_("Total Members")}}: <b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
-		{{_("COW")}}: {{summary["member"][0]}}<br/>
-		{{_("BUFFALO")}}: {{summary["member"][1]}}
+			{{_("Total Members")}}: <b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
+			{{_("COW")}}: {{summary["member"][0]}}<br/>
+			{{_("BUFFALO")}}: {{summary["member"][1]}}
 		</p>
 	</div>
 </div>
@@ -152,19 +155,18 @@
 {% block statusbar %}
 <div class="row action-buttons">
 	<div class="medium-2 columns">
-		<a href="#" id="btnSave" data-key="s" class="success button expand">
-			S - {{_("SAVE")}}
-		</a>
+		<a href="#" id="btnSave" data-key="s" class="success button expand">S - {{_("SAVE")}}</a>
 	</div>
 	<div class="medium-2 columns">
 		<a href="#" id="btnClear" data-key="c" class="button expand">C - {{_("CLEAR")}}</a>
 	</div>
 	<div class="medium-3 columns">
-		<button type="button" data-key="d" class="button expand">D - {{_("CHANGE DATE")}}</button>
+		<a href="#" data-key="d" class="button expand">D - {{_("CHANGE DATE")}}</a>
 	</div>
 	<div class="medium-2 columns end">
 		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
 	</div>
+	<a href="#" onclick="$('#member_code').focus();" data-key="f" class="hide"></a>
 </div>
 {% endblock %}
 
