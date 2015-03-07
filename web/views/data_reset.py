@@ -68,12 +68,17 @@ def do_backup():
 
 def do_restore():
 	import csv
+	import time
+	from datetime import datetime
 	from db_manager import db
 	from models.member import Member
+	from dateutil import parser
 	import os
 	db.drop_all()
 	db.create_all()
+	t = time.time()
 	for table in db.metadata.tables.values():
+		t0 = time.time()
 		filename = 'backup/%s.csv' % (table.name)
 		fpath = os.path.join(app.root_path, filename)
 
@@ -82,8 +87,19 @@ def do_restore():
 		print "Restore %s " % (filename)
 		with open(fpath, 'rb') as outfile:
 			cf = csv.DictReader(outfile, delimiter=',')
-			for row in cf:
-				smt = table.insert().values(**row)
-				db.engine.execute(smt)
-		print "Done"
+			smt = table.insert()
+			data = [row for row in cf]
+			if len(data) > 0:
+				if "created_at" in row.keys():
+					for row in data:
+						row["created_at"] = parser.parse(row["created_at"])
+						if len(row["updated_at"]) > 0:
+							row["updated_at"] = parser.parse(row["updated_at"])
+						else:
+							row["updated_at"] = None
+							row["updated_by"] = None
+						row["status"] = row["status"] == "True"
+				db.engine.execute(smt, data)
+		print "Done in %s sec" % (time.time() - t0)
+	print "Total time: %s sec" % (time.time() - t)
 	db.session.commit()

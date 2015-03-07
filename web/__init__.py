@@ -9,7 +9,7 @@ from flask.ext.babel import Babel
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db?check_same_thread=False'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #?check_same_thread=False
 app.config['SQLALCHEMY_ECHO'] = False
 db = SQLAlchemy(app)
 
