@@ -108,3 +108,19 @@ header.banner{
 #total {	
 	color:#ff5115;
 }
+
+.button{
+	border-width: 5px;
+}
+
+.button:focus,
+.button:hover {
+	border:5px solid #ff5115;
+}
+
+.button.alert:focus,
+.button.alert:hover,
+.button.warning:focus,
+.button.warning:hover{
+	border-color: #007095;
+}
