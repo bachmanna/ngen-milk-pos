@@ -7,12 +7,13 @@ import time
 import csv
 import os
 
-from web import app
+from web import app, admin_permission
 
 from services.milkcollection_service import MilkCollectionService
 
 @app.route("/data_reset")
 @login_required
+@admin_permission.require()
 def data_reset():
   return render_template("data_reset.jinja2")
 

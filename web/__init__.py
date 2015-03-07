@@ -1,5 +1,9 @@
-from flask import Flask, session, render_template, request, redirect, g, flash
+from flask import Flask, session, render_template, request, redirect, g, flash, current_app, jsonify
+from flask import make_response, Response
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
+from flask.ext.principal import Principal, Permission, RoleNeed, UserNeed
+from flask.ext.principal import identity_changed, identity_loaded, Identity, PermissionDenied
+
 from passlib.handlers.md5_crypt import md5_crypt
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -16,6 +20,14 @@ db = SQLAlchemy(app)
 # localization
 babel = Babel(app)
 
+# authorization
+principals = Principal(app)
+
+# Create a permission with a single Need, in this case a RoleNeed.
+basic_permission = Permission(RoleNeed('basic'))
+setup_permission = Permission(RoleNeed('setup'))
+support_permission = Permission(RoleNeed('support'))
+admin_permission = Permission(RoleNeed('admin'))
 
 from services.user_service import UserService
 from models import *
@@ -36,6 +48,25 @@ login_manager.login_message = None
 from models.User import User
 from configuration_manager import ConfigurationManager
 
+@app.errorhandler(PermissionDenied)
+def handle_invalid_usage(error):
+    return render_template("unauthorized.jinja2"), 403
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    # Set the identity user object
+    identity.user = current_user
+
+    # Add the UserNeed to the identity
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    # Assuming the User model has a list of roles, update the
+    # identity with the roles that the user provides
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role))
+
 @babel.localeselector
 def get_locale():
   return g.get('current_lang', 'ta')
@@ -45,7 +76,9 @@ def get_user(id):
   service = UserService()
   user = service.get(_id=id)
   if user:
-    return User(user_id=id, name=user.name, email=user.email, roles=user.roles.split(","))
+    u = User(user_id=id, name=user.name, email=user.email, roles=user.roles.split(","))
+    print u.roles
+    return u
   return None
 
 
@@ -88,6 +121,9 @@ def login():
           dbuser = users[0]
           user = User(user_id=dbuser.id, name=dbuser.name, email=dbuser.email, roles=dbuser.roles.split(","))
           login_user(user, remember=False)
+          # Tell Flask-Principal the identity changed
+          identity_changed.send(current_app._get_current_object(),
+                                  identity=Identity(user.id))
           return redirect("/")
       flash("Invalid username or password!")
   return render_template('login.jinja2', username=username)

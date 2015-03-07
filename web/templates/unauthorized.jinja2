@@ -1,0 +1,23 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+<div class="row">
+    <div class="medium-12 columns text-center">
+        <div class="panel">
+            <div class="row">
+                <div class="medium-12 columns text-center">
+                    <h2>{{_("Unauthorized")}}</h2>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="medium-6 columns large-centered">
+                    <a href="/" class="warning large button expand" data-key="esc">{{_("HOME")}} - ESC</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
