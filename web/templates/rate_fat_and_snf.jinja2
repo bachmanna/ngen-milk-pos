@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>{{_("Rate Setup")}} - {{_("FAT")}}  - {{cattle_type}}</h1>
+        <h1>{{_("Rate Setup")}} - {{_("FAT &amp; SNF")}} - {{cattle_type}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -17,30 +17,21 @@
 </div>
 {% endif %}
 {% endwith %}
-<form name="frmFatRateSetup" id="frmFatRateSetup" action="" method="post">
-    <div class="row">
-        <div class="medium-6 columns">
-            <label>{{_("Slab No")}}
-                <input type="text" name="id" id="slab_no" class="mousetrap"/>
-                <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
-            </label>
-        </div>
-        <div class="medium-6 columns">
-        </div>
-    </div>
+<form name="frmFatSnfRateSetup" id="frmFatSnfRateSetup" action="" method="post">
+<input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
     <div class="row">
         <div class="medium-4 columns">
-            <label>{{_("Min Value")}}
-                <input type="text" name="min_value" class="mousetrap"/>
+            <label>{{_("FAT")}}
+                <input type="text" name="fat" class="mousetrap"/>
             </label>
         </div>
         <div class="medium-4 columns">
-            <label>{{_("Max Value")}}
-                <input type="text" name="max_value" class="mousetrap"/>
+            <label>{{_("SNF")}}
+                <input type="text" name="snf" class="mousetrap"/>
             </label>
         </div>
         <div class="medium-4 columns">
-            <label>{{_("Rate TS")}}
+            <label>{{_("Rate")}}
                 <input type="text" name="rate" class="mousetrap"/>
             </label>
         </div>
@@ -53,23 +44,23 @@
 </form>
 <hr/>
 <div class="row">
-    <div class="medium-12 columns">
+    <div class="medium-12 columns" style="overflow:scroll;max-height:350px">
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th class="text-right">{{_("Slab No")}}</th>
-                    <th class="text-right">{{_("Min FAT")}}</th>
-                    <th class="text-right">{{_("Max FAT")}}</th>
-                    <th class="text-right">{{_("RATE TS")}}</th>
+                    <th class="text-right">{{_("FAT/SNF")}}</th>
+                    {% for snf in snf_list %}
+                    <th class="text-right">{{snf}}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
-                {% for item in rate_list %}
+                {% for fat in rates.keys() %}
                 <tr>
-                    <td class="text-right">{{item.id}}</td>
-                    <td class="text-right">{{item.min_value}}</td>
-                    <td class="text-right">{{item.max_value}}</td>
-                    <td class="text-right">{{item.rate}}</td>
+                    <td class="text-right">{{fat}}</td>
+                    {% for snf in snf_list %}
+                        <td class="text-right">{{rates[fat][snf]}}</td>
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>

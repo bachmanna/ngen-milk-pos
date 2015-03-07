@@ -54,6 +54,11 @@ class MilkCollectionService:
     def export_data(self):
         return None
 
+    def clear_collection_bills(self):
+      count = MilkCollection.query.count()
+      MilkCollection.query.delete()
+      db.session.commit()
+      return count
 
     def get_milk_collection_and_summary(self, shift, search_date):
       member_service = MemberService()

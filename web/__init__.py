@@ -9,7 +9,8 @@ from flask.ext.babel import Babel
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db?check_same_thread=False'
+app.config['SQLALCHEMY_ECHO'] = False
 db = SQLAlchemy(app)
 
 # localization
@@ -25,20 +26,6 @@ def fmtDecimal(value):
     return float("{0:.2f}".format(value))
   return value
 
-
-def testdata():
-  db.drop_all()
-  db.create_all()
-  from test_data import TestData
-  test = TestData()
-  test.create_members()
-  test.test_settings()
-  test.test_rate_setup()
-  test.create_default_users()
-  #test.datetime_test()
-  db.session.commit()
-
-#testdata()
 
 login_manager = LoginManager()
 login_manager.init_app(app)

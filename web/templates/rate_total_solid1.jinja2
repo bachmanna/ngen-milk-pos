@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>{{_("Rate Setup")}} - {{_("FAT")}}  - {{cattle_type}}</h1>
+        <h1>{{_("Rate Setup")}} - {{_("Total Solid 1")}}  - {{cattle_type}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -17,29 +17,25 @@
 </div>
 {% endif %}
 {% endwith %}
-<form name="frmFatRateSetup" id="frmFatRateSetup" action="" method="post">
+<form name="frmTS1RateSetup" id="frmTS1RateSetup" action="" method="post">
     <div class="row">
-        <div class="medium-6 columns">
+        <div class="medium-3 columns">
             <label>{{_("Slab No")}}
                 <input type="text" name="id" id="slab_no" class="mousetrap"/>
                 <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
             </label>
         </div>
-        <div class="medium-6 columns">
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-4 columns">
-            <label>{{_("Min Value")}}
+        <div class="medium-3 columns">
+            <label>{{_("From")}}
                 <input type="text" name="min_value" class="mousetrap"/>
             </label>
         </div>
-        <div class="medium-4 columns">
-            <label>{{_("Max Value")}}
+        <div class="medium-3 columns">
+            <label>{{_("To")}}
                 <input type="text" name="max_value" class="mousetrap"/>
             </label>
         </div>
-        <div class="medium-4 columns">
+        <div class="medium-3 columns">
             <label>{{_("Rate TS")}}
                 <input type="text" name="rate" class="mousetrap"/>
             </label>
@@ -58,8 +54,8 @@
             <thead>
                 <tr>
                     <th class="text-right">{{_("Slab No")}}</th>
-                    <th class="text-right">{{_("Min FAT")}}</th>
-                    <th class="text-right">{{_("Max FAT")}}</th>
+                    <th class="text-right">{{_("From")}}</th>
+                    <th class="text-right">{{_("To")}}</th>
                     <th class="text-right">{{_("RATE TS")}}</th>
                 </tr>
             </thead>

@@ -24,6 +24,7 @@ class RateService:
     #### COLLECTION RATES ######
     def get_fat_collection_rate(self, cattle_type):
         query = FATCollectionRate.query.filter_by(cattle_type=cattle_type)
+        query = query.order_by(FATCollectionRate.id)
         lst = query.all()
         return lst
 
@@ -45,6 +46,7 @@ class RateService:
 
     def get_fat_and_snf_collection_rate(self, cattle_type):
         query = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type)
+        query = query.order_by(FATAndSNFCollectionRate.fat_value)
         lst = query.all()
         return lst
 
@@ -59,8 +61,7 @@ class RateService:
         return lst
 
     def set_fat_collection_rate(self, cattle_type, data):
-        FATCollectionRate.drop_table(with_all_data=True)
-        db.create_tables()
+        FATCollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
             fatcolrate = FATCollectionRate(cattle_type=cattle_type,
                                            min_value=x['min_value'],
@@ -70,8 +71,7 @@ class RateService:
         db.session.commit()
 
     def set_fat_and_snf_collection_rate(self, cattle_type, data):
-        FATAndSNFCollectionRate.drop_table(with_all_data=True)
-        db.create_tables()
+        FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
             fatsnfcolrate = FATAndSNFCollectionRate(cattle_type=cattle_type,
                                                     fat_value=x['fat_value'],
@@ -80,9 +80,20 @@ class RateService:
             db.session.add(fatsnfcolrate)
         db.session.commit()
 
+    def save_fat_and_snf_collection_rate(self, cattle_type, fat_value, snf_value, rate):
+        entity = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type, 
+                                                         fat_value=fat_value, 
+                                                         snf_value=snf_value).first()
+        if entity and entity.id:
+            entity.rate = rate
+        else:
+            entity = FATAndSNFCollectionRate(cattle_type=cattle_type, fat_value=fat_value,
+                                             snf_value=snf_value, rate=rate)
+            db.session.add(entity)
+        db.session.commit()
+
     def set_ts1_collection_rate(self, cattle_type, data):
-        TS1CollectionRate.drop_table(with_all_data=True)
-        db.create_tables()
+        TS1CollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
             fatsnfcolrate = TS1CollectionRate(cattle_type=cattle_type,
                                               fat_value=x['fat_value'],
@@ -92,12 +103,23 @@ class RateService:
         commit()
 
     def set_ts2_collection_rate(self, cattle_type, data):
-        TS2CollectionRate.drop_table(with_all_data=True)
-        db.create_tables()
+        TS2CollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
             fatsnfcolrate = TS2CollectionRate(cattle_type=cattle_type,
                                               min_value=x['min_value'],
                                               max_value=x['max_value'],
                                               rate=x['rate'])
             db.session.add(fatsnfcolrate)
+        db.session.commit()
+
+    def save_ts2_collection_rate(self, cattle_type, id, min_value, max_value, rate):
+        entity = TS2CollectionRate.query.filter_by(cattle_type=cattle_type, 
+                                                 min_value=min_value, 
+                                                 max_value=max_value).first()
+        if entity and entity.id:
+            entity.rate = rate
+        else:
+            entity = TS2CollectionRate(cattle_type=cattle_type, min_value=min_value,
+                                             max_value=max_value, rate=rate)
+            db.session.add(entity)
         db.session.commit()

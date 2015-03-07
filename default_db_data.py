@@ -8,7 +8,11 @@ from services.milksale_service import MilkSaleService
 from configuration_manager import ConfigurationManager
 from datetime import datetime
 
-class TestData:
+
+def frange(start, stop, step=0.1):
+  return [start+round(x*step,1) for x in range(0, ((stop-start)*10)+1) if start+round(x*step,1) <= stop]
+
+class DefaultDbData:
     def __init__(self):
         pass
 
@@ -42,33 +46,6 @@ class TestData:
 
             colService = MilkCollectionService()
             col_id = colService.add(collection)
-
-            #col = colService.get(col_id)
-            #print_collection(col)
-
-            for x in colService.search(member_id=member_id):
-                self.print_collection(x)
-
-    def print_sale(self, sale):
-        print "\n\n===========SALE================"
-        print "\nId: ", sale.id
-        print "\nShift: ", sale.shift
-        print "\nCattle: ", sale.cattle_type
-        print "\nQty: ", sale.qty
-        print "\nRate: ", sale.rate
-        print "\nTotal: ", sale.total
-
-
-    def print_collection(self, col):
-        print "\n\n===========COLLECTION================"
-        print "\nId: ", col.id
-        print "\nShift: ", col.shift
-        print "\nMember: ", col.member.name
-        print "\nCattle: ", col.member.cattle_type
-        print "\nQty: ", col.qty
-        print "\nRate: ", col.rate
-        print "\nTotal: ", col.total
-
 
     def datetime_test(self):
         from datetime import datetime
@@ -123,9 +100,9 @@ class TestData:
 
         configManager.set_all_settings(settings)
 
-        settings = configManager.get_all_settings()
-        for k in settings.keys():
-            print k, " = ", settings[k]
+        #settings = configManager.get_all_settings()
+        #for k in settings.keys():
+        #    print k, " = ", settings[k]
 
     def test_rate_setup(self):
         rate_service = RateService()
@@ -138,6 +115,27 @@ class TestData:
         rate_service.update_fat_collection_rate("BUFFALO",6,3.6,4.5,170)
         rate_service.update_fat_collection_rate("BUFFALO",7,4.6,6.0,195)
         rate_service.update_fat_collection_rate("BUFFALO",8,6.1,22.0,205)
+
+        rate_service.save_ts2_collection_rate("COW", 1, 5, 10, 150)
+        rate_service.save_ts2_collection_rate("COW", 2, 10.1, 11, 185)
+        rate_service.save_ts2_collection_rate("COW", 3, 11.1, 13.5, 200)
+        rate_service.save_ts2_collection_rate("COW", 4, 13.6, 22, 205)
+
+        rate_service.save_ts2_collection_rate("BUFFALO", 5, 5, 10, 150)
+        rate_service.save_ts2_collection_rate("BUFFALO", 6, 10.1, 11, 185)
+        rate_service.save_ts2_collection_rate("BUFFALO", 7, 11.1, 13.5, 200)
+        rate_service.save_ts2_collection_rate("BUFFALO", 8, 13.6, 22, 205)
+
+        data = []
+        for fat in frange(3, 12):
+          for snf in frange(7,22):
+            data.append({ "fat_value": fat, 
+                          "snf_value": snf, 
+                          "rate":20.0+random.random()})
+
+        rate_service.set_fat_and_snf_collection_rate(cattle_type="COW",data=data)
+        rate_service.set_fat_and_snf_collection_rate(cattle_type="BUFFALO",data=data)
+
 
     def create_default_users(self):
         user_service = UserService()

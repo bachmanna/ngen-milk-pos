@@ -1,5 +1,4 @@
 from db_manager import db
-from pony.orm import Required, Optional
 import datetime
 
 class Membership(db.Model):
