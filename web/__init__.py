@@ -55,7 +55,7 @@ def set_user_on_request_g():
   settings = config_manager.get_all_settings()
   setattr(g, 'user', current_user)
   setattr(g, 'app_settings', settings)
-  setattr(g, 'current_lang', settings.get("LANGUAGE", "ta"))
+  setattr(g, 'current_lang', settings.get(SystemSettings.LANGUAGE, "en"))
 
 
 @app.context_processor

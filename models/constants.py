@@ -45,6 +45,7 @@ class AnalyzerType(BaseType):
 
 
 class SystemSettings(BaseType):
+    LANGUAGE = "LANGUAGE"
     TICKET_WIDTH = "TICKET_WIDTH"
     TICKET_HEIGHT = "TICKET_HEIGHT"
     TICKET_MARGIN = "TICKET_MARGIN"

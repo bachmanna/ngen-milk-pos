@@ -1,0 +1,28 @@
+{% extends "layout.jinja2" %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+	<div class="medium-12 columns text-center">
+		<h1>{{_("Language")}}</h1>
+	</div>
+</div>
+<br/>
+<br/>
+<div class="text-center">
+	<div class="row">
+		<div class="medium-5 small-centered columns">
+			<a href="?key=en" class="large button expand {{"success" if key=="en"}}" data-key="f1">{{_("English")}} - F1</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="medium-5 small-centered columns">
+			<a href="?key=ta" class="large button expand {{"success" if key=="ta"}}" data-key="f2">{{_("Tamil")}} - F2</a>
+		</div>
+	</div>
+</div>
+<a href="/system_setup" data-key="esc" class="hide"></a>
+{% endblock %}

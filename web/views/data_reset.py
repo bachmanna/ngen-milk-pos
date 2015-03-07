@@ -1,9 +1,12 @@
 from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
 from flask.ext.babel import lazy_gettext, gettext
+from dateutil import parser
+import time
+import csv
+import os
 
 from web import app
-
 
 from services.milkcollection_service import MilkCollectionService
 
@@ -52,28 +55,22 @@ def data_restore():
 
 
 def do_backup():
-	import csv
 	from db_manager import db
-	from models.member import Member
 	import os
+	t = time.time()
 	for table in db.metadata.tables.values():
 		filename = 'backup/%s.csv' % (table.name)
+		print "Backup %s " % (filename)
 		with open(os.path.join(app.root_path, filename), 'wb') as outfile:
 			outcsv = csv.writer(outfile)
 			outcsv.writerow([column.name for column in table.columns])
 			records = db.session.query(table).all()
 			[outcsv.writerow([getattr(curr, column.name) for column in table.columns]) for curr in records]
 			outfile.close()
-
+	print "Backup done in %s sec" % (time.time() - t)
 
 def do_restore():
-	import csv
-	import time
-	from datetime import datetime
 	from db_manager import db
-	from models.member import Member
-	from dateutil import parser
-	import os
 	db.drop_all()
 	db.create_all()
 	t = time.time()

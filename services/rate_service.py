@@ -72,13 +72,11 @@ class RateService:
 
     def set_fat_and_snf_collection_rate(self, cattle_type, data):
         FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type).delete()
-        for x in data:
-            fatsnfcolrate = FATAndSNFCollectionRate(cattle_type=cattle_type,
-                                                    fat_value=x['fat_value'],
-                                                    snf_value=x['snf_value'],
-                                                    rate=x['rate'])
-            db.session.add(fatsnfcolrate)
         db.session.commit()
+        for x in data:
+          x["cattle_type"] = cattle_type
+        smt = FATAndSNFCollectionRate.__table__.insert()
+        db.engine.execute(smt, data)
 
     def save_fat_and_snf_collection_rate(self, cattle_type, fat_value, snf_value, rate):
         entity = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type, 

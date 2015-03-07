@@ -1,10 +1,11 @@
-from flask import render_template, request, redirect, g, flash
+from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
 
 from web import app
 
 from services.member_service import MemberService
 from services.rate_service import RateService
+from configuration_manager import ConfigurationManager
 from models import *
 
 @app.route("/system_setup")
@@ -12,6 +13,20 @@ from models import *
 def system_setup():
   return render_template("system_setup.jinja2")
 
+@app.route("/language")
+@login_required
+def system_language():
+  key = request.args.get('key', None)
+  if key:
+    settings = {}
+    key = settings[SystemSettings.LANGUAGE] = "en" if key == "en" else "ta"
+
+    configManager = ConfigurationManager()
+    configManager.set_all_settings(settings)
+    return redirect(url_for("system_language"))
+  if not key:
+    key = g.app_settings.get(SystemSettings.LANGUAGE, None)
+  return render_template("language.jinja2",key=key)
 
 @app.route("/member", methods=['GET', 'POST'])
 @login_required

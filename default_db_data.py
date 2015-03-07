@@ -70,6 +70,7 @@ class DefaultDbData:
         configManager = ConfigurationManager()
         settings = {}
 
+        settings[SystemSettings.LANGUAGE] = "en"
         settings[SystemSettings.SOCIETY_NAME] = "JEPPIAAR MILK COLLECTION CENTER"
         settings[SystemSettings.SOCIETY_ADDRESS] = "NO.6, Andiyur Post, Uthangarai Taluk, Krishnagiri - 635307."
         settings[SystemSettings.SOCIETY_ADDRESS1] = ""
