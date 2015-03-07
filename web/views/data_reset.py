@@ -50,13 +50,17 @@ def data_backup():
 @login_required
 def get_available_data_backup():
 	p = os.path.join(app.root_path, 'backup')
-	directory = [str(datetime.fromtimestamp(int(x))) for x in os.listdir(p) if x.isdigit()]
+	paths = filter(lambda x: (not os.path.isfile(x)) and x.isdigit(), os.listdir(p))
+	paths.sort(key=lambda x: os.path.getmtime(os.path.join(app.root_path, 'backup/'+x)))
+	directory = [(x,datetime.fromtimestamp(int(x))) for x in paths]
 	return render_template("backup_list.jinja2", data=directory)
 
 @app.route("/data_restore")
 @login_required
 def data_restore():
-	do_restore()
+	p = request.args.get("key", None)
+	if p:
+		do_restore(p)
 	msg = "Data restore successfull!"
 	flash(str(lazy_gettext(msg)))
 	return redirect(url_for("data_reset"))
@@ -86,18 +90,19 @@ def do_backup():
 	print "Backup done in %s sec" % (backup_duration)
 	return directory, backup_duration
 
-def do_restore():
+def do_restore(p):
 	from db_manager import db
 	t = time.time()
 	for table in db.metadata.tables.values():
 		t0 = time.time()
-		filename = 'backup/%s.csv' % (table.name)
+		filename = 'backup/%s/%s.csv' % (p, table.name)
 		fpath = os.path.join(app.root_path, filename)
 
 		if not os.path.isfile(fpath):
 			continue
 
-		db.session.query(table).delete()
+		table.drop(db.engine)
+		table.create(db.engine)
 		print "Restore %s " % (filename)
 		with open(fpath, 'rb') as outfile:
 			cf = csv.DictReader(outfile, delimiter=',')

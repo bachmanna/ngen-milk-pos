@@ -1,13 +1,33 @@
+<a class="close-reveal-modal">&#215;</a>
 <div class="row">
 	<div class="medium-12 columns text-center">
 		<h1>{{_("Available Backups")}}</h1>
 	</div>
 </div>
 
-{% for item in data %}
-<div class="row text-center">
-	<div class="medium-12 columns">
-		<a href="/data_restore?key={{item}}" data-key="{{loop.index}}">{{loop.index}} - {{item}}</a>
+<div id="backuplist" style="overflow-y:scroll;max-height:350px;" tabindex="0">
+	{% for x, item in data %}
+	<div class="row text-center">
+		<div class="medium-12 columns">
+			<a href="/data_restore?key={{x}}" class="button expand" data-key="{{loop.index}}">{{loop.index}} - {{item}}</a>
+		</div>
 	</div>
+	{% endfor %}
 </div>
-{% endfor %}
+
+<script>
+	$(function(){
+		$("#backuplist [data-key]").each(function(){
+			var key = $(this).data("key");
+			var $that = $(this);
+			Mousetrap.bind(key.toString(), function(e) {
+				console.log($(this));
+				$that[0].click();
+				return true;
+			});
+		});
+		setTimeout(function(){
+			document.getElementById('backuplist').focus();
+		}, 300);
+	});
+</script>
