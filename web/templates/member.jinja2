@@ -54,7 +54,11 @@
 <hr/>
 <div class="row">
     <div class="medium-12 columns">
-        <label>{{_("Total Member")}}: {{member_list|count}}</label>
+        <h4 style="margin:0">{{_("Total Member")}}: <b>{{member_list|count}}</b></h4>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-12 columns" style="overflow-y:scroll;max-height:300px;">
         <br/>
         <table class="expand" style="width:100%;" role="grid">
             <thead>
@@ -93,7 +97,7 @@
 {% endblock %}
 
 {% block statusbar %}
-<div class="row">
+<div class="row action-buttons">
     <div class="medium-2 columns end">
         <a href="/system_setup" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
     </div>

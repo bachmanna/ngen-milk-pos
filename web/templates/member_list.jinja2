@@ -19,10 +19,15 @@
 {% endwith %}
 <div class="row">
     <div class="medium-12 columns">
+        <h4>{{_("Total Member")}}: <b>{{member_list|count}}</b></h4>
+    </div>
+</div>
+<div class="row">
+    <div class="medium-12 columns" style="overflow-y:scroll;max-height:400px;">
         <table class="expand" style="width:100%;" role="grid">
             <thead>
                 <tr>
-                    <th>{{_("Member Code<")}}/th>
+                    <th>{{_("Member Code")}}</th>
                     <th>{{_("Name")}}</th>
                     <th>{{_("Mobile")}}</th>
                     <th>{{_("Cattle Type")}}</th>
@@ -41,7 +46,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <label>{{_("Total Member")}}: <b>{{member_list|count}}</b></label>
     </div>
 </div>
 {% endblock %}
@@ -51,7 +55,7 @@
 {% endblock %}
 
 {% block statusbar %}
-<div class="row">
+<div class="row action-buttons">
     <div class="medium-2 columns end">
         <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
     </div>
