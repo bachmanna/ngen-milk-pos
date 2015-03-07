@@ -4,7 +4,6 @@ from services.member_service import MemberService
 from services.rate_service import RateService
 from services.user_service import UserService
 from services.milkcollection_service import MilkCollectionService
-from services.milksale_service import MilkSaleService
 from configuration_manager import ConfigurationManager
 from datetime import datetime
 

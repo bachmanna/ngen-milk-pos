@@ -1,7 +1,8 @@
-from flask import render_template, request, redirect, g, flash, url_for
+from flask import render_template, request, redirect, g, flash, url_for, jsonify
 from flask_login import login_required
 from flask.ext.babel import lazy_gettext, gettext
 from dateutil import parser
+from datetime import datetime
 import time
 import csv
 import os
@@ -39,11 +40,18 @@ def factory_reset():
 @app.route("/data_backup")
 @login_required
 def data_backup():
-	do_backup()
-	msg = "Data backup successfull!"
-	flash(str(lazy_gettext(msg)))
+	backup_location, backup_duration = do_backup()
+	msg = "Data backup to \"%(loc)s\" completed successfully in %(dur)s seconds!"
+	flash(str(lazy_gettext(msg, loc=backup_location, dur=backup_duration)))
 	return redirect(url_for("data_reset"))
 
+
+@app.route("/get_available_data_backup")
+@login_required
+def get_available_data_backup():
+	p = os.path.join(app.root_path, 'backup')
+	directory = [str(datetime.fromtimestamp(int(x))) for x in os.listdir(p) if x.isdigit()]
+	return render_template("backup_list.jinja2", data=directory)
 
 @app.route("/data_restore")
 @login_required
@@ -56,23 +64,30 @@ def data_restore():
 
 def do_backup():
 	from db_manager import db
-	import os
+	n = int(time.mktime(datetime.now().timetuple()))
 	t = time.time()
-	for table in db.metadata.tables.values():
-		filename = 'backup/%s.csv' % (table.name)
-		print "Backup %s " % (filename)
-		with open(os.path.join(app.root_path, filename), 'wb') as outfile:
+	directory = os.path.join(app.root_path, 'backup/%d' % (n))
+	if not os.path.exists(directory):
+			os.makedirs(directory)
+	print "Backup to folder %s" % (directory)
+
+	for table in db.metadata.tables.values():		
+		filename = '%s.csv' % (table.name)
+		fpath = os.path.join(directory, filename)
+
+		with open(fpath, 'wb') as outfile:
 			outcsv = csv.writer(outfile)
 			outcsv.writerow([column.name for column in table.columns])
 			records = db.session.query(table).all()
 			[outcsv.writerow([getattr(curr, column.name) for column in table.columns]) for curr in records]
 			outfile.close()
-	print "Backup done in %s sec" % (time.time() - t)
+	
+	backup_duration = (time.time() - t)
+	print "Backup done in %s sec" % (backup_duration)
+	return directory, backup_duration
 
 def do_restore():
 	from db_manager import db
-	db.drop_all()
-	db.create_all()
 	t = time.time()
 	for table in db.metadata.tables.values():
 		t0 = time.time()
@@ -81,6 +96,8 @@ def do_restore():
 
 		if not os.path.isfile(fpath):
 			continue
+
+		db.session.query(table).delete()
 		print "Restore %s " % (filename)
 		with open(fpath, 'rb') as outfile:
 			cf = csv.DictReader(outfile, delimiter=',')

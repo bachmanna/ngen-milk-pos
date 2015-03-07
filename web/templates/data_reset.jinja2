@@ -29,7 +29,7 @@
                 </div>
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a href="/data_restore" class="large button expand" data-key="f2">{{_("Restore")}} - F2</a>
+                        <a href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2">{{_("Restore")}} - F2</a>
                     </div>
                 </div>
                 <div class="row">
@@ -47,4 +47,7 @@
     </div>
 </div>
 <a href="/" data-key="esc" class="hide"></a>
+<div id="backupListModal" class="reveal-modal" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
 {% endblock %}
