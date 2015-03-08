@@ -10,17 +10,7 @@
                 </div>
             </div>
             <br/>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="medium-12 columns">
-                <div class="alert-box success">
-                    {% for message in messages %}
-                    {{ message }}<br/>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-            {% endwith %}
+            {% include "flash_messages.jinja2" %}
             <div class="text-center">
                 <div class="row">
                     <div class="medium-5 small-centered columns">

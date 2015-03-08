@@ -1,5 +1,7 @@
-from flask import render_template, request, redirect, g, flash
+from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
+from flask.ext.babel import lazy_gettext, gettext
+
 try:
     from collections import OrderedDict
 except ImportError:
@@ -34,7 +36,7 @@ def rate_fat():
     rate_service.update_fat_collection_rate(cattle_type,id,min_value,max_value,rate)
 
   rate_list = rate_service.get_fat_collection_rate(cattle_type=cattle_type)
-  return render_template("rate_fat.jinja2", cattle_type=cattle_type, rate_list=rate_list)
+  return render_template("rate_fat.jinja2", cattle_type=cattle_type, rate_list=rate_list,rate_type="fat")
 
 
 @app.route("/rate_fat_and_snf", methods=['GET', 'POST'])
@@ -60,7 +62,7 @@ def rate_fat_and_snf():
       rates[x.fat_value] = {}
     rates[x.fat_value][x.snf_value] = fmtDecimal(x.rate)
   snf_list = sorted(snf_list)
-  return render_template("rate_fat_and_snf.jinja2", cattle_type=cattle_type, rate_list=rate_list, snf_list=snf_list, rates=rates)
+  return render_template("rate_fat_and_snf.jinja2", cattle_type=cattle_type, rate_list=rate_list, snf_list=snf_list, rates=rates, rate_type="fat_and_snf")
 
 
 @app.route("/rate_total_solid", methods=['GET', 'POST'])
@@ -82,7 +84,7 @@ def rate_total_solid():
     rate_service.save_ts1_collection_rate(id=id, cattle_type=cattle_type, data=data)
 
   rate_list = rate_service.get_ts1_collection_rate(cattle_type=cattle_type)
-  return render_template("rate_total_solid.jinja2", cattle_type=cattle_type, rate_list=rate_list)
+  return render_template("rate_total_solid.jinja2", cattle_type=cattle_type, rate_list=rate_list,rate_type="ts1")
 
 
 @app.route("/rate_total_solid1", methods=['GET', 'POST'])
@@ -100,4 +102,44 @@ def rate_total_solid1():
     rate_service.save_ts2_collection_rate(cattle_type,id,min_value,max_value,rate)
 
   rate_list = rate_service.get_ts2_collection_rate(cattle_type=cattle_type)
-  return render_template("rate_total_solid1.jinja2", cattle_type=cattle_type, rate_list=rate_list)
+  return render_template("rate_total_solid1.jinja2", cattle_type=cattle_type, rate_list=rate_list,rate_type="ts2")
+
+
+@app.route("/rate_export")
+@login_required
+def rate_export():
+  page = request.args.get("page", None)
+  rate_type = request.args.get("rate_type", None)
+  if not page or not rate_type:
+    return redirect(url_for("rate_setup"))
+  do_export(rate_type)
+  flash(str(lazy_gettext("Export successfull!")))
+  return redirect("/" + page)
+
+
+map_rate_type_table = { "fat": FATCollectionRate.__table__,
+                        "fat_and_snf": FATAndSNFCollectionRate.__table__,
+                        "ts1": TS1CollectionRate.__table__,
+                        "ts2": TS2CollectionRate.__table__
+                      }
+
+def do_export(rate_type):
+  if not rate_type in map_rate_type_table.keys():
+    return False
+
+  import os
+  import csv
+  directory = os.path.join(app.root_path, 'backup')
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+  table = map_rate_type_table[rate_type]
+  filename = '%s.csv' % (rate_type)
+  fpath = os.path.join(directory, filename)
+  print "Backup to folder %s" % (fpath)
+  with open(fpath, 'wb') as outfile:
+      outcsv = csv.writer(outfile)
+      outcsv.writerow([column.name for column in table.columns])
+      records = db.session.query(table).all()
+      [outcsv.writerow([getattr(curr, column.name) for column in table.columns]) for curr in records]
+      outfile.close()
+  return True

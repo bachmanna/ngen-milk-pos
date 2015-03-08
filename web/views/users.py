@@ -24,9 +24,9 @@ def manage_user():
         if service.update(id, name, password):
           flash("User update successfully!")
       elif name:
-        flash("Password should be greater than 4 letters!")
+        flash("Password should be greater than 4 letters!", "error")
     else:
-      flash("Invalid user id.")
+      flash("Invalid user id.", "error")
 
   user_list = service.search()
   return render_template("manage_user.jinja2", user=user, user_list=user_list)

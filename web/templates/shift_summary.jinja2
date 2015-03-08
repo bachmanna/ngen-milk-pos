@@ -6,17 +6,7 @@
         <h1>{{_("Shift Summary Report")}}</h1>
     </div>
 </div>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert-box warning">
-    <ul class="flashes">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-{% endwith %}
+{% include "flash_messages.jinja2" %}
 <form id="frmDetailShift" name="frmDetailShift" method="get" action="">
     <div class="row">
         <div class="medium-1 columns">
