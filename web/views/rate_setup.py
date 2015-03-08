@@ -112,8 +112,24 @@ def rate_export():
   rate_type = request.args.get("rate_type", None)
   if not page or not rate_type:
     return redirect(url_for("rate_setup"))
-  do_export(rate_type)
-  flash(str(lazy_gettext("Export successfull!")))
+  if do_export(rate_type):
+    flash(str(lazy_gettext("Export successfull!")))
+  else:
+    flash(str(lazy_gettext("Import failed!")), "error")
+  return redirect("/" + page)
+
+
+@app.route("/rate_import")
+@login_required
+def rate_import():
+  page = request.args.get("page", None)
+  rate_type = request.args.get("rate_type", None)
+  if not page or not rate_type:
+    return redirect(url_for("rate_setup"))
+  if do_import(rate_type):
+    flash(str(lazy_gettext("Import successfull!")))
+  else:
+    flash(str(lazy_gettext("Import failed!")), "error")
   return redirect("/" + page)
 
 
@@ -142,4 +158,27 @@ def do_export(rate_type):
       records = db.session.query(table).all()
       [outcsv.writerow([getattr(curr, column.name) for column in table.columns]) for curr in records]
       outfile.close()
+  return True
+
+
+def do_import(rate_type):
+  if not rate_type in map_rate_type_table.keys():
+    return False
+
+  import os
+  import csv
+  directory = os.path.join(app.root_path, 'backup')
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+  table = map_rate_type_table[rate_type]
+  filename = '%s.csv' % (rate_type)
+  fpath = os.path.join(directory, filename)
+  print "Import from folder %s" % (fpath)
+  with open(fpath, 'rb') as infile:
+      # delete all rows
+      db.engine.execute(table.delete())
+      cf = csv.DictReader(infile, delimiter=',')
+      data = [row for row in cf]
+      db.engine.execute(table.insert(), data)
+      infile.close()
   return True
