@@ -1,5 +1,5 @@
 from models import *
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from db_manager import db
 from sqlalchemy import Date, cast
 from services.member_service import MemberService
@@ -26,11 +26,14 @@ class MilkCollectionService:
     def search(self, member_id=None, shift=None, created_at=None):
         query = MilkCollection.query
         if member_id and isinstance(member_id, int):
-            query = query.filter_by(member_id=member_id)
-        if shift and (isinstance(shift, str) or isinstance(shift, unicode)) and len(shift) > 0:
-            query = query.filter_by(shift=shift)
-        if created_at and isinstance(created_at, date):
-            query = query.filter(cast(MilkCollection.created_at,Date) == cast(created_at,Date))
+          query = query.filter_by(member_id=member_id)
+        if shift and len(shift) > 0:
+          query = query.filter_by(shift=shift)
+        if created_at:
+          start = created_at
+          end = start + timedelta(days=1)
+          query = query.filter(MilkCollection.created_at >= start)
+          query = query.filter(MilkCollection.created_at < end)
         query = query.order_by(MilkCollection.created_at.desc())
         lst = query.all()
         return lst
