@@ -2,7 +2,7 @@
 {% block body %}
 
 {% include "flash_messages.jinja2" %}
-<form id="frmPaymentReport" name="frmPaymentReport" method="get" action="" class="inline">
+<form id="frmMemberPaymentReport" name="frmMemberPaymentReport" method="get" action="" class="inline">
     <div class="row">
         <div class="medium-4 columns">
             <label>{{_("From Date")}}</label><br/>
@@ -35,10 +35,21 @@
     {% include "report_print_header.jinja2" %}
     <div class="row">
         <div class="medium-12 columns text-center">
-            <h4>{{_("PAYMENT SUMMARY REPORT")}}</h4>
+            <h4>{{_("MEMBER PAYMENT REPORT")}}</h4>
         </div>
     </div>
     <br/>
+    <div class="row">
+        <div class="medium-4 columns">
+            <h5>{{_("M.Code")}}: <b>{{from_member}}</b></h5>
+        </div>
+        <div class="medium-4 columns">
+            <h5>{{_("Name")}}: <b>{{member_list[from_member].name}}</b></h5>
+        </div>
+        <div class="medium-4 columns">
+            <h5>{{_("Cattle")}}: <b>{{member_list[from_member].cattle_type}}</b></h5>
+        </div>
+    </div>
     <div class="row">
         <div class="medium-4 columns">
             <h5>{{_("FROM")}}: <b>{{from_date}}</b></h5>
@@ -55,30 +66,39 @@
             <table class="expand" style="width:100%;" role="grid">
                 <thead>
                     <tr>
-                        <th class="text-right">{{_("M.Code")}}</th>
+                        <th>{{_("Date")}}</th>
+                        <th>{{_("Shift")}}</th>
+                        <th class="text-right">{{_("FAT")}}</th>
+                        <th class="text-right">{{_("SNF")}}</th>
                         <th class="text-right">{{_("QTY")}}</th>
                         <th class="text-right">{{_("Rate")}}</th>
                         <th class="text-right">{{_("Amount")}}</th>
-                        <th class="text-right">{{_("Increment")}}</th>
+                        <th class="text-right">{{_("Inc")}}</th>
                         <th class="text-right">{{_("Total")}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for id in lst.keys() %}
-                    {% set item = lst[id] %}
+                    {% for item in lst %}
+                    {% set _inc = item.qty * increment %}
                     <tr>
-                        <td class="text-right">{{id}}</td>
+                        <td>{{item.created_at.strftime("%d/%m/%Y")}}</td>
+                        <td>{{item.shift}}</td>
+                        <td class="text-right">{{item.fat}}</td>
+                        <td class="text-right">{{item.snf}}</td>
                         <td class="text-right">{{item.qty}}</td>
                         <td class="text-right">{{item.rate}}</td>
-                        <td class="text-right">{{item.amount}}</td>
-                        <td class="text-right">{{item.increment}}</td>
                         <td class="text-right">{{item.total}}</td>
+                        <td class="text-right">{{_inc}}</td>
+                        <td class="text-right">{{ _inc + item.total}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th class="text-right">{{lst|count}}</th>
+                        <th class="text-right">&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
                         <th class="text-right">{{summary["qty"]}}</th>
                         <th class="text-right">{{summary["rate"]}}</th>
                         <th class="text-right">{{summary["amount"]}}</th>

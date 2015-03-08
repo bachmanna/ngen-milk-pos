@@ -151,3 +151,54 @@ def payment_report():
     summary["total"] = summary["total"] + item["total"]
 
   return render_template("payment_report.jinja2",from_date=from_date,to_date=to_date,lst=lst,increment=increment,summary=summary)
+
+
+@app.route("/member_report")
+@login_required
+def member_payment_report():
+  increment = float(request.args.get("increment", 0.0))
+  end = datetime.now().date()
+  start = end - timedelta(days=7)
+
+  day   = int(request.args.get("from_day", start.day))
+  month = int(request.args.get("from_month", start.month))
+  year  = int(request.args.get("from_year", start.year))
+  from_date = datetime(year, month, day).date()
+
+  day   = int(request.args.get("to_day", end.day))
+  month = int(request.args.get("to_month", end.month))
+  year  = int(request.args.get("to_year", end.year))
+  to_date = datetime(year, month, day).date()
+
+  if to_date > end:
+    to_date = end
+    flash(str(lazy_gettext("To Date cannot be greater than today!")), "error")
+
+  if to_date < from_date:
+    to_date = end
+    from_date = start
+    flash(str(lazy_gettext("From Date cannot be greater than to date!")), "error")
+
+  from_member = float(request.args.get("from_member", 1))
+  to_member = float(request.args.get("to_member", 100))
+
+  collectionService = MilkCollectionService()
+  lst = collectionService.search_by_date(member_id=from_member,from_date=from_date,to_date=to_date)
+  summary = {"qty": 0.0, "rate": 0, "amount": 0, "increment": 0, "total": 0}
+
+  summary["qty"] = sum([x.qty for x in lst])
+  summary["rate"] = sum([x.rate for x in lst])
+  summary["amount"] = sum([x.total for x in lst])
+  summary["increment"] = summary["qty"] * increment
+  summary["total"] = summary["increment"] + summary["amount"]
+
+  member_service = MemberService()
+  mlst = member_service.search()
+  member_list = {}
+  for x in mlst:
+    member_list[x.id] = x
+
+  return render_template("member_report.jinja2",from_date=from_date,
+    to_date=to_date,lst=lst,
+    from_member=from_member,to_member=to_member,
+    increment=increment,summary=summary,member_list=member_list)
