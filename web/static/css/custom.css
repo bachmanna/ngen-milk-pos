@@ -124,3 +124,48 @@ header.banner{
 .button.warning:hover{
 	border-color: #007095;
 }
+
+form.inline input,
+form.inline select,
+form.inline label {
+	display: inline-block;
+	margin: 0;
+}
+
+form.inline label {
+	line-height: 2.3;
+}
+
+form.inline input.tiny {
+	width: 40px;
+}
+
+form.inline input.medium {
+	width: 80px;
+}
+
+form.inline .button {
+	padding: 4px;
+	margin: 0;
+}
+
+.report_container {
+	border: 2px solid #333;
+	padding: 10px 0 0;
+}
+
+.report_container h1,
+.report_container h2,
+.report_container h3,
+.report_container h4,
+.report_container h5,
+.report_container h6 {
+	margin: 0;
+	margin-top: 3px;
+}
+
+.report_container table {
+	margin: 0;
+	margin-top: 20px;
+	border-top: 3px solid #333;
+}

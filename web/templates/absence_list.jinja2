@@ -2,17 +2,44 @@
 {% block body %}
 
 {% include "flash_messages.jinja2" %}
+<form id="frmAbsentList" name="frmAbsentList" method="get" action="" class="inline">
+    <div class="row">
+        <div class="medium-1 columns">
+            <label>{{_("Date")}}</label>
+        </div>
+        <div class="medium-4 columns">
+            <input type="text" class="mousetrap tiny" name="day" value="{{search_date.day}}" />
+            /
+            <input type="text" class="mousetrap tiny" name="month" value="{{search_date.month}}"/>
+            /
+            <input type="text" class="mousetrap medium" name="year" value="{{search_date.year}}" />
+        </div>
+        <div class="medium-1 columns">
+            <label>{{_("Shift")}}</label>
+        </div>
+        <div class="medium-4 columns">
+            <select name="shift" class="mousetrap">
+                <option {{ "selected" if shift == "MORNING" else ""}} value="MORNING">{{_("MORNING")}}</option>
+                <option {{ "selected" if shift == "EVENING" else ""}} value="EVENING">{{_("EVENING")}}</option>
+            </select>
+        </div>
+        <div class="medium-2 columns">
+            <button type="submit" class="button expand">{{_("VIEW")}}</button>
+        </div>
+    </div>
+</form>
+<hr/>
 <div class="report_container">
     {% include "report_print_header.jinja2" %}
     <div class="row">
         <div class="medium-12 columns text-center">
-            <h4>{{_("MEMBER LIST")}}</h4>
+            <h4>{{_("ABSENT LIST")}}</h4>
         </div>
     </div>
     <br/>
     <div class="row">
         <div class="medium-4 columns">
-            <h5>{{_("Total Members")}}: <b>{{member_list|count}}</b></h5>
+            <h5>{{_("Total Absent")}}: <b>{{member_list|count}}</b></h5>
         </div>
         <div class="medium-4 columns">
             <h5>{{_("COW")}}: <b>{{cow_member_list|count}}</b></h5>
