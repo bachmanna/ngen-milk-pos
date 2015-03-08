@@ -202,3 +202,12 @@ def member_payment_report():
     to_date=to_date,lst=lst,
     from_member=from_member,to_member=to_member,
     increment=increment,summary=summary,member_list=member_list)
+
+
+@app.route("/settings_report")
+@login_required
+def settings_report():
+  settings = g.app_settings
+  basic_keys = ["SOCIETY_NAME","SOCIETY_ADDRESS","SOCIETY_ADDRESS1","HEADER_LINE1","HEADER_LINE2","HEADER_LINE3","HEADER_LINE4", "FOOTER_LINE1", "FOOTER_LINE2"]
+  settings_keys = ["ANALYZER_TYPE","SCALE_TYPE","RATE_TYPE","COLLECTION_PRINTER_TYPE","MANUAL_FAT", "MANUAL_SNF", "MANUAL_QTY","PRINT_BILL","PRINT_CLR","PRINT_WATER", "BILL_OVERWRITE", "QUANTITY_2_DECIMAL","LANGUAGE","DATA_EXPORT_FORMAT"]
+  return render_template("settings_report.jinja2",settings=settings, basic_keys=basic_keys,settings_keys=settings_keys)
