@@ -1,0 +1,105 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+
+{% include "flash_messages.jinja2" %}
+<form id="frmPaymentReport" name="frmPaymentReport" method="get" action="" class="inline">
+    <div class="row">
+        <div class="medium-4 columns">
+            <label>{{_("From Date")}}</label><br/>
+            <input type="text" class="mousetrap tiny" name="from_day" value="{{from_date.day}}" />
+            /
+            <input type="text" class="mousetrap tiny" name="from_month" value="{{from_date.month}}"/>
+            /
+            <input type="text" class="mousetrap medium" name="from_year" value="{{from_date.year}}" />
+        </div>
+        <div class="medium-4 columns">
+            <label>{{_("To Date")}}</label><br/>
+            <input type="text" class="mousetrap tiny" name="to_day" value="{{to_date.day}}" />
+            /
+            <input type="text" class="mousetrap tiny" name="to_month" value="{{to_date.month}}"/>
+            /
+            <input type="text" class="mousetrap medium" name="to_year" value="{{to_date.year}}" />
+        </div>
+        <div class="medium-2 columns">
+            <label>{{_("Increment")}}</label><br/>
+            <input type="text" name="increment" value="{{increment}}" />
+        </div>
+        <div class="medium-2 columns">
+            <br/>
+            <button type="submit" class="button expand">{{_("VIEW")}}</button>
+        </div>
+    </div>
+</form>
+<hr/>
+<div class="report_container">
+    {% include "report_print_header.jinja2" %}
+    <div class="row">
+        <div class="medium-12 columns text-center">
+            <h4>{{_("PAYMENT SUMMARY REPORT")}}</h4>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="medium-4 columns">
+            <h5>{{_("FROM")}}: <b>{{from_date}}</b></h5>
+        </div>
+        <div class="medium-4 columns">
+            <h5>{{_("TO")}}: <b>{{to_date}}</b></h5>
+        </div>
+        <div class="medium-4 columns">
+            <h5>{{_("Increment/Litre")}}: <b>{{increment}}</b></h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns" style="overflow-y:scroll;max-height:400px;">
+            <table class="expand" style="width:100%;" role="grid">
+                <thead>
+                    <tr>
+                        <th class="text-right">{{_("M.Code")}}</th>
+                        <th class="text-right">{{_("QTY")}}</th>
+                        <th class="text-right">{{_("Rate")}}</th>
+                        <th class="text-right">{{_("Amount")}}</th>
+                        <th class="text-right">{{_("Increment")}}</th>
+                        <th class="text-right">{{_("Total")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for id in lst.keys() %}
+                    {% set item = lst[id] %}
+                    <tr>
+                        <td class="text-right">{{id}}</td>
+                        <td class="text-right">{{item.qty}}</td>
+                        <td class="text-right">{{item.rate}}</td>
+                        <td class="text-right">{{item.amount}}</td>
+                        <td class="text-right">{{item.increment}}</td>
+                        <td class="text-right">{{item.total}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-right">{{lst|count}}</th>
+                        <th class="text-right">{{summary["qty"]}}</th>
+                        <th class="text-right">{{summary["rate"]}}</th>
+                        <th class="text-right">{{summary["amount"]}}</th>
+                        <th class="text-right">{{summary["increment"]}}</th>
+                        <th class="text-right">{{summary["total"]}}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block sidebar %}
+<div class="row">
+    <div class="medium-12 columns">
+        <a href="?print=True" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
+    </div>
+    <div class="medium-12 columns end">
+        <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+    </div>
+</div>
+{% endblock %}

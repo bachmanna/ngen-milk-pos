@@ -38,6 +38,19 @@ class MilkCollectionService:
         lst = query.all()
         return lst
 
+    def search_by_date(self, member_id, from_date, to_date):
+        query = MilkCollection.query
+        if member_id and isinstance(member_id, int):
+          query = query.filter_by(member_id=member_id)
+        if from_date and to_date:
+          to_date = to_date + timedelta(days=1)
+          query = query.filter(MilkCollection.created_at >= from_date)
+          query = query.filter(MilkCollection.created_at < to_date)
+        query = query.order_by(MilkCollection.member_id)
+        print(query)
+        lst = query.all()
+        return lst
+
     def update(self, _id, entity):
         collection = self.get(_id)
         #collection.member = entity["member"]
