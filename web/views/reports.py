@@ -204,6 +204,67 @@ def member_payment_report():
     increment=increment,summary=summary,member_list=member_list)
 
 
+@app.route("/dairy_report")
+@login_required
+def dairy_report():
+  end = datetime.now().date()
+  start = end - timedelta(days=7)
+
+  day   = int(request.args.get("from_day", start.day))
+  month = int(request.args.get("from_month", start.month))
+  year  = int(request.args.get("from_year", start.year))
+  from_date = datetime(year, month, day).date()
+
+  day   = int(request.args.get("to_day", end.day))
+  month = int(request.args.get("to_month", end.month))
+  year  = int(request.args.get("to_year", end.year))
+  to_date = datetime(year, month, day).date()
+
+  if to_date > end:
+    to_date = end
+    flash(str(lazy_gettext("To Date cannot be greater than today!")), "error")
+
+  if to_date < from_date:
+    to_date = end
+    from_date = start
+    flash(str(lazy_gettext("From Date cannot be greater than to date!")), "error")
+
+  collectionService = MilkCollectionService()
+  col_lst = collectionService.search_by_date(member_id=None,from_date=from_date,to_date=to_date)
+  lst = {}
+
+  for x in col_lst:
+    d = x.created_at.date()
+    if not d in lst.keys():
+      lst[d] = {}
+      lst[d][x.shift] = { "qty": x.qty, "rate": x.rate,
+                          "fat": x.fat, "snf": x.snf,
+                          "total": x.total }
+    else:
+      if not x.shift in lst[d]:
+        lst[d][x.shift] = { "qty": x.qty, "rate": x.rate,
+                          "fat": x.fat, "snf": x.snf,
+                          "total": x.total }
+      else:
+        item = lst[d][x.shift]
+        item["qty"] = item["qty"] + x.qty
+        item["rate"] = item["rate"] + x.rate
+        item["fat"] = item["fat"] + x.fat
+        item["snf"] = item["snf"] + x.snf
+        item["total"] = item["total"] + x.total
+
+  summary = {"qty": 0.0, "rate": 0, "total": 0}
+  for d in lst.keys():
+    for shift in lst[d].keys():
+      item = lst[d][shift]
+      summary["qty"] = summary["qty"] + item["qty"]
+      summary["rate"] = summary["rate"] + item["rate"]
+      summary["total"] = summary["total"] + item["total"]
+
+  return render_template("dairy_report.jinja2",from_date=from_date,
+    to_date=to_date,lst=lst,summary=summary)
+
+
 @app.route("/settings_report")
 @login_required
 def settings_report():
