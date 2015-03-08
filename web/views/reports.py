@@ -136,13 +136,13 @@ def payment_report():
                            "amount": x.total, "increment": inc, "total": total}
     else:
       item = lst[x.member_id]
-      item.qty = item.qty + x.qty
-      item.rate = item.rate + x.rate
-      item.fat = item.fat + x.fat
-      item.snf = item.snf + x.snf
-      item.amount = item.amount + x.amount
-      item.increment = item.qty * increment
-      item.total = item.amount + item.increment
+      item["qty"] = item["qty"] + x.qty
+      item["rate"] = item["rate"] + x.rate
+      item["fat"] = item["fat"] + x.fat
+      item["snf"] = item["snf"] + x.snf
+      item["amount"] = item["amount"] + x.total
+      item["increment"] = item["qty"] * increment
+      item["total"] = item["amount"] + item["increment"]
     item = lst[x.member_id]
     summary["qty"] = summary["qty"] + item["qty"]
     summary["rate"] = summary["rate"] + item["rate"]

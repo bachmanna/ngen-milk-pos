@@ -15,7 +15,7 @@
 
 	<div class="row">
 		<div class="medium-12 columns">
-			<form name="frmCollection" id="frmCollection" method="post" action="/collection">
+			<form name="frmCollection" id="frmCollection" method="post" action="">
 				<input type="hidden" name="collection_id" id="collection_id" value=""/>
 				<input type="hidden" name="created_at" id="created_at" value="{{date}}"/>
 				<input type="hidden" name="shift" id="shift" value="{{shift}}"/>
@@ -129,25 +129,28 @@
 	</div>
 </div>
 <div class="row">
-	<div class="medium-12 columns">
-		TODO: CAN IMAGE
+	<div class="medium-6 columns">
+		{{_("Total Qty")}} <br/>
+		{{_("COW")}} <br/>
+		{{_("BUFFALO")}} 
+	</div>
+	<div class="medium-6 columns">
+		<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}<br/>
+		{{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}<br/>
+		{{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
 	</div>
 </div>
 <br/>
-<br/>
 <div class="row">
-	<div class="medium-12 columns">
-		<p>{{_("Total MILK")}}: 
-			<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}<br/>
-			{{_("COW")}}: {{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}<br/>
-			{{_("BUFFALO")}}: {{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
-		</p>
-
-		<p>
-			{{_("Total Members")}}: <b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
-			{{_("COW")}}: {{summary["member"][0]}}<br/>
-			{{_("BUFFALO")}}: {{summary["member"][1]}}
-		</p>
+	<div class="medium-6 columns">
+		{{_("Total Mem")}} <br/>
+		{{_("COW")}} <br/>
+		{{_("BUFFALO")}} 
+	</div>
+	<div class="medium-6 columns">
+		<b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
+		{{summary["member"][0]}}<br/>
+		{{summary["member"][1]}}
 	</div>
 </div>
 {% endblock %}
