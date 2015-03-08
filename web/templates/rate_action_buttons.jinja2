@@ -1,9 +1,9 @@
 <div class="row action-buttons">
     <div class="medium-2 columns">
-    <a href="/rate_export?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="e" class="button expand">E - {{_("EXPORT")}}</a>
+    <a href="/rate_export?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="e" data-confirm="{{_("Do you want to export '%(r)s' data to USB?",r=rate_type)}}" class="button expand">E - {{_("EXPORT")}}</a>
     </div>
     <div class="medium-2 columns">
-        <a href="/rate_import?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="i" class="button expand">I - {{_("IMPORT")}}</a>
+        <a href="/rate_import?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="i" data-confirm="{{_("Do you want to import '%(r)s' data from USB?",r=rate_type)}}" class="button expand">I - {{_("IMPORT")}}</a>
     </div>
     <div class="medium-2 columns end">
         <a href="/rate_setup" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>

@@ -69,12 +69,21 @@
       window.location.replace("/");
       return false;
     });
+
     $("[data-key]").each(function(){
       var key = $(this).data("key");
       var $that = $(this);
       Mousetrap.bind(key, function(e) {
         $that[0].click();
         return false;
+      });
+    });
+
+    $("[data-confirm]").each(function(){
+      var $that = $(this);
+      $(this).on("click", function(){
+        var msg = $that.data("confirm");
+        return confirm(msg);
       });
     });
   });
