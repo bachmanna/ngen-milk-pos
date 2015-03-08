@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns text-center">
-        <h1>{{_("Rate Setup")}} - {{_("FAT")}}  - {{cattle_type}}</h1>
+        <h1>{{_("FAT")}}</h1>
     </div>
 </div>
 {% with messages = get_flashed_messages() %}
@@ -81,8 +81,8 @@
 {% block sidebar %}
 <div class="row">
     <div class="medium-12 columns end">
-        <a href="?cattle_type=COW" data-key="f1" class="button expand">F1 - {{_("COW")}}</a>
-        <a href="?cattle_type=BUFFALO" data-key="f2" class="button expand">F2 - {{_("BUFFALO")}}</a>
+        <a href="?cattle_type=COW" data-key="f1" class="button expand {{"success" if cattle_type == "COW"}}">F1 - {{_("COW")}}</a>
+        <a href="?cattle_type=BUFFALO" data-key="f2" class="button expand {{"success" if cattle_type == "BUFFALO"}}">F2 - {{_("BUFFALO")}}</a>
     </div>
 </div>
 {% endblock %}

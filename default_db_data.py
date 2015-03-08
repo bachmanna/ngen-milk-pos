@@ -137,11 +137,30 @@ class DefaultDbData:
         rate_service.set_fat_and_snf_collection_rate(cattle_type="BUFFALO",data=data)
 
 
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="COW", data={
+                "min_fat": 2.5,"max_fat": 3.5,"fat_rate": 150,"min_snf": 6.5,"max_snf": 7.5,"snf_rate": 150})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="COW", data={
+                "min_fat": 3.6,"max_fat": 4.5,"fat_rate": 180,"min_snf": 7.6,"max_snf": 8.5,"snf_rate": 180})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="COW", data={
+                "min_fat": 4.6,"max_fat": 5.5,"fat_rate": 195,"min_snf": 8.6,"max_snf": 11.0,"snf_rate": 195})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="COW", data={
+                "min_fat": 5.6,"max_fat": 6.5,"fat_rate": 205,"min_snf": 11.0,"max_snf": 12,"snf_rate": 205})
+
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="BUFFALO", data={
+                "min_fat": 2.5,"max_fat": 3.5,"fat_rate": 150,"min_snf": 6.5,"max_snf": 7.5,"snf_rate": 150})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="BUFFALO", data={
+                "min_fat": 3.6,"max_fat": 4.5,"fat_rate": 180,"min_snf": 7.6,"max_snf": 8.5,"snf_rate": 180})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="BUFFALO", data={
+                "min_fat": 4.6,"max_fat": 5.5,"fat_rate": 195,"min_snf": 8.6,"max_snf": 11.0,"snf_rate": 195})
+        rate_service.save_ts1_collection_rate(id=None, cattle_type="BUFFALO", data={
+                "min_fat": 5.6,"max_fat": 6.5,"fat_rate": 205,"min_snf": 11.0,"max_snf": 12,"snf_rate": 205})
+
+
     def create_default_users(self):
         user_service = UserService()
         created_by = 4
         created_at=datetime.now()
         user_service.add("basic", "$1$yWq10SD.$WQlvdj6kmHOY9KjHhuIGn1", "basic@milkpos.in", ["basic"], created_by, created_at)
         user_service.add("setup", "$1$Ii9Edtkd$cpxJMzTgpCmFxEhka2nKs/", "setup@milkpos.in", ["setup"], created_by, created_at)
-        user_service.add("support", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "support@milkpos.in", ["support"], created_by, created_at)
+        user_service.add("data", "$1$P/A0YAOn$O8SuzMiowBVJAorhfY239/", "data@milkpos.in", ["data"], created_by, created_at)
         user_service.add("admin", "$1$doG2/gED$vTLr/Iob7T9z0.nydnJxD1", "admin@milkpos.in", ["admin"], created_by, created_at)

@@ -5,7 +5,7 @@ try:
 except ImportError:
     # python 2.6 or earlier, use backport
     from ordereddict import OrderedDict
-import random
+from random import random
 
 from web import app, fmtDecimal
 
@@ -66,7 +66,23 @@ def rate_fat_and_snf():
 @app.route("/rate_total_solid", methods=['GET', 'POST'])
 @login_required
 def rate_total_solid():
-  return render_template("rate_total_solid.jinja2")
+  cattle_type = request.args.get("cattle_type", "COW")
+  rate_service = RateService()
+
+  if request.method == 'POST':
+    data = {}
+    id = int(request.form.get("id", 0))
+    cattle_type = request.form.get("cattle_type", cattle_type)
+    data["min_fat"] = float(request.form.get("min_fat", 0.0))
+    data["max_fat"] = float(request.form.get("max_fat", 0.0))
+    data["fat_rate"] = float(request.form.get("fat_rate", 0.0))
+    data["min_snf"] = float(request.form.get("min_snf", 0.0))
+    data["max_snf"] = float(request.form.get("max_snf", 0.0))
+    data["snf_rate"] = float(request.form.get("snf_rate", 0.0))
+    rate_service.save_ts1_collection_rate(id=id, cattle_type=cattle_type, data=data)
+
+  rate_list = rate_service.get_ts1_collection_rate(cattle_type=cattle_type)
+  return render_template("rate_total_solid.jinja2", cattle_type=cattle_type, rate_list=rate_list)
 
 
 @app.route("/rate_total_solid1", methods=['GET', 'POST'])
@@ -77,10 +93,10 @@ def rate_total_solid1():
 
   if request.method == 'POST':
     id = int(request.form.get("id", 0))
+    cattle_type = request.form.get("cattle_type", cattle_type)
     min_value = float(request.form.get("min_value", 0.0))
     max_value = float(request.form.get("max_value", 0.0))
     rate = float(request.form.get("rate", 0.0))
-    cattle_type = request.form.get("cattle_type", "COW")
     rate_service.save_ts2_collection_rate(cattle_type,id,min_value,max_value,rate)
 
   rate_list = rate_service.get_ts2_collection_rate(cattle_type=cattle_type)

@@ -26,11 +26,11 @@ principals = Principal(app)
 # Create a permission with a single Need, in this case a RoleNeed.
 basic_permission = Permission(RoleNeed('basic'))
 setup_permission = Permission(RoleNeed('setup'))
-support_permission = Permission(RoleNeed('support'))
+data_permission = Permission(RoleNeed('data'))
 admin_permission = Permission(RoleNeed('admin'))
 
 role_permission_list = { "basic": basic_permission, "setup": setup_permission,
-                         "support": support_permission, "admin": admin_permission}
+                         "data": data_permission, "admin": admin_permission}
 
 def can_access(role):
   return role in role_permission_list and role_permission_list[role].can()
@@ -85,9 +85,7 @@ def get_user(id):
   service = UserService()
   user = service.get(_id=id)
   if user:
-    u = User(user_id=id, name=user.name, email=user.email, roles=user.roles.split(","))
-    print u.roles
-    return u
+    return User(user_id=id, name=user.name, email=user.email, roles=user.roles.split(","))
   return None
 
 

@@ -18,11 +18,10 @@
                 <div class="medium-6 columns">
                     <a href="/reports" class="large button expand" data-key="f2">{{_("Reports")}} - F2</a>
                 </div>
-                {% if can_access("admin") or can_access("setup") or can_access("support") %}
+                {% if can_access("admin") or can_access("setup") %}
                 <div class="medium-6 columns">
                     <a href="/basic_setup" class="large button expand" data-key="f3">{{_("Basic Setup")}} - F3</a>
                 </div>
-
                 <div class="medium-6 columns">
                     <a href="/settings" class="large button expand" data-key="f4">{{_("Settings")}} - F4</a>
                 </div>
@@ -30,9 +29,11 @@
                 <div class="medium-6 columns">
                     <a href="/system_setup" class="large button expand" data-key="f5">{{_("System Setup")}} - F5</a>
                 </div>
+                {% if can_access("admin") or can_access("data") %}
                 <div class="medium-6 columns">
                     <a href="/data_reset" class="large button expand" data-key="f6">{{_("Data Reset")}} - F6</a>
                 </div>
+                {% endif %}
                 {% if can_access("admin") %}
                 <div class="medium-6 columns">
                     <a href="/user" class="large button expand" data-key="f8">{{_("Manage User")}} - F8</a>

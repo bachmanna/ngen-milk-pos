@@ -27,20 +27,16 @@
                         <a href="/data_backup" class="large button expand" data-key="f1">{{_("Backup")}} - F1</a>
                     </div>
                 </div>
-                {% if can_access("admin") %}
                 <div class="row">
                     <div class="medium-5 small-centered columns">
                         <a href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2">{{_("Restore")}} - F2</a>
                     </div>
                 </div>
-                {% endif %}
-                {% if can_access("admin") or can_access("setup") or can_access("support") %}
                 <div class="row">
                     <div class="medium-5 small-centered columns">
                         <a href="/clear_collection_bills" class="large button expand" data-key="f3">{{_("Clear collection bills")}} - F3</a>
                     </div>
                 </div>
-                {% endif %}
                 {% if can_access("admin") %}
                 <div class="row">
                     <div class="medium-5 small-centered columns">

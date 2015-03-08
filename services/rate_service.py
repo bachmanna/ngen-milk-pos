@@ -93,21 +93,48 @@ class RateService:
     def set_ts1_collection_rate(self, cattle_type, data):
         TS1CollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
-            fatsnfcolrate = TS1CollectionRate(cattle_type=cattle_type,
-                                              fat_value=x['fat_value'],
-                                              snf_value=x['snf_value'],
-                                              fat_rate=x['fat_rate'],
-                                              snf_rate=x['snf_rate'])
-        commit()
+            entity = TS1CollectionRate(cattle_type=cattle_type,
+                                        min_fat = x["min_fat"],
+                                        max_fat = x["max_fat"],
+                                        fat_rate = x["fat_rate"],
+                                        min_snf = x["min_snf"],
+                                        max_snf = x["max_snf"],
+                                        snf_rate = x["snf_rate"])
+            db.session.add(entity)
+        db.session.commit()
+
+
+    def save_ts1_collection_rate(self, id, cattle_type, data):
+        entity = None
+        if id and int(id):
+            entity = TS1CollectionRate.query.filter_by(id=id,cattle_type=cattle_type).first()
+        if not entity:
+            entity = TS1CollectionRate(cattle_type=cattle_type,
+                                        min_fat = data["min_fat"],
+                                        max_fat = data["max_fat"],
+                                        fat_rate = data["fat_rate"],
+                                        min_snf = data["min_snf"],
+                                        max_snf = data["max_snf"],
+                                        snf_rate = data["snf_rate"])
+            db.session.add(entity)
+        else:
+            entity.min_fat = data["min_fat"]
+            entity.max_fat = data["max_fat"]
+            entity.fat_rate = data["fat_rate"]
+
+            entity.min_snf = data["min_snf"]
+            entity.max_snf = data["max_snf"]
+            entity.snf_rate = data["snf_rate"]
+        db.session.commit()
 
     def set_ts2_collection_rate(self, cattle_type, data):
         TS2CollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         for x in data:
-            fatsnfcolrate = TS2CollectionRate(cattle_type=cattle_type,
+            entity = TS2CollectionRate(cattle_type=cattle_type,
                                               min_value=x['min_value'],
                                               max_value=x['max_value'],
                                               rate=x['rate'])
-            db.session.add(fatsnfcolrate)
+            db.session.add(entity)
         db.session.commit()
 
     def save_ts2_collection_rate(self, cattle_type, id, min_value, max_value, rate):
