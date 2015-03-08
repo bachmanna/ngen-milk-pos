@@ -2,13 +2,14 @@ from flask import render_template, request, redirect, g, flash, jsonify
 from flask_login import login_required, current_user
 from passlib.handlers.md5_crypt import md5_crypt
 
-from web import app
+from web import app, admin_permission
 
 from services.user_service import UserService
 from models.User import User
 
 @app.route("/user", methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def manage_user():
   service = UserService()
   user = User(user_id="",name="")

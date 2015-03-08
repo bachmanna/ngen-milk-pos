@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, request, redirect, g, flash, current_app, jsonify
 from flask import make_response, Response
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
-from flask.ext.principal import Principal, Permission, RoleNeed, UserNeed
+from flask.ext.principal import Principal, Permission, RoleNeed, UserNeed, AnonymousIdentity
 from flask.ext.principal import identity_changed, identity_loaded, Identity, PermissionDenied
 
 from passlib.handlers.md5_crypt import md5_crypt
@@ -28,6 +28,15 @@ basic_permission = Permission(RoleNeed('basic'))
 setup_permission = Permission(RoleNeed('setup'))
 support_permission = Permission(RoleNeed('support'))
 admin_permission = Permission(RoleNeed('admin'))
+
+role_permission_list = { "basic": basic_permission, "setup": setup_permission,
+                         "support": support_permission, "admin": admin_permission}
+
+def can_access(role):
+  return role in role_permission_list and role_permission_list[role].can()
+
+app.jinja_env.globals.update(can_access=can_access)
+
 
 from services.user_service import UserService
 from models import *
@@ -69,7 +78,7 @@ def on_identity_loaded(sender, identity):
 
 @babel.localeselector
 def get_locale():
-  return g.get('current_lang', 'ta')
+  return g.get('current_lang', 'en')
 
 @login_manager.user_loader
 def get_user(id):
@@ -133,6 +142,13 @@ def login():
 @app.route('/logout/')
 def app_logout():
   logout_user()
+  # Remove session keys set by Flask-Principal
+  for key in ('identity.name', 'identity.auth_type'):
+      session.pop(key, None)
+
+  # Tell Flask-Principal the user is anonymous
+  identity_changed.send(current_app._get_current_object(),
+                        identity=AnonymousIdentity())
   session.clear()
   return redirect('/')
 

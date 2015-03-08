@@ -13,7 +13,6 @@ from services.milkcollection_service import MilkCollectionService
 
 @app.route("/data_reset")
 @login_required
-@admin_permission.require()
 def data_reset():
   return render_template("data_reset.jinja2")
 
@@ -30,6 +29,7 @@ def clear_collection_bills():
 
 @app.route("/factory_reset")
 @login_required
+@admin_permission.require()
 def factory_reset():
 	from initdb import create_db
 	create_db()
@@ -58,6 +58,7 @@ def get_available_data_backup():
 
 @app.route("/data_restore")
 @login_required
+@admin_permission.require()
 def data_restore():
 	p = request.args.get("key", None)
 	if p:

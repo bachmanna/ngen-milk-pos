@@ -31,7 +31,7 @@
 				{% endwith %}
 				<form action="/login" method="post">
 					<label>{{_("Username")}}
-						<input type="text" name="username" value="{{username}}" />
+						<input type="text" name="username" id="username" value="{{username}}" />
 					</label>
 					<label>{{_("Password")}}
 						<input type="password" name="password"/>
@@ -47,6 +47,9 @@
 	<script src="{{ url_for('static', filename='js/mousetrap.min.js') }}"></script>
 	<script>
 		$(document).foundation();
+		$(function(){
+			$("#username").focus();
+		});
 	</script>
 </body>
 </html>

@@ -18,8 +18,7 @@
                 <div class="medium-6 columns">
                     <a href="/reports" class="large button expand" data-key="f2">{{_("Reports")}} - F2</a>
                 </div>
-            </div>
-            <div class="row">    
+                {% if can_access("admin") or can_access("setup") or can_access("support") %}
                 <div class="medium-6 columns">
                     <a href="/basic_setup" class="large button expand" data-key="f3">{{_("Basic Setup")}} - F3</a>
                 </div>
@@ -27,25 +26,22 @@
                 <div class="medium-6 columns">
                     <a href="/settings" class="large button expand" data-key="f4">{{_("Settings")}} - F4</a>
                 </div>
-            </div>
-            <div class="row">
+                {% endif %}
                 <div class="medium-6 columns">
                     <a href="/system_setup" class="large button expand" data-key="f5">{{_("System Setup")}} - F5</a>
                 </div>
                 <div class="medium-6 columns">
                     <a href="/data_reset" class="large button expand" data-key="f6">{{_("Data Reset")}} - F6</a>
                 </div>
-            </div>
-            <div class="row">
+                {% if can_access("admin") %}
                 <div class="medium-6 columns">
                     <a href="/user" class="large button expand" data-key="f8">{{_("Manage User")}} - F8</a>
                 </div>
-            </div>
-            <div class="row">
+                {% endif %}
                 <div class="medium-6 columns">
-                    <a href="/logout" class="warning large button expand" data-key="f12">{{_("Logout")}} - F11</a>
+                    <a href="/logout" class="warning large button expand" data-key="f11">{{_("Logout")}} - F11</a>
                 </div>
-                <div class="medium-6 columns">
+                <div class="medium-6 columns end">
                     <a href="/shutdown" class="alert large button expand" data-key="f12">{{_("Shutdown")}} - F12</a>
                 </div>
             </div>
