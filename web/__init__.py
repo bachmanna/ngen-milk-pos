@@ -8,12 +8,15 @@ from passlib.handlers.md5_crypt import md5_crypt
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask.ext.babel import Babel
+import os
+import sys
 
 
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #?check_same_thread=False
+basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db') + '?check_same_thread=False'
 app.config['SQLALCHEMY_ECHO'] = False
 db = SQLAlchemy(app)
 
