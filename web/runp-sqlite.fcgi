@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Set the path
 import os
 import sys
