@@ -7,6 +7,7 @@ import random
 
 from web import app, fmtDecimal
 
+from flask.ext.babel import lazy_gettext
 from services.member_service import MemberService
 from services.milkcollection_service import MilkCollectionService
 from services.rate_service import RateService
@@ -19,6 +20,20 @@ from models import *
 def collection():
   shift = "MORNING"
   date = datetime.now()
+
+  changeDate = request.args.get("btnChangeDate", "False") == "True"
+
+  if changeDate:
+    day, month, year  = request.args.get("day", date.day), request.args.get("month", date.month), request.args.get("year", date.year)
+    hour, minute, dn = request.args.get("hour", date.hour), request.args.get("minute", date.minute), request.args.get("dn", date.strftime("%p"))
+    created_at = "%s/%s/%s %s:%s%s" % (day,month,year,hour,minute,dn)
+    date1 = parser.parse(created_at, default=date, dayfirst=True)
+
+    if date1 > date:
+      flash(str(lazy_gettext("Date cannot be greater than today!")), "error")
+    else:
+      date = date1
+
   if date.hour >= 15:
     shift = "EVENING"
 
@@ -44,12 +59,10 @@ def collection():
     print entity
     if collection_id and int(collection_id) > 0:
       collectionService.update(int(collection_id), entity)
-      print "update", collection_id, 
     else:
       collectionService.add(entity)
-      print "add"
 
-    flash("Saved successfully!")
+    flash("Saved successfully!", "success")
     return redirect("/collection")
   
   member_list = member_service.search()

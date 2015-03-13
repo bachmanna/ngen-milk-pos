@@ -8,8 +8,11 @@
 
 <div class=" collection-wrapper">
 	<div class="row">
-		<div class="medium-12 columns text-center">
-			<h1>{{_("Milk Collection")}}</h1>
+		<div class="medium-12 columns">
+			<h1>
+				{{_("Milk Collection")}}
+				<small id="edit_date">{{date.strftime("%d/%m/%Y %I:%M%p")}}</small>
+			</h1>
 		</div>
 	</div>
 
@@ -21,7 +24,7 @@
 				<input type="hidden" name="shift" id="shift" value="{{shift}}"/>
 				<div class="row">
 					<div class="medium-2 columns">
-						<label>{{_("M.Code")}}</label>
+						<label for="member_code">{{_("M.Code")}}</label>
 					</div>
 					<div class="medium-2 columns">
 						<input type="text" class="mousetrap" id="member_code" name="member_code" />
@@ -101,19 +104,7 @@
 	<div class="medium-12 columns hide">
 		<div class="alert-box alert" id="member_status"></div>
 	</div>
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	<div class="medium-12 columns hide">
-		<div class="alert-box">
-			<ul class="flashes">
-				{% for message in messages %}
-				<li>{{ message }}</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-	{% endif %}
-	{% endwith %}
+	{% include "flash_messages.jinja2" %}
 </div>
 
 {% endblock %}
@@ -164,12 +155,48 @@
 		<a href="#" id="btnClear" data-key="c" class="button expand">C - {{_("CLEAR")}}</a>
 	</div>
 	<div class="medium-3 columns">
-		<a href="#" data-key="d" class="button expand">D - {{_("CHANGE DATE")}}</a>
+		<a href="#" data-key="d" class="button expand" data-reveal-id="dateChangeModal">D - {{_("CHANGE DATE")}}</a>
 	</div>
 	<div class="medium-2 columns end">
 		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
 	</div>
 	<a href="#" onclick="$('#member_code').focus();" data-key="f" class="hide"></a>
+</div>
+<div id="dateChangeModal" class="reveal-modal tiny" data-reveal>
+	<h3>{{_("Change Date")}}</h3>
+	<form name="frmChangeDate" id="frmChangeDate" method="get" class="inline">
+		<div class="row">
+			<div class="medium-12 columns">
+				<label>{{_("Date")}}</label>
+				<input type="text" class="mousetrap tiny" name="day" value="{{date.day}}" />
+				/
+				<input type="text" class="mousetrap tiny" name="month" value="{{date.month}}"/>
+				/
+				<input type="text" class="mousetrap medium" name="year" value="{{date.year}}" />
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="medium-12 columns">
+				<label>{{_("Time")}}</label>
+				<input type="text" class="mousetrap tiny" name="hour" value="{{date.strftime("%I")}}" />
+				/
+				<input type="text" class="mousetrap tiny" name="minute" value="{{date.strftime("%M")}}"/>
+				/
+				<input type="text" class="mousetrap medium" name="dn" value="{{date.strftime("%p")}}" />
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="medium-7 columns">
+			&nbsp;
+			</div>
+			<div class="medium-5 columns end">
+				<button type="submit" name="btnChangeDate" value="True" class="expand button">{{_("Change")}}</button>
+			</div>
+		</div>
+	</form>
+	<a class="close-reveal-modal">&#215;</a>
 </div>
 {% endblock %}
 
@@ -208,6 +235,7 @@
 
 				if(data.collection_id && parseInt(data.collection_id) > 0) {
 					$("#collection_id").val(data.collection_id);
+					$("input[name=created_at]").val(data.created_at);
 					//$("#shift").val(data.shift);
 					showError(error_milk_already_collected);
 				}
@@ -221,7 +249,13 @@
 			$("#member_name").text("");
 			$("#member_cattle_type").text("");
 
-			$("input[type=text]").val("");
+			$("#member_code").val("");
+			$("#fat").val("");
+			$("#snf").val("");
+			$("#clr").val("");
+			$("#water").val("");
+			$("#qty").val("");
+			$("#collection_id").val("");
 
 			$("#rate").text("00.00");
 			$("#total").text("000.00");			
@@ -262,6 +296,18 @@
 		});
 
 		clearData();
+
+		$(document).on('opened.fndtn.reveal', '#dateChangeModal', function () {
+			console.log($(this));
+			Mousetrap.pause();
+			$("input[name=day]").focus();
+		});
+
+		$(document).on('closed.fndtn.reveal', '#dateChangeModal', function () {
+			console.log($(this));
+			Mousetrap.unpause();
+			$("#member_code").focus();
+		});
 	});
 </script>
 {% endblock %}
