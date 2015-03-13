@@ -153,6 +153,18 @@ def app_logout():
   session.clear()
   return redirect('/')
 
+
+@app.route('/shutdown')
+def app_shutdown():
+  if sys.platform == 'linux2':
+    #os.system("sudo shutdown now -h")
+    command = "/usr/bin/sudo /sbin/shutdown -r now"
+    import subprocess
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    print output
+  return render_template('shutdown.jinja2')
+
 import views.users
 import views.collections
 import views.settings
