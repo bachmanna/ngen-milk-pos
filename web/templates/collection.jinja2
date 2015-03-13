@@ -104,6 +104,8 @@
 	<div class="medium-12 columns hide">
 		<div class="alert-box alert" id="member_status"></div>
 	</div>
+</div>
+<div id="prev_error_msg">
 	{% include "flash_messages.jinja2" %}
 </div>
 
@@ -189,7 +191,7 @@
 		<br/>
 		<div class="row">
 			<div class="medium-7 columns">
-			&nbsp;
+				&nbsp;
 			</div>
 			<div class="medium-5 columns end">
 				<button type="submit" name="btnChangeDate" value="True" class="expand button">{{_("Change")}}</button>
@@ -213,6 +215,7 @@
 		}
 
 		function hideError () {
+			$("#prev_error_msg").remove();
 			$("#member_status").parent().addClass("hide");
 			$("#member_status").text("");
 		}
@@ -270,6 +273,12 @@
 				$("#member_name").text("");
 				$("#member_cattle_type").text("");
 				var code = parseInt($(this).val());
+
+				if(isNaN(code)){
+					code = "";
+					return;
+				}
+
 				var res = $.grep(members, function(x){ return x.id == code; });
 				if(res && res.length == 1) {				
 					var m = res[0];
