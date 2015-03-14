@@ -1,14 +1,33 @@
-from flask import render_template, request, redirect, g, flash
-from flask_login import login_required
+from flask import render_template, request, redirect, g, flash, url_for
+from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 from flask.ext.babel import lazy_gettext, gettext
 
-from web import app
+from web import app, settings_provider
 
 from services.member_service import MemberService
 from services.rate_service import RateService
 from services.milkcollection_service import MilkCollectionService
 from models import *
+
+import os
+import xhtml2pdf.pisa as pisa
+
+from flask_weasyprint import HTML, CSS
+
+
+def do_print_report(template,outfile, **kwargs):
+  dest = os.path.join(app.root_path, 'backup/%s' % outfile)
+  tmp = app.jinja_env.get_template(template)
+  s = settings_provider() or {}
+  s.update(**kwargs)
+  data = tmp.render(s)
+  app_css = CSS(url_for("static", filename="css/app.css"))
+  custom_css = CSS(url_for("static", filename="css/custom.css"))
+  print_css = CSS(url_for("static", filename="css/print.css"))
+  styles = [app_css,custom_css,print_css]
+  HTML(string=data).write_pdf(target=dest, stylesheets = styles)
+  pisa.startViewer(dest)
 
 @app.route("/reports")
 @login_required
@@ -23,7 +42,14 @@ def report_member_list():
   member_list = member_service.search()
   cow_member_list = [x for x in member_list if x.cattle_type == "COW"]
   buffalo_member_list = [x for x in member_list if x.cattle_type == "BUFFALO"]
-  return render_template("member_list.jinja2",member_list=member_list,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list)
+
+  data = dict(member_list=member_list,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/member_list.jinja2", "member_list.pdf", **data)
+    return redirect(url_for("report_member_list"))
+
+  return render_template("member_list.jinja2", **data)
 
 
 @app.route("/absence_list")
@@ -54,7 +80,14 @@ def absence_list():
 
   cow_member_list = [x for x in absence_members if x.cattle_type == "COW"]
   buffalo_member_list = [x for x in absence_members if x.cattle_type == "BUFFALO"]
-  return render_template("absence_list.jinja2",member_list=absence_members,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list,search_date=search_date,shift=shift)
+
+  data = dict(member_list=absence_members,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list,search_date=search_date,shift=shift)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/absence_list.jinja2", "absence_list.pdf", **data)
+    return redirect(url_for("absence_list"))
+
+  return render_template("absence_list.jinja2", **data)
 
 
 @app.route("/detail_shift")
@@ -74,7 +107,13 @@ def report_detail_shift():
   collectionService = MilkCollectionService()
   members, mcollection, summary = collectionService.get_milk_collection_and_summary(shift, search_date)
 
-  return render_template("detail_shift.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+  data = dict(mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/detail_shift.jinja2", "detail_shift.pdf", **data)
+    return redirect(url_for("report_detail_shift"))
+
+  return render_template("detail_shift.jinja2", **data)
 
 
 @app.route("/shift_summary")
@@ -93,7 +132,14 @@ def report_shift_summary():
 
   collectionService = MilkCollectionService()
   members, mcollection, summary = collectionService.get_milk_collection_and_summary(shift, search_date)
-  return render_template("shift_summary.jinja2", mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+
+  data = dict(mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/shift_summary.jinja2", "shift_summary.pdf", **data)
+    return redirect(url_for("report_shift_summary"))
+
+  return render_template("shift_summary.jinja2", **data)
 
 
 @app.route("/payment_report")
@@ -150,7 +196,13 @@ def payment_report():
     summary["increment"] = summary["increment"] + item["increment"]
     summary["total"] = summary["total"] + item["total"]
 
-  return render_template("payment_report.jinja2",from_date=from_date,to_date=to_date,lst=lst,increment=increment,summary=summary)
+  data = dict(from_date=from_date,to_date=to_date,lst=lst,increment=increment,summary=summary)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/payment_report.jinja2", "payment_report.pdf", **data)
+    return redirect(url_for("payment_report"))
+
+  return render_template("payment_report.jinja2",**data)
 
 
 @app.route("/member_report")
@@ -198,10 +250,16 @@ def member_payment_report():
   for x in mlst:
     member_list[x.id] = x
 
-  return render_template("member_report.jinja2",from_date=from_date,
+  data = dict(from_date=from_date,
     to_date=to_date,lst=lst,
     from_member=from_member,to_member=to_member,
     increment=increment,summary=summary,member_list=member_list)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/member_report.jinja2", "member_report.pdf", **data)
+    return redirect(url_for("member_payment_report"))
+
+  return render_template("member_report.jinja2",**data)
 
 
 @app.route("/dairy_report")
@@ -261,8 +319,13 @@ def dairy_report():
       summary["rate"] = summary["rate"] + item["rate"]
       summary["total"] = summary["total"] + item["total"]
 
-  return render_template("dairy_report.jinja2",from_date=from_date,
-    to_date=to_date,lst=lst,summary=summary)
+  data = dict(from_date=from_date,to_date=to_date,lst=lst,summary=summary)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/dairy_report.jinja2", "dairy_report.pdf", **data)
+    return redirect(url_for("dairy_report"))
+
+  return render_template("dairy_report.jinja2", **data)
 
 
 @app.route("/settings_report")
@@ -271,4 +334,11 @@ def settings_report():
   settings = g.app_settings
   basic_keys = ["SOCIETY_NAME","SOCIETY_ADDRESS","SOCIETY_ADDRESS1","HEADER_LINE1","HEADER_LINE2","HEADER_LINE3","HEADER_LINE4", "FOOTER_LINE1", "FOOTER_LINE2"]
   settings_keys = ["ANALYZER_TYPE","SCALE_TYPE","RATE_TYPE","COLLECTION_PRINTER_TYPE","MANUAL_FAT", "MANUAL_SNF", "MANUAL_QTY","PRINT_BILL","PRINT_CLR","PRINT_WATER", "BILL_OVERWRITE", "QUANTITY_2_DECIMAL","LANGUAGE","DATA_EXPORT_FORMAT"]
-  return render_template("settings_report.jinja2",settings=settings, basic_keys=basic_keys,settings_keys=settings_keys)
+
+  data = dict(settings=settings, basic_keys=basic_keys,settings_keys=settings_keys)
+
+  if request.args.get("print", "False") == "True":
+    do_print_report("reports/settings_report.jinja2", "settings_report.pdf", **data)
+    return redirect(url_for("settings_report"))
+
+  return render_template("settings_report.jinja2", **data)

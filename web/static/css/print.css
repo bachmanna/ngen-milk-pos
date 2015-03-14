@@ -1,0 +1,30 @@
+html { 
+    -weasy-hyphens: auto;
+    -weasy-bookmark-level: none;
+}
+
+@page {
+    margin: 1.5cm 1.0cm; 
+    padding-left: 0cm;
+    @top-center {        
+    }
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages); 
+    }
+    @left-top {        
+    }
+}
+
+h1,h2,h3,h4,h5,h6, a {
+    -weasy-bookmark-level: none;
+}
+
+div, table, .row, .column, .columns 
+{
+    margin: 0;
+    padding: 0;
+}
+
+.medium-4 {
+    width: 235.65px;
+}

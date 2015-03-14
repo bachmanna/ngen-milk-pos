@@ -4,8 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ settings["SOCIETY_NAME"] }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}"/>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css')}}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css', _external=True)}}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css', _external=True)}}"/>
   <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
 </head>
 <body>

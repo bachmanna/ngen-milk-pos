@@ -29,50 +29,7 @@
     </div>
 </form>
 <hr/>
-<div class="report_container">
-    {% include "report_print_header.jinja2" %}
-    <div class="row">
-        <div class="medium-12 columns text-center">
-            <h4>{{_("ABSENT LIST")}}</h4>
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="medium-4 columns">
-            <h5>{{_("Total Absent")}}: <b>{{member_list|count}}</b></h5>
-        </div>
-        <div class="medium-4 columns">
-            <h5>{{_("COW")}}: <b>{{cow_member_list|count}}</b></h5>
-        </div>
-        <div class="medium-4 columns">
-            <h5>{{_("BUFFALO")}}: <b>{{buffalo_member_list|count}}</b></h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-12 columns">
-            <table class="expand" style="width:100%;" role="grid">
-                <thead>
-                    <tr>
-                        <th>{{_("M.Code")}}</th>
-                        <th>{{_("Name")}}</th>
-                        <th>{{_("Mobile")}}</th>
-                        <th>{{_("Cattle Type")}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in member_list %}
-                    <tr>
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.mobile}}</td>
-                        <td>{{item.cattle_type}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+{% include "reports/absence_list.jinja2" %}
 {% endblock %}
 
 

@@ -14,6 +14,8 @@ manager.add_command("run", Server(
     use_debugger=True,
     use_reloader=True,
     host='0.0.0.0',
+    #processes=3,
+    threaded=True,
     port=4000)
 )
 
