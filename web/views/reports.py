@@ -11,7 +11,7 @@ from services.milkcollection_service import MilkCollectionService
 from models import *
 
 import os
-import xhtml2pdf.pisa as pisa
+#import xhtml2pdf.pisa as pisa
 
 from flask_weasyprint import HTML, CSS
 
@@ -27,7 +27,7 @@ def do_print_report(template,outfile, **kwargs):
   print_css = CSS(url_for("static", filename="css/print.css"))
   styles = [app_css,custom_css,print_css]
   HTML(string=data).write_pdf(target=dest, stylesheets = styles)
-  pisa.startViewer(dest)
+  #pisa.startViewer(dest)
 
 @app.route("/reports")
 @login_required
