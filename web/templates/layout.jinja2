@@ -122,6 +122,28 @@
     updateClock(); // initial call
   });
 
+  var print_msg = { 'start': '{{_("Print started...")}}', 'complete': '{{_("Print completed.")}}', 'error': '{{_("Print error.")}}' };
+
+  function doReportPrint(el){
+    var url = el.href;
+    Mousetrap.pause();
+    $("#print_report_status").removeClass("hide");
+    $("#print_report_status_text").text(print_msg.start);
+
+    $.get(url, {}, function(data){
+      if(data && data.success){
+        $("#print_report_status_text").text(print_msg.complete);
+      }
+    })
+    .error(function(){
+      $("#print_report_status_text").text(print_msg.error);
+    })
+    .complete(function(){
+      Mousetrap.unpause();
+    });
+    return false;
+  }
+
 </script>
 {% block scripts %}
 

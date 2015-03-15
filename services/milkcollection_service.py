@@ -47,7 +47,6 @@ class MilkCollectionService:
           query = query.filter(MilkCollection.created_at >= from_date)
           query = query.filter(MilkCollection.created_at < to_date)
         query = query.order_by(MilkCollection.member_id)
-        print(query)
         lst = query.all()
         return lst
 

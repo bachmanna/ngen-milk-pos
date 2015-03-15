@@ -32,12 +32,5 @@
 
 
 {% block sidebar %}
-<div class="row">
-    <div class="medium-12 columns">
-        <a href="?print=True" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
-    </div>
-    <div class="medium-12 columns end">
-        <a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
-    </div>
-</div>
+{% include "report_page_footer.jinja2" %}
 {% endblock %}

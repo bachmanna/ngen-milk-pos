@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, g, flash, url_for
+from flask import render_template, request, redirect, g, flash, url_for, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 from flask.ext.babel import lazy_gettext, gettext
@@ -11,6 +11,7 @@ from services.milkcollection_service import MilkCollectionService
 from models import *
 
 import os
+import sys
 #import xhtml2pdf.pisa as pisa
 
 from flask_weasyprint import HTML, CSS
@@ -27,7 +28,9 @@ def do_print_report(template,outfile, **kwargs):
   print_css = CSS(url_for("static", filename="css/print.css"))
   styles = [app_css,custom_css,print_css]
   HTML(string=data).write_pdf(target=dest, stylesheets = styles)
-  #pisa.startViewer(dest)
+  if sys.platform == "win32":
+    import xhtml2pdf.pisa as pisa
+    pisa.startViewer(dest)
 
 @app.route("/reports")
 @login_required
@@ -47,7 +50,7 @@ def report_member_list():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/member_list.jinja2", "member_list.pdf", **data)
-    return redirect(url_for("report_member_list"))
+    return jsonify({"success": True})
 
   return render_template("member_list.jinja2", **data)
 
@@ -85,7 +88,7 @@ def absence_list():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/absence_list.jinja2", "absence_list.pdf", **data)
-    return redirect(url_for("absence_list"))
+    return jsonify({"success": True})
 
   return render_template("absence_list.jinja2", **data)
 
@@ -111,7 +114,7 @@ def report_detail_shift():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/detail_shift.jinja2", "detail_shift.pdf", **data)
-    return redirect(url_for("report_detail_shift"))
+    return jsonify({"success": True})
 
   return render_template("detail_shift.jinja2", **data)
 
@@ -137,7 +140,7 @@ def report_shift_summary():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/shift_summary.jinja2", "shift_summary.pdf", **data)
-    return redirect(url_for("report_shift_summary"))
+    return jsonify({"success": True})
 
   return render_template("shift_summary.jinja2", **data)
 
@@ -200,7 +203,7 @@ def payment_report():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/payment_report.jinja2", "payment_report.pdf", **data)
-    return redirect(url_for("payment_report"))
+    return jsonify({"success": True})
 
   return render_template("payment_report.jinja2",**data)
 
@@ -257,7 +260,7 @@ def member_payment_report():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/member_report.jinja2", "member_report.pdf", **data)
-    return redirect(url_for("member_payment_report"))
+    return jsonify({"success": True})
 
   return render_template("member_report.jinja2",**data)
 
@@ -323,7 +326,7 @@ def dairy_report():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/dairy_report.jinja2", "dairy_report.pdf", **data)
-    return redirect(url_for("dairy_report"))
+    return jsonify({"success": True})
 
   return render_template("dairy_report.jinja2", **data)
 
@@ -339,6 +342,6 @@ def settings_report():
 
   if request.args.get("print", "False") == "True":
     do_print_report("reports/settings_report.jinja2", "settings_report.pdf", **data)
-    return redirect(url_for("settings_report"))
+    return jsonify({"success": True})
 
   return render_template("settings_report.jinja2", **data)

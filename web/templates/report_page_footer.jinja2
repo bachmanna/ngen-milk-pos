@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="medium-12 columns">
+		<a href="{{request.path}}?{{request.query_string + ("?" if request.query_string | count == 0 else "&")  + "print=True"}}" onclick="event.preventDefault();doReportPrint(this);" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
+	</div>
+	<div class="medium-12 columns end">
+		<a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+	</div>
+</div>
+<hr/>
+<div class="row">
+	<div class="medium-12 columns">
+		<div id="print_report_status" class="alert-box info hide">
+			<div id="print_report_status_text"></div>
+		</div>
+	</div>
+</div>
