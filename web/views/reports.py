@@ -16,17 +16,25 @@ import sys
 
 from flask_weasyprint import HTML, CSS
 
+styles = None
 
 def do_print_report(template,outfile, **kwargs):
-  dest = os.path.join(app.root_path, 'backup/%s' % outfile)
+  global styles
+  bakdir = os.path.join(app.root_path, 'backup')
+  if not os.path.exists(bakdir):
+      os.makedirs(bakdir)
+
+  dest = os.path.join(bakdir, outfile)
   tmp = app.jinja_env.get_template(template)
   s = settings_provider() or {}
   s.update(**kwargs)
   data = tmp.render(s)
-  app_css = CSS(url_for("static", filename="css/app.css"))
-  custom_css = CSS(url_for("static", filename="css/custom.css"))
-  print_css = CSS(url_for("static", filename="css/print.css"))
-  styles = [app_css,custom_css,print_css]
+
+  if styles is None:
+    app_css = CSS(url_for("static", filename="css/app.css"))
+    custom_css = CSS(url_for("static", filename="css/custom.css"))
+    print_css = CSS(url_for("static", filename="css/print.css"))
+    styles = [app_css,custom_css,print_css]
   HTML(string=data).write_pdf(target=dest, stylesheets = styles)
   if sys.platform == "win32":
     import xhtml2pdf.pisa as pisa
