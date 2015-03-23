@@ -17,7 +17,7 @@
 
 	<div class="row">
 		<div class="medium-12 columns">
-			<form name="frmCollection" id="frmCollection" method="post" action="">
+			<form name="frmCollection" id="frmCollection" method="post" action="" autocomplete="off">
 				<input type="hidden" name="collection_id" id="collection_id" value=""/>
 				<input type="hidden" name="created_at" id="created_at" value="{{date}}"/>
 				<input type="hidden" name="shift" id="shift" value="{{shift}}"/>
@@ -121,10 +121,37 @@
 	</div>
 </div>
 <div class="row">
+	<div class="medium-12 columns">
+		<ul class="graph-container">
+            <li class="cow">
+                <span>{{_("COW")}}</span>
+                <div class="bar-wrapper">
+                    <div class="bar-container">
+                        <div class="bar-inner" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
+                        <div class="bar-text">{{'%0.2f'| format(c_qty)}}</div>
+                    </div>
+                </div>
+            </li>
+            <li class="buffalo">
+                <span>{{_("BUFFALO")}}</span>
+                <div class="bar-wrapper">
+                    <div class="bar-container">
+                        <div class="bar-inner" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
+                        <div class="bar-text">{{'%0.2f'| format(b_qty)}}</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+            </li>
+        </ul>
+	</div>
+	<hr/>
+</div>
+<div class="row">
 	<div class="medium-6 columns">
 		{{_("Total Qty")}} <br/>
 		{{_("COW")}} <br/>
-		{{_("BUFFALO")}} 
+		{{_("BUFFALO")}}
 	</div>
 	<div class="medium-6 columns">
 		<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}<br/>

@@ -70,13 +70,21 @@ def collection():
 
   collection_members, mcollection, summary = collectionService.get_milk_collection_and_summary(shift, date.date())
 
+  qty_total = 38.0
+  c_qty = summary["milk"][0]%qty_total
+  b_qty = summary["milk"][1]%qty_total
+  c_qty = (1 - ((qty_total - c_qty)/qty_total))*100.0
+  b_qty = (1 - ((qty_total - b_qty)/qty_total))*100.0
+
   return render_template('collection.jinja2',
     shift=shift,
     member_list=member_list,
     members_json=members_json,
     date=date,
     collection_members=collection_members,
-    summary=summary)
+    summary=summary,
+    c_qty=c_qty,
+    b_qty=b_qty)
 
 
 @app.route("/get_collection_data")

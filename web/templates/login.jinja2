@@ -52,9 +52,9 @@
 			$("#username").focus();
 
 			$("#btnLogin").click(function(){
-				$(this).prop("disabled", true);
 				$("#loginFromContainer").addClass("hide");
 				$("#loadingContainer").removeClass("hide");
+				return true;
 			});
 		});
 	</script>
