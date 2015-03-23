@@ -169,3 +169,20 @@ form.inline .button {
 	margin-top: 20px;
 	border-top: 3px solid #333;
 }
+
+.loading{
+    position: absolute;
+    z-index: 100;
+    width:100% !important;
+    height:100%;
+    background-color:#80BCD4;
+    opacity: 0.85;
+    margin-top: -20px;
+}
+
+.loading h1{
+	position: relative;
+	top: 35%;
+	opacity: 1.0;
+	z-index: 101;
+}

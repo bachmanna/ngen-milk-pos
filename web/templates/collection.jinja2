@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
 <div class=" collection-wrapper">
 	<div class="row">
 		<div class="medium-12 columns">
@@ -209,6 +208,16 @@
 		var error_milk_already_collected = '{{_("Milk already collected!")}}';
 		var members = {{members_json}};
 
+		$("#page_loading h1").text('{{_("READING DATA...")}}');
+
+		$(document).ajaxStart(function(){
+			$("#page_loading").removeClass("hide");
+		});
+
+		$(document).ajaxComplete(function(){
+			$("#page_loading").addClass("hide");
+		});
+
 		function showError (msg) {
 			$("#member_status").parent().removeClass("hide");
 			$("#member_status").text(msg);
@@ -221,6 +230,7 @@
 		}
 
 		function updateData(member_id){
+
 			var shift = $("input[name=shift]").val();
 			var cattle_type = $("#member_cattle_type").text().trim();
 			var created_at = $("input[name=created_at]").val();
@@ -242,6 +252,8 @@
 					//$("#shift").val(data.shift);
 					showError(error_milk_already_collected);
 				}
+			}).complete(function(){
+				
 			});
 		}
 
@@ -295,6 +307,8 @@
 
 		$("#btnSave").click(function(){
 			$("input[disabled]").prop("disabled", null);
+			$("#page_loading h1").text('{{_("SAVING DATA...")}}');
+			$("#page_loading").removeClass("hide");
 			$("#frmCollection").submit();
 			return false;
 		});
