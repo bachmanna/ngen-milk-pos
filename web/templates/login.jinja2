@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<div class="login-container">
+	<div id="loginFromContainer" class="login-container">
 		<div class="row">
 			<div class="medium-4 small-centered columns text-center end">
 				<h1>{{_("LOGIN")}}</h1>
@@ -34,10 +34,13 @@
 					<label>{{_("Password")}}
 						<input type="password" name="password"/>
 					</label>
-					<button type="submit" class="button expand">{{_("Login")}}</button>
+					<button type="submit" id="btnLogin" class="button expand">{{_("Login")}}</button>
 				</form>
 			</div>
 		</div>
+	</div>
+	<div id="loadingContainer" class="login-container hide text-center">
+		<h1>LOADING...</h1>
 	</div>
 
 	<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
@@ -47,6 +50,12 @@
 		$(document).foundation();
 		$(function(){
 			$("#username").focus();
+
+			$("#btnLogin").click(function(){
+				$(this).prop("disabled", true);
+				$("#loginFromContainer").addClass("hide");
+				$("#loadingContainer").removeClass("hide");
+			});
 		});
 	</script>
 </body>
