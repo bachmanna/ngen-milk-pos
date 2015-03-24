@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from dateutil import parser
 import json
-import random
+import babel.numbers as bn
 
 from web import app, fmtDecimal
 
@@ -13,7 +13,14 @@ from services.milkcollection_service import MilkCollectionService
 from services.rate_service import RateService
 from services.rate_calc import RateCalc
 
+from configuration_manager import ConfigurationManager
+
 from models import *
+from hal import *
+
+def format_currency(value):
+  formatted_value = bn.format_currency(value, "INR", locale="ta_IN")
+  return formatted_value
 
 @app.route("/collection", methods=['GET', 'POST'])
 @login_required
@@ -114,15 +121,39 @@ def get_collection_data():
       data["qty"] = entity.qty
       data["rate"] = entity.rate
       data["total"] = entity.total
-      return jsonify(**data)
+      data["fmt_rate"] = format_currency(entity.rate)
+      data["fmt_total"] = format_currency(entity.total)
+
+      override = request.args.get("override", "False")
+      if override == "False":
+        return jsonify(**data)
 
   rateCalc = RateCalc(g.app_settings[SystemSettings.RATE_TYPE])
   
-  fat = data["fat"] = fmtDecimal(random.random()*10.0)
-  snf = data["snf"] = fmtDecimal(random.random()*20.0)
-  data["clr"] = fmtDecimal(random.random()*15.0)
-  data["water"] = fmtDecimal(random.random()*80.0)
-  qty = data["qty"] = fmtDecimal(random.random()*12.0)
-  rate = data["rate"] = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
-  data["total"] = fmtDecimal(rate * qty)
+  sensor_data = get_sensor_data()
+
+  fat = data["fat"] = fmtDecimal(sensor_data["fat"])
+  snf = data["snf"] = fmtDecimal(sensor_data["snf"])
+  data["clr"] = fmtDecimal(sensor_data["clr"])
+  data["water"] = fmtDecimal(sensor_data["water"])
+
+  qty = data["qty"] = fmtDecimal(sensor_data["qty"])
+
+  rate = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
+  total = fmtDecimal(rate * qty)
+
+  data["rate"] = rate
+  data["total"] = total
+  data["fmt_rate"] = format_currency(rate)
+  data["fmt_total"] = format_currency(total)
   return jsonify(**data)
+
+def get_sensor_data():
+  config_manager = ConfigurationManager()
+  settings = config_manager.get_all_settings()
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE])
+  analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE])
+  data = analyzer.get()
+  data["qty"] = scale.get()
+
+  return data

@@ -189,6 +189,7 @@
 		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
 	</div>
 	<a href="#" onclick="$('#member_code').focus();" data-key="f" class="hide"></a>
+	<a href="#" onclick="readOverride();" data-key="r" class="hide"></a>
 </div>
 <div id="dateChangeModal" class="reveal-modal medium" data-reveal>
 	<h3>{{_("Change Date")}}</h3>
@@ -238,11 +239,11 @@
 		$("#page_loading h1").text('{{_("READING DATA...")}}');
 
 		$(document).ajaxStart(function(){
-			$("#page_loading").removeClass("hide");
+			//$("#page_loading").removeClass("hide");
 		});
 
 		$(document).ajaxComplete(function(){
-			$("#page_loading").addClass("hide");
+			//$("#page_loading").addClass("hide");
 		});
 
 		function showError (msg) {
@@ -256,19 +257,25 @@
 			$("#member_status").text("");
 		}
 
-		function updateData(member_id){
+		function updateData(member_id, override){
 
 			var shift = $("input[name=shift]").val();
 			var cattle_type = $("#member_cattle_type").text().trim();
 			var created_at = $("input[name=created_at]").val();
-			$.get('/get_collection_data', {"member_id": member_id,"created_at":created_at,"shift":shift,"cattle_type": cattle_type},function(data){
+			var postdata = {"member_id": member_id,"created_at":created_at,"shift":shift,"cattle_type": cattle_type };
+
+			if(override && override === true){
+				postdata["override"] = true;
+			}
+
+			$.get('/get_collection_data', postdata,function(data){
 				$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);
 				$("#water").val(data.water);
 				$("#qty").val(data.qty);
-				$("#rate").text(data.rate);
-				$("#total").text(data.total);
+				$("#rate").text(data.fmt_rate);
+				$("#total").text(data.fmt_total);
 				$("#txtRate").val(data.rate);
 				$("#txtTotal").val(data.total);
 				$("#collection_id").val("");
@@ -314,7 +321,6 @@
 				var code = parseInt($(this).val());
 
 				if(isNaN(code)){
-					code = "";
 					return;
 				}
 
@@ -347,14 +353,39 @@
 
 		clearData();
 
+		var updateIntervalData = function(){
+			setTimeout(updateIntervalData, 2000);
+			var code = parseInt($("#member_code").val());
+			var name = $("#member_name").text();
+			var id = $("#collection_id").val();
+
+			if(isNaN(code) || name === "" || name.length == 0 || id != "") {
+				return;
+			}
+
+			updateData(code);
+		};
+
+		setTimeout(updateIntervalData, 2000);
+
+		window.readOverride = function(){
+			var code = parseInt($("#member_code").val());
+			var name = $("#member_name").text();
+
+			if(isNaN(code) || name === "" || name.length == 0) {
+				return;
+			}
+
+			updateData(code, true);
+		};
+
+
 		$(document).on('opened.fndtn.reveal', '#dateChangeModal', function () {
-			console.log($(this));
 			Mousetrap.pause();
 			$("input[name=day]").focus();
 		});
 
 		$(document).on('closed.fndtn.reveal', '#dateChangeModal', function () {
-			console.log($(this));
 			Mousetrap.unpause();
 			$("#member_code").focus();
 		});
