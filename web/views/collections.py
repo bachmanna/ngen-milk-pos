@@ -69,6 +69,11 @@ def collection():
     else:
       collectionService.add(entity)
 
+    try:
+      printTicket(entity)
+    except Exception as e:
+      print e
+
     flash("Saved successfully!", "success")
     return redirect("/collection")
   
@@ -123,7 +128,9 @@ def get_collection_data():
       data["total"] = entity.total
       data["fmt_rate"] = format_currency(entity.rate)
       data["fmt_total"] = format_currency(entity.total)
-
+      ##############
+      printTicket(entity)
+      ##############
       override = request.args.get("override", "False")
       if override == "False":
         return jsonify(**data)
@@ -157,3 +164,35 @@ def get_sensor_data():
   data["qty"] = scale.get()
 
   return data
+
+def printTicket(entity):
+  config_manager = ConfigurationManager()
+  settings = config_manager.get_all_settings()
+
+  template = "bc %s" % settings[SystemSettings.HEADER_LINE1]
+  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE2]
+  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE3]
+  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE4]
+
+  template = template + "\nnl %s" % ("*" * 40)
+
+  shift = "M"
+  if entity.shift == "EVENING":
+    shift = "E"
+  template = template + "\nnl Date: %s       Shift: %s" % (entity.created_at.strftime("%d/%m/%Y %I:%M%p"), shift)
+  template = template + "\nnl M.Code: %d Name: %s" % (entity.member_id, entity.member.name)
+  template = template + "\nnl Cattle: %s" % (entity.member.cattle_type)
+
+  template = template + "\nnl FAT: %.2f CLR: %.2f" % (entity.fat, entity.clr)
+  template = template + "\nnl SNF: %.2f WTR: %.2f" % (entity.snf, entity.aw)
+
+  template = template + "\nnl QTY: %.2f RATE: %.2f" % (entity.qty, entity.rate)
+
+  template = template + "\nbl TOTAL: %.2f" % (entity.total)
+
+  template = template + "\nnl %s" % ("*" * 40)
+
+  template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE1]
+  template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE2]
+  print template
+  pass
