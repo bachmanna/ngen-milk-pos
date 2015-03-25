@@ -14,12 +14,12 @@
             <div class="text-center">
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a href="/data_backup" class="large button expand" data-key="f1" data-confirm="{{_("Do you want to backup all data to USB?")}}">{{_("Backup")}} - F1</a>
+                        <a id="backupBtn" href="/data_backup" class="large button expand" data-key="f1" data-confirm="{{_("Do you want to backup all data to USB?")}}">{{_("Backup")}} - F1</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2" data-confirm="{{_("Do you want to restore all data from USB?")}}">{{_("Restore")}} - F2</a>
+                        <a id="restoreBtn" href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2" data-confirm="{{_("Do you want to restore all data from USB?")}}">{{_("Restore")}} - F2</a>
                     </div>
                 </div>
                 <div class="row">
@@ -30,7 +30,7 @@
                 {% if can_access("admin") %}
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a href="/factory_reset" class="alert large button expand" data-key="f4" data-confirm="{{_("Be sure to backup before doing this operation. ALL DATA WILL BE ERASED AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory reset? ")}}">{{_("Factory reset")}} - F4</a>
+                        <a id="factoryResetBtn" href="/factory_reset" class="alert large button expand" data-key="f4" data-confirm="{{_("Be sure to backup before doing this operation. ALL DATA WILL BE ERASED AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory reset? ")}}">{{_("Factory reset")}} - F4</a>
                     </div>
                 </div>
                 {% endif %}
@@ -56,6 +56,22 @@
 
 <script>
 $(function(){
+
+    $("#backupBtn").click(function(){
+        $("#page_loading h1").text('{{_("BACKUP IN PROCESS...")}}');
+        $("#page_loading").removeClass("hide");
+    });
+
+    $("#restoreBtn").click(function(){
+        $("#page_loading h1").text('{{_("RESTORE IN PROCESS...")}}');
+        $("#page_loading").removeClass("hide");
+    });
+
+    $("#factoryResetBtn").click(function(){
+        $("#page_loading h1").text('{{_("FACTORY RESET IN PROCESS...")}}');
+        $("#page_loading").removeClass("hide");
+    });
+
     $.get('{{url_for("get_usb_storage_devices")}}', function(data){
         $("#usb_devices").html(data);
     });
