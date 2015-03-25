@@ -1,0 +1,19 @@
+{% if devices|count > 0 %}
+
+<h4>{{_("Available USB Storages")}}</h4>
+
+<ul>
+{% for item in devices %}
+
+<li>{{item}}</li>
+
+{% endfor %}
+</ul>
+
+{% else %}
+
+<div class="alert-box info">
+<p>{{_("No USB storage devices found")}}</p>
+</div>
+
+{% endif %}

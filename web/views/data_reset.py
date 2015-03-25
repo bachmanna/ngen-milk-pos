@@ -72,9 +72,15 @@ def do_backup():
 	from db_manager import db
 	n = int(time.mktime(datetime.now().timetuple()))
 	t = time.time()
-	directory = os.path.join(app.root_path, 'backup/%d' % (n))
+	filename = 'backup/%d' % (n)
+	directory = os.path.join(app.root_path, filename)
+
+	if is_usb_storage_connected():
+		directory = os.path.join("/home/pi/usbdrv/", filename)
+
 	if not os.path.exists(directory):
-			os.makedirs(directory)
+		os.makedirs(directory)
+
 	print "Backup to folder %s" % (directory)
 
 	for table in db.metadata.tables.values():		
@@ -100,6 +106,9 @@ def do_restore(p):
 		filename = 'backup/%s/%s.csv' % (p, table.name)
 		fpath = os.path.join(app.root_path, filename)
 
+		if is_usb_storage_connected():
+			fpath = os.path.join("/home/pi/usbdrv/", filename)
+
 		if not os.path.isfile(fpath):
 			continue
 
@@ -124,3 +133,20 @@ def do_restore(p):
 		print "Done in %s sec" % (time.time() - t0)
 	print "Total time: %s sec" % (time.time() - t)
 	db.session.commit()
+
+def is_usb_storage_connected():
+	return os.path.ismount("/home/pi/usbdrv/")
+
+@app.route("/get_usb_storage_devices")
+@login_required
+def get_usb_storage_devices():
+	devices = []
+
+	if is_usb_storage_connected():
+		import subprocess as sp
+		vendor = sp.check_output(["cat", "/sys/class/block/sda/device/vendor"]).strip("\n").strip(" ")
+		model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
+		name = vendor + model
+		devices.append(name)
+
+	return render_template("usb_devices.jinja2", data=devices)

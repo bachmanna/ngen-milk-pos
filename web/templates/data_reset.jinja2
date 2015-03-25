@@ -42,3 +42,24 @@
 <div id="backupListModal" class="reveal-modal medium" data-reveal>
 </div>
 {% endblock %}
+
+{% block sidebar %}
+<div class="row">
+    <div class="medium-12 columns">
+        <div id="usb_devices">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+$(function(){
+    $.get('{{url_for("get_usb_storage_devices")}}', function(data){
+        $("#usb_devices").html(data);
+    });
+});
+</script>
+
+{% endblock %}
