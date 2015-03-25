@@ -87,9 +87,15 @@
 
     $("[data-confirm]").each(function(){
       var $that = $(this);
-      $(this).on("click", function(){
+      $(this).on("click", function(e){
         var msg = $that.data("confirm");
-        return confirm(msg);
+        var action = confirm(msg);
+        if(!action){
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+        return true;
       });
     });
 

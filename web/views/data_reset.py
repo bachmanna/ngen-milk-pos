@@ -50,11 +50,12 @@ def data_backup():
 @app.route("/get_available_data_backup")
 @login_required
 def get_available_data_backup():
-	p = os.path.join(app.root_path, 'backup')
-	paths = filter(lambda x: (not os.path.isfile(x)) and x.isdigit(), os.listdir(p))
-	paths.sort(key=lambda x: os.path.getmtime(os.path.join(app.root_path, 'backup/'+x)))
+	directory = get_backup_directory()
+	paths = filter(lambda x: (not os.path.isfile(x)) and x.isdigit(), os.listdir(directory))
+	paths.sort(key=lambda x: -os.path.getmtime(os.path.join(directory, x)))
 	directory = [(x,datetime.fromtimestamp(int(x))) for x in paths]
 	return render_template("backup_list.jinja2", data=directory)
+
 
 @app.route("/data_restore")
 @login_required
@@ -68,15 +69,27 @@ def data_restore():
 	return redirect(url_for("data_reset"))
 
 
-def do_backup():
-	from db_manager import db
-	n = int(time.mktime(datetime.now().timetuple()))
-	t = time.time()
-	filename = 'backup/%d' % (n)
+def is_usb_storage_connected():
+	return os.path.ismount("/home/pi/usbdrv/")
+
+
+def get_backup_directory():
+	filename = 'backup'
 	directory = os.path.join(app.root_path, filename)
 
 	if is_usb_storage_connected():
 		directory = os.path.join("/home/pi/usbdrv/", filename)
+
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+	return directory
+
+
+def do_backup():
+	from db_manager import db
+	bdir = str(int(time.mktime(datetime.now().timetuple())))
+	t = time.time()
+	directory = os.path.join(get_backup_directory(), bdir)
 
 	if not os.path.exists(directory):
 		os.makedirs(directory)
@@ -101,13 +114,11 @@ def do_backup():
 def do_restore(p):
 	from db_manager import db
 	t = time.time()
+	directory = get_backup_directory()
 	for table in db.metadata.tables.values():
 		t0 = time.time()
-		filename = 'backup/%s/%s.csv' % (p, table.name)
-		fpath = os.path.join(app.root_path, filename)
-
-		if is_usb_storage_connected():
-			fpath = os.path.join("/home/pi/usbdrv/", filename)
+		filename = '%s/%s.csv' % (p, table.name)
+		fpath = os.path.join(directory, filename)
 
 		if not os.path.isfile(fpath):
 			continue
@@ -134,8 +145,6 @@ def do_restore(p):
 	print "Total time: %s sec" % (time.time() - t)
 	db.session.commit()
 
-def is_usb_storage_connected():
-	return os.path.ismount("/home/pi/usbdrv/")
 
 @app.route("/get_usb_storage_devices")
 @login_required
@@ -143,9 +152,12 @@ def get_usb_storage_devices():
 	devices = []
 
 	if is_usb_storage_connected():
-		import subprocess as sp
-		vendor = sp.check_output(["cat", "/sys/class/block/sda/device/vendor"]).strip("\n").strip(" ")
-		model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
-		name = vendor + model
-		devices.append(name)
+		try:
+			import subprocess as sp
+			vendor = sp.check_output(["cat", "/sys/class/block/sda/device/vendor"]).strip("\n").strip(" ")
+			model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
+			name = vendor + model
+			devices.append(name)
+		except Exception as e:
+			print e
 	return render_template("usb_devices.jinja2", devices=devices)

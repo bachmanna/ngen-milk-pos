@@ -26,6 +26,15 @@
 				return true;
 			});
 		});
+
+
+		$("#backuplist a").click(function(){
+			$("#backupListModal").foundation('reveal', 'close');
+			$("#page_loading h1").text('{{_("RESTORE IN PROCESS...")}}');
+			$("#page_loading").removeClass("hide");
+			return true;
+		});
+
 		setTimeout(function(){
 			document.getElementById('backuplist').focus();
 		}, 300);

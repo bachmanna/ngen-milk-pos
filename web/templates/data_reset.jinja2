@@ -14,7 +14,7 @@
             <div class="text-center">
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a id="backupBtn" href="/data_backup" class="large button expand" data-key="f1" data-confirm="{{_("Do you want to backup all data to USB?")}}">{{_("Backup")}} - F1</a>
+                        <a id="backupBtn" href="/data_backup" class="large button expand" data-key="f1">{{_("Backup")}} - F1</a>
                     </div>
                 </div>
                 <div class="row">
@@ -30,7 +30,7 @@
                 {% if can_access("admin") %}
                 <div class="row">
                     <div class="medium-5 small-centered columns">
-                        <a id="factoryResetBtn" href="/factory_reset" class="alert large button expand" data-key="f4" data-confirm="{{_("Be sure to backup before doing this operation. ALL DATA WILL BE ERASED AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory reset? ")}}">{{_("Factory reset")}} - F4</a>
+                        <a id="factoryResetBtn" href="/factory_reset" class="alert large button expand" data-key="f4">{{_("Factory reset")}} - F4</a>
                     </div>
                 </div>
                 {% endif %}
@@ -56,20 +56,25 @@
 
 <script>
 $(function(){
+    var backup_confirm_msg = '{{_("Do you want to backup all data to USB?")}}';
+    var factory_reset_confirm_msg = '{{_("Be sure to backup before doing this operation. ALL DATA WILL BE ERASED AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory reset? ")}}';
 
     $("#backupBtn").click(function(){
-        $("#page_loading h1").text('{{_("BACKUP IN PROCESS...")}}');
-        $("#page_loading").removeClass("hide");
-    });
-
-    $("#restoreBtn").click(function(){
-        $("#page_loading h1").text('{{_("RESTORE IN PROCESS...")}}');
-        $("#page_loading").removeClass("hide");
+        if(confirm(backup_confirm_msg)){
+            $("#page_loading h1").text('{{_("BACKUP IN PROCESS...")}}');
+            $("#page_loading").removeClass("hide");
+            return true;
+        }
+        return false;
     });
 
     $("#factoryResetBtn").click(function(){
-        $("#page_loading h1").text('{{_("FACTORY RESET IN PROCESS...")}}');
-        $("#page_loading").removeClass("hide");
+        if(confirm(factory_reset_confirm_msg)){
+            $("#page_loading h1").text('{{_("FACTORY RESET IN PROCESS...")}}');
+            $("#page_loading").removeClass("hide");
+            return true;
+        }
+        return false;
     });
 
     $.get('{{url_for("get_usb_storage_devices")}}', function(data){
