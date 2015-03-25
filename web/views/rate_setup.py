@@ -185,6 +185,8 @@ def do_import(rate_type):
   filename = '%s.csv' % (rate_type)
   fpath = os.path.join(directory, filename)
   print "Import from folder %s" % (fpath)
+  if not os.path.isfile(fpath):
+      return False
   with open(fpath, 'rb') as infile:
       # delete all rows
       db.engine.execute(table.delete())
