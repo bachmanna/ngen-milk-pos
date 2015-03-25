@@ -1,14 +1,12 @@
-{% if devices|count > 0 %}
+{% if (devices|count) > 0 %}
 
-<h4>{{_("Available USB Storages")}}</h4>
+<h4>{{_("USB Storages")}}</h4>
 
-<ul>
 {% for item in devices %}
 
-<li>{{item}}</li>
+<p><b>{{item}}</b></p>
 
 {% endfor %}
-</ul>
 
 {% else %}
 

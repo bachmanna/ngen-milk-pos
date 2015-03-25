@@ -148,5 +148,4 @@ def get_usb_storage_devices():
 		model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
 		name = vendor + model
 		devices.append(name)
-
-	return render_template("usb_devices.jinja2", data=devices)
+	return render_template("usb_devices.jinja2", devices=devices)
