@@ -1,6 +1,8 @@
 from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
 from flask.ext.babel import lazy_gettext, gettext
+import os
+import csv
 
 try:
     from collections import OrderedDict
@@ -133,6 +135,24 @@ def rate_import():
   return redirect("/" + page)
 
 
+
+
+def is_usb_storage_connected():
+  return os.path.ismount("/home/pi/usbdrv/")
+
+
+def get_backup_directory():
+  filename = 'backup'
+  directory = os.path.join(app.root_path, filename)
+
+  if is_usb_storage_connected():
+    directory = os.path.join("/home/pi/usbdrv/", filename)
+
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+  return directory
+
+
 map_rate_type_table = { "fat": FATCollectionRate.__table__,
                         "fat_and_snf": FATAndSNFCollectionRate.__table__,
                         "ts1": TS1CollectionRate.__table__,
@@ -142,12 +162,7 @@ map_rate_type_table = { "fat": FATCollectionRate.__table__,
 def do_export(rate_type):
   if not rate_type in map_rate_type_table.keys():
     return False
-
-  import os
-  import csv
-  directory = os.path.join(app.root_path, 'backup')
-  if not os.path.exists(directory):
-    os.makedirs(directory)
+  directory = get_backup_directory()
   table = map_rate_type_table[rate_type]
   filename = '%s.csv' % (rate_type)
   fpath = os.path.join(directory, filename)
@@ -165,11 +180,7 @@ def do_import(rate_type):
   if not rate_type in map_rate_type_table.keys():
     return False
 
-  import os
-  import csv
-  directory = os.path.join(app.root_path, 'backup')
-  if not os.path.exists(directory):
-    os.makedirs(directory)
+  directory = get_backup_directory()
   table = map_rate_type_table[rate_type]
   filename = '%s.csv' % (rate_type)
   fpath = os.path.join(directory, filename)
