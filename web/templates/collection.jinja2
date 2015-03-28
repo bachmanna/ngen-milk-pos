@@ -378,7 +378,7 @@
 		clearData();
 
 		var updateIntervalData = function(){
-			setTimeout(updateIntervalData, 2000);
+			setTimeout(updateIntervalData, 1000);
 			var code = parseInt($("#member_code").val());
 			var name = $("#member_name").text();
 			var id = $("#collection_id").val();
@@ -390,7 +390,7 @@
 			updateData(code);
 		};
 
-		setTimeout(updateIntervalData, 2000);
+		setTimeout(updateIntervalData, 1000);
 
 		window.readOverride = function(){
 			var code = parseInt($("#member_code").val());

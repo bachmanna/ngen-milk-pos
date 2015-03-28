@@ -7,7 +7,7 @@ import time
 import csv
 import os
 
-from web import app, admin_permission
+from web import app, admin_permission, get_backup_directory, is_usb_storage_connected
 
 from services.milkcollection_service import MilkCollectionService
 
@@ -67,23 +67,6 @@ def data_restore():
 	msg = "Data restore successfull!"
 	flash(str(lazy_gettext(msg)))
 	return redirect(url_for("data_reset"))
-
-
-def is_usb_storage_connected():
-	return os.path.ismount("/home/pi/usbdrv/")
-
-
-def get_backup_directory():
-	filename = 'backup'
-	directory = os.path.join(app.root_path, filename)
-
-	if is_usb_storage_connected():
-		directory = os.path.join("/home/pi/usbdrv/", filename)
-
-	if not os.path.exists(directory):
-		os.makedirs(directory)
-	return directory
-
 
 def do_backup():
 	from db_manager import db

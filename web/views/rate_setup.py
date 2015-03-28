@@ -11,7 +11,7 @@ except ImportError:
     from ordereddict import OrderedDict
 from random import random
 
-from web import app, fmtDecimal
+from web import app, fmtDecimal, get_backup_directory
 
 from services.rate_service import RateService
 from models import *
@@ -134,23 +134,6 @@ def rate_import():
     flash(str(lazy_gettext("Import failed!")), "error")
   return redirect("/" + page)
 
-
-
-
-def is_usb_storage_connected():
-  return os.path.ismount("/home/pi/usbdrv/")
-
-
-def get_backup_directory():
-  filename = 'backup'
-  directory = os.path.join(app.root_path, filename)
-
-  if is_usb_storage_connected():
-    directory = os.path.join("/home/pi/usbdrv/", filename)
-
-  if not os.path.exists(directory):
-    os.makedirs(directory)
-  return directory
 
 
 map_rate_type_table = { "fat": FATCollectionRate.__table__,

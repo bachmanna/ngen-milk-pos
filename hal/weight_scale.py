@@ -1,6 +1,5 @@
 import serial
-
-address = "/dev/ttyUSB1"
+from random import randint
 
 scale_settings = {
 			"OPAL": { "baud": 9600, "bytesize": serial.EIGHTBITS, "parity": serial.PARITY_NONE, "stopbits": serial.STOPBITS_TWO}, 
@@ -10,37 +9,36 @@ scale_settings = {
 			}
 
 class WeightScale(object):
-	def __init__(self, scale_type):
+	def __init__(self, scale_type, address = "/dev/ttyUSB1"):
 		settings = scale_settings[scale_type]
+		self.scale = None
 		try:
-			self.scale = serial.Serial(address, settings["baud"])
+			self.scale = serial.Serial(address, settings["baud"], timeout=3)
 			self.scale.bytesize = settings["bytesize"]
 			self.scale.parity = settings["parity"]
 			self.scale.stopbits = settings["stopbits"]
 
-			self.scale.timeout = 3
 			self.scale.xonxoff = False
 			self.scale.rtscts = False
 			self.scale.dsrdtr = False
 		except Exception as e:
-			print e
+			print "Err scale", e
 
 	def get(self):
-		data = ""
-		try:
-			self.scale.open()
-			self.scale.flushInput()
-			self.scale.flushOutput()
+		data = " L +000." + str(randint(100,999))
+		if self.scale:
+			try:
+				self.scale.open()
+				self.scale.flushInput()
+				self.scale.flushOutput()
 
-			data = self.scale.readline()
-			self.scale.close()
-		except Exception as e:
-			print e
-			from random import randint
-			data = "L +000." + str(randint(100,999))
-		print data
-		if data[0] == 'L':
-			return float(data[3:])
+				data = self.scale.readline()
+				self.scale.close()
+			except Exception as e:
+				print "Err scale:", e
+				data = "L +000." + str(randint(100,999))
+		if data[1] == 'L':
+			return float(data[4:])
 		return 0.0
 
 	pass

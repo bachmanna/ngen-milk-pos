@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 from flask.ext.babel import lazy_gettext, gettext
 
-from web import app, settings_provider
+from web import app, settings_provider, get_backup_directory
 
 from services.member_service import MemberService
 from services.rate_service import RateService
@@ -20,11 +20,10 @@ styles = None
 
 def do_print_report(template,outfile, **kwargs):
   global styles
-  bakdir = os.path.join(app.root_path, 'backup')
-  if not os.path.exists(bakdir):
-      os.makedirs(bakdir)
+  bakdir = get_backup_directory()
 
   dest = os.path.join(bakdir, outfile)
+  print "Print pdf report to %s" % dest
   tmp = app.jinja_env.get_template(template)
   s = settings_provider() or {}
   s.update(**kwargs)

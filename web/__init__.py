@@ -165,6 +165,22 @@ def app_shutdown():
     print output
   return render_template('shutdown.jinja2')
 
+
+def is_usb_storage_connected():
+  return os.path.ismount("/home/pi/usbdrv/")
+
+
+def get_backup_directory():
+  filename = 'backup'
+  directory = os.path.join(app.root_path, filename)
+
+  if is_usb_storage_connected():
+    directory = os.path.join("/home/pi/usbdrv/", filename)
+
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+  return directory
+
 import views.users
 import views.collections
 import views.settings
