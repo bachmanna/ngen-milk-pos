@@ -31,7 +31,7 @@ class WeightScale(object):
 			self.scale.open()
 			self.scale.flushInput()
 			self.scale.flushOutput()
-			self.scale.flush()
+
 			data = self.scale.readline()
 			self.scale.close()
 		except Exception as e:

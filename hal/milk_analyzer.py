@@ -32,7 +32,7 @@ class MilkAnalyzer(object):
 			self.scale.open()
 			self.scale.flushInput()
 			self.scale.flushOutput()
-			self.scale.flush()
+
 			i = 0
 			data = []
 			while True:
