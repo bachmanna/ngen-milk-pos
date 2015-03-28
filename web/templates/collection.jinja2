@@ -40,45 +40,45 @@
 				</div>
 				<br/>
 				<div class="row">
-					<div class="medium-1 columns">
+					<div class="medium-2 columns">
 						<label>{{_("FAT")}}</label>
 					</div>
-					<div class="medium-5 columns">
+					<div class="medium-4 columns">
 						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
 					</div>
-					<div class="medium-1 columns">
+					<div class="medium-2 columns">
 						<label>{{_("CLR")}}</label>
 					</div>
-					<div class="medium-5 columns">
+					<div class="medium-4 columns">
 						<input class="mousetrap" type="text" name="clr" id="clr"/>
 					</div>
 				</div>
 				<br/>
 				<div class="row">
-					<div class="medium-1 columns">
+					<div class="medium-2 columns">
 						<label>{{_("SNF")}}</label>
 					</div>
-					<div class="medium-5 columns">
+					<div class="medium-4 columns">
 						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
 					</div>
-					<div class="medium-1 columns">
+					<div class="medium-2 columns">
 						<label>{{_("AW")}}</label>
 					</div>
-					<div class="medium-5 columns">
+					<div class="medium-4 columns">
 						<input class="mousetrap" type="text" name="water" id="water" />
 					</div>
 				</div>
 				<br/>
 				<div class="row">
-					<div class="medium-1 columns">
+					<div class="medium-2 columns">
 						<label>{{_("QTY")}}</label>
 					</div>
-					<div class="medium-5 columns end">
+					<div class="medium-4 columns end">
 						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
 					</div>
 				</div>
 				<div class="row">
-					<div class="medium-1 columns" style="line-height: 110px;">
+					<div class="medium-2 columns" style="line-height: 110px;">
 						<span>{{_("RATE")}}</span>
 					</div>
 					<div class="medium-4 columns">
@@ -90,7 +90,7 @@
 					<div class="medium-2 columns text-right" style="line-height: 110px;">
 						<span>{{_("TOTAL")}}</span>
 					</div>
-					<div class="medium-5 columns end text-right">
+					<div class="medium-4 columns end text-right">
 						<span id="total">000.00</span>
 						<input type="hidden" name="total" id="txtTotal" />
 					</div>
@@ -123,52 +123,76 @@
 <div class="row">
 	<div class="medium-12 columns">
 		<ul class="graph-container">
-            <li class="cow">
-                <span>{{_("COW")}}</span>
-                <div class="bar-wrapper">
-                    <div class="bar-container">
-                        <div class="bar-inner" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
-                        <div class="bar-text">{{'%0.2f'| format(c_qty)}}</div>
-                    </div>
-                </div>
-            </li>
-            <li class="buffalo">
-                <span>{{_("BUFFALO")}}</span>
-                <div class="bar-wrapper">
-                    <div class="bar-container">
-                        <div class="bar-inner" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
-                        <div class="bar-text">{{'%0.2f'| format(b_qty)}}</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-            </li>
-        </ul>
+			<li class="cow">
+				<span>{{_("COW")}}</span>
+				<div class="bar-wrapper">
+					<div class="bar-container">
+						<div class="bar-inner" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
+						<div class="bar-text">{{'%0.2f'| format(c_qty)}}</div>
+					</div>
+				</div>
+			</li>
+			<li class="buffalo">
+				<span>{{_("BUFFALO")}}</span>
+				<div class="bar-wrapper">
+					<div class="bar-container">
+						<div class="bar-inner" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
+						<div class="bar-text">{{'%0.2f'| format(b_qty)}}</div>
+					</div>
+				</div>
+			</li>
+			<li>
+			</li>
+		</ul>
 	</div>
 	<hr/>
 </div>
 <div class="row">
 	<div class="medium-6 columns">
-		{{_("Total Qty")}} <br/>
-		{{_("COW")}} <br/>
+		{{_("Total Qty")}}
+	</div>
+	<div class="medium-6 columns">
+		<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}
+	</div>
+</div>
+<div class="row">
+	<div class="medium-6 columns">
+		{{_("COW")}}
+	</div>
+	<div class="medium-6 columns">
+		{{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}
+	</div>
+</div>
+<div class="row">
+	<div class="medium-6 columns">
 		{{_("BUFFALO")}}
 	</div>
 	<div class="medium-6 columns">
-		<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}<br/>
-		{{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}<br/>
 		{{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
 	</div>
 </div>
 <br/>
 <div class="row">
 	<div class="medium-6 columns">
-		{{_("Total Mem")}} <br/>
-		{{_("COW")}} <br/>
-		{{_("BUFFALO")}} 
+		{{_("Total Mem")}}
 	</div>
 	<div class="medium-6 columns">
-		<b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b><br/>
-		{{summary["member"][0]}}<br/>
+		<b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b>
+	</div>
+</div>
+<div class="row">
+	<div class="medium-6 columns">
+		{{_("COW")}}
+	</div>
+	<div class="medium-6 columns">
+		{{summary["member"][0]}}
+	</div>
+</div>
+<div class="row">
+	<div class="medium-6 columns">
+		{{_("BUFFALO")}}
+	</div>
+	<div class="medium-6 columns">
 		{{summary["member"][1]}}
 	</div>
 </div>
