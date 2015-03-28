@@ -127,7 +127,7 @@
 				<span>{{_("COW")}}</span>
 				<div class="bar-wrapper">
 					<div class="bar-container">
-						<div class="bar-inner" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
+						<div class="bar-inner" data-value="{{'%0.2f'| format(c_qty)}}" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
 						<div class="bar-text">{{'%0.2f'| format(c_qty)}}</div>
 					</div>
 				</div>
@@ -136,7 +136,7 @@
 				<span>{{_("BUFFALO")}}</span>
 				<div class="bar-wrapper">
 					<div class="bar-container">
-						<div class="bar-inner" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
+						<div class="bar-inner" data-value="{{'%0.2f'| format(b_qty)}}" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
 						<div class="bar-text">{{'%0.2f'| format(b_qty)}}</div>
 					</div>
 				</div>
@@ -259,6 +259,7 @@
 		var error_member_no_found = '{{_("Member not found!")}}';
 		var error_milk_already_collected = '{{_("Milk already collected!")}}';
 		var members = {{members_json}};
+		var is_saving = false;
 
 		$("#page_loading h1").text('{{_("READING DATA...")}}');
 
@@ -269,6 +270,39 @@
 		$(document).ajaxComplete(function(){
 			//$("#page_loading").addClass("hide");
 		});
+
+		function animateNumber(currency_symbol, value, el){
+			var $el = $(el);
+			var prevVal = 0;
+			if($el.is(":input")){
+			    prevVal = parseFloat($el.val());
+            }else{
+            	prevVal = parseFloat($el.text());
+        	}
+
+		    $({percentage: prevVal}).stop(true).animate({percentage: value}, {
+		        duration : 750,
+		        //easing: "easeOutExpo",
+		        step: function () {
+		            var percentageVal = this.percentage.toFixed(2);
+		            var fmtValue = currency_symbol + percentageVal.toString();
+		            if($el.is(":input")){
+						$el.val(fmtValue);
+		            }else{
+		            	$el.text(fmtValue);
+		        	}
+		        }
+		    }).promise().done(function () {
+		        // hard set the value after animation is done to be
+		        // sure the value is correct
+		        var fmtValue = currency_symbol + value.toString();
+		        if($el.is(":input")){
+					$el.val(fmtValue);
+	            }else{
+	            	$el.text(fmtValue);
+	        	}
+		    });
+		}
 
 		function showError (msg) {
 			$("#member_status").parent().removeClass("hide");
@@ -282,6 +316,9 @@
 		}
 
 		function updateData(member_id, override){
+			if(is_saving || $("#member_code").val() == ""){
+				return;
+			}
 
 			var shift = $("input[name=shift]").val();
 			var cattle_type = $("#member_cattle_type").text().trim();
@@ -293,13 +330,35 @@
 			}
 
 			$.get('/get_collection_data', postdata,function(data){
-				$("#fat").val(data.fat);
+
+				if(is_saving || $("#member_code").val() == ""){
+					return;
+				}				
+
+				var grpElement = $(".graph-container .cow .bar-inner");
+				if(cattle_type !== "COW") {
+					grpElement = $(".graph-container .buffalo .bar-inner");
+				}
+
+				var prevVal = parseFloat(grpElement.data("value"));
+				var heightVal = (prevVal + data.qty).toFixed(2).toString();
+				animateNumber("", heightVal, grpElement.next(".bar-text"));
+				grpElement.height(heightVal+"%");
+
+				/*$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);
 				$("#water").val(data.water);
-				$("#qty").val(data.qty);
+				$("#qty").val(data.qty);*/
 				$("#rate").text(data.fmt_rate);
-				$("#total").text(data.fmt_total);
+				// $("#total").text(data.fmt_total);
+				animateNumber(data.currency_symbol, data.total, "#total");
+				animateNumber("", data.fat, "#fat");
+				animateNumber("", data.snf, "#snf");
+				animateNumber("", data.clr, "#clr");
+				animateNumber("", data.water, "#water");
+				animateNumber("", data.qty, "#qty");
+
 				$("#txtRate").val(data.rate);
 				$("#txtTotal").val(data.total);
 				$("#collection_id").val("");
@@ -363,6 +422,9 @@
 		});
 
 		$("#btnSave").click(function(){
+			is_saving = true;
+			Mousetrap.pause();
+			$("#btnSave").prop("disabled", true);
 			$("input[disabled]").prop("disabled", null);
 			$("#page_loading h1").text('{{_("SAVING DATA...")}}');
 			$("#page_loading").removeClass("hide");

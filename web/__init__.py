@@ -8,6 +8,7 @@ from passlib.handlers.md5_crypt import md5_crypt
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask.ext.babel import Babel
+import babel.numbers as bn
 import os
 import sys
 
@@ -49,6 +50,14 @@ def fmtDecimal(value):
   if isinstance(value, float):
     return float("{0:.2f}".format(value))
   return value
+
+
+def format_currency(value):
+  formatted_value = bn.format_currency(value, "INR", locale="ta_IN")
+  return formatted_value
+
+def get_currency_symbol():
+  return bn.get_currency_symbol('INR', locale='ta_IN')
 
 
 login_manager = LoginManager()

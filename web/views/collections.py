@@ -3,9 +3,8 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from dateutil import parser
 import json
-import babel.numbers as bn
 
-from web import app, fmtDecimal
+from web import app, fmtDecimal, format_currency, get_currency_symbol
 
 from flask.ext.babel import lazy_gettext
 from services.member_service import MemberService
@@ -18,9 +17,6 @@ from configuration_manager import ConfigurationManager
 from models import *
 from hal import *
 
-def format_currency(value):
-  formatted_value = bn.format_currency(value, "INR", locale="ta_IN")
-  return formatted_value
 
 @app.route("/collection", methods=['GET', 'POST'])
 @login_required
@@ -107,7 +103,7 @@ def get_collection_data():
   cattle_type = request.args.get("cattle_type", "COW")
   today = datetime.now()
   created_at = parser.parse(request.form.get("created_at", str(today))).date()
-  data = { "collection_id": None }
+  data = { "collection_id": None, "currency_symbol": get_currency_symbol() }
 
   if member_id and shift and created_at:
     collectionService = MilkCollectionService()
