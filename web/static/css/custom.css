@@ -2,6 +2,10 @@ h1{
 	margin: 0 0 24px;
 }
 
+a[disabled] {
+    pointer-events: none;
+}
+
 .sidebar{
 	border-left: 1px solid #aaa;
 	min-height: 500px;
@@ -111,6 +115,7 @@ header.banner{
 
 .button{
 	border-width: 5px;
+	text-align: left;
 	text-transform: uppercase;
 	text-indent: 20px;
 }
@@ -130,6 +135,14 @@ header.banner{
 .button span.access_key{
 	position: absolute;
 	right: 20px;
+}
+
+.button.disabled, .button[disabled],
+.button.disabled:hover, .button[disabled]:hover,
+.button.disabled:focus, .button[disabled]:focus
+{
+	background-color: #666;
+	border-color: #666;
 }
 
 form.inline input,

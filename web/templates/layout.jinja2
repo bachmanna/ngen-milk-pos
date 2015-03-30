@@ -80,6 +80,11 @@
       var key = $(this).data("key");
       var $that = $(this);
       Mousetrap.bind(key, function(e) {
+
+        if($that.is("[disabled=disabled]")){
+          return false;
+        }
+
         $that[0].click();
         return false;
       });
