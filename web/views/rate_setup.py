@@ -1,8 +1,6 @@
 from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
 from flask.ext.babel import lazy_gettext, gettext
-import os
-import csv
 
 try:
     from collections import OrderedDict
@@ -14,6 +12,7 @@ from random import random
 from web import app, fmtDecimal, get_backup_directory
 
 from services.rate_service import RateService
+from services.export_import_service import ExportImportService
 from models import *
 
 
@@ -168,36 +167,14 @@ map_rate_type_table = { "fat": FATCollectionRate.__table__,
 def do_export(rate_type):
   if not rate_type in map_rate_type_table.keys():
     return False
-  directory = get_backup_directory()
   table = map_rate_type_table[rate_type]
-  filename = '%s.csv' % (rate_type)
-  fpath = os.path.join(directory, filename)
-  print "Backup to folder %s" % (fpath)
-  with open(fpath, 'wb') as outfile:
-      outcsv = csv.writer(outfile)
-      outcsv.writerow([column.name for column in table.columns])
-      records = db.session.query(table).all()
-      [outcsv.writerow([getattr(curr, column.name) for column in table.columns]) for curr in records]
-      outfile.close()
-  return True
+  service = ExportImportService(table)
+  return service.do_export()
 
 
 def do_import(rate_type):
   if not rate_type in map_rate_type_table.keys():
-    return False
-
-  directory = get_backup_directory()
-  table = map_rate_type_table[rate_type]
-  filename = '%s.csv' % (rate_type)
-  fpath = os.path.join(directory, filename)
-  print "Import from folder %s" % (fpath)
-  if not os.path.isfile(fpath):
       return False
-  with open(fpath, 'rb') as infile:
-      # delete all rows
-      db.engine.execute(table.delete())
-      cf = csv.DictReader(infile, delimiter=',')
-      data = [row for row in cf]
-      db.engine.execute(table.insert(), data)
-      infile.close()
-  return True
+  table = map_rate_type_table[rate_type]
+  service = ExportImportService(table)
+  return service.do_import()
