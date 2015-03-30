@@ -2,9 +2,12 @@ from dateutil import parser
 import os
 import sys
 import csv
+import time
+from datetime import datetime
 
 from flask import g
-from web import db, get_backup_directory
+from web import get_backup_directory
+from db_manager import db
 
 class ExportImportService(object):
 	def __init__(self, table, filename=None):
@@ -72,3 +75,45 @@ class ExportImportService(object):
 					row["updated_at"] = None
 					row["updated_by"] = None
 					row["status"] = row["status"] == "True"
+
+	
+	def do_backup(self):
+		bdir = str(int(time.mktime(datetime.now().timetuple())))
+		t = time.time()
+		directory = os.path.join(self.path, bdir)
+
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+
+		for table in db.metadata.tables.values():		
+			self.filename = '%s.csv' % (table.name)
+			self.table = table
+			self.path = directory
+			self.do_export()
+		
+		backup_duration = (time.time() - t)
+		print "Backup done in %s sec" % (backup_duration)
+		return directory, backup_duration
+
+
+	def do_restore(self, selected_bak_path):
+		t = time.time()
+		for table in db.metadata.tables.values():
+			t0 = time.time()
+			filename = '%s/%s.csv' % (selected_bak_path, table.name)
+			fpath = os.path.join(self.path, filename)
+			if not os.path.isfile(fpath):
+				continue
+
+			self.filename = filename
+			self.table = table
+
+			table.drop(db.engine)
+			table.create(db.engine)
+
+			self.do_import()
+
+			print "...done in %s sec" % (time.time() - t0)
+
+		print "Total time: %s sec" % (time.time() - t)
+		db.session.commit()
