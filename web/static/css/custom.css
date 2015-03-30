@@ -111,6 +111,8 @@ header.banner{
 
 .button{
 	border-width: 5px;
+	text-transform: uppercase;
+	text-indent: 20px;
 }
 
 .button:focus,
@@ -123,6 +125,11 @@ header.banner{
 .button.warning:focus,
 .button.warning:hover{
 	border-color: #007095;
+}
+
+.button span.access_key{
+	position: absolute;
+	right: 20px;
 }
 
 form.inline input,

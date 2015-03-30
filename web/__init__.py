@@ -129,12 +129,12 @@ def home():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
   service = UserService()
-  username = service.get(1).name
+  lst_users = service.search()
+  username = ""
   if request.method == 'POST':
       username = request.form["username"]
       password = request.form["password"]
       if username and password and len(password) > 4:
-        service = UserService()
         users = service.search(name=username)
         if users and len(users) == 1 and md5_crypt.verify(password, users[0].password):
           dbuser = users[0]
@@ -144,8 +144,8 @@ def login():
           identity_changed.send(current_app._get_current_object(),
                                   identity=Identity(user.id))
           return redirect("/")
-      flash("Invalid username or password!")
-  return render_template('login.jinja2', username=username)
+      flash("Invalid password!")
+  return render_template('login.jinja2', username=username, users=lst_users)
 
 
 @app.route('/logout')

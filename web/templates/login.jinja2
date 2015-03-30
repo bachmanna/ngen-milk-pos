@@ -16,7 +16,7 @@
 				<h1>{{_("LOGIN")}}</h1>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" id="errorbox">
 			<div class="medium-4 small-centered columns end">
 				{% with messages = get_flashed_messages() %}
 				{% if messages %}
@@ -27,36 +27,73 @@
 				</div>
 				{% endif %}
 				{% endwith %}
-				<form action="/login" method="post">
-					<label>{{_("Username")}}
-						<input type="text" name="username" id="username" value="{{username}}" />
-					</label>
-					<label>{{_("Password")}}
-						<input type="password" name="password"/>
-					</label>
-					<button type="submit" id="btnLogin" class="button expand">{{_("Login")}}</button>
-				</form>
 			</div>
 		</div>
-	</div>
-	<div id="loadingContainer" class="login-container hide text-center">
-		<h1>LOADING...</h1>
-	</div>
+		<div class="row" id="userlist">
+			<div class="medium-4 small-centered columns end">
+				{%for user in users%}
+               <button class="button expand" data-key="f{{loop.index}}" data-name="{{user.name}}">
+                 {{user.name}} <span class="access_key">F{{loop.index}}</span>
+             </button>
+             {%endfor%}
+         </div>
+     </div>
+     <div class="row hide" id="loginbox">
+         <div class="medium-4 small-centered columns end">
+            <form action="/login" method="post">
+               <label>{{_("Username")}}
+                  <input type="text" name="username" id="username" value="{{username}}" disabled="disabled" />
+              </label>
+              <label>{{_("Password")}}
+                  <input type="password" name="password" id="password" class="mousetrap"/>
+              </label>
+              <button type="submit" id="btnLogin" class="button expand">{{_("Login")}}</button>
+          </form>
+      </div>
+  </div>
+</div>
+<div id="loadingContainer" class="login-container hide text-center">
+  <h1>LOADING...</h1>
+</div>
 
-	<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/mousetrap.min.js') }}"></script>
-	<script>
-		$(document).foundation();
-		$(function(){
-			$("#username").focus();
+<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mousetrap.min.js') }}"></script>
+<script>
+  $(document).foundation();
 
-			$("#btnLogin").click(function(){
-				$("#loginFromContainer").addClass("hide");
-				$("#loadingContainer").removeClass("hide");
-				return true;
-			});
-		});
-	</script>
+  $(function(){
+
+    $("[data-key]").each(function(){
+      var key = $(this).data("key");
+      var $that = $(this);
+      Mousetrap.bind(key, function(e) {
+        $that[0].click();
+        return false;
+      });
+
+      $(this).click(function(){
+        $("#username").val($(this).data("name"));
+        $("#errorbox").addClass("hide");
+        $("#userlist").addClass("hide");
+        $("#loginbox").removeClass("hide");
+        $("#password").focus();
+      });
+    });
+
+    Mousetrap.bind("esc", function(e) {
+      $("#loginbox").addClass("hide");
+      $("#userlist").removeClass("hide");
+      return false;
+    });
+
+    $("#btnLogin").click(function(){
+        $("#username").prop("disabled", false);
+        $("#loginFromContainer").addClass("hide");
+        $("#loadingContainer").removeClass("hide");
+        return true;
+    });
+});
+</script>
 </body>
 </html>
