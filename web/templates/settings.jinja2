@@ -15,60 +15,70 @@
 	<div class="medium-12 columns">
 		<form name="frmBasicSetup" id="frmBasicSetup" method="post" action="/settings">
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>{{_("Analyzer Type")}}
-						<select name="analyzer_type">
-							<option {{ "selected" if settings["ANALYZER_TYPE"] == "SATHIYAM" else "" }}>ULTRA</option>
-							<option {{ "selected" if settings["ANALYZER_TYPE"] == "ULTRA-PRO" else "" }}>ULTRA-PRO</option>
-							<option {{ "selected" if settings["ANALYZER_TYPE"] == "LACTO-SCAN" else "" }}>LACTO-SCAN</option>
-							<option {{ "selected" if settings["ANALYZER_TYPE"] == "KSHEERA" else "" }}>KSHEERA</option>
-						</select>
-					</label>
+				<div class="medium-3 columns">
+					<label>{{_("Analyzer Type")}}</label>
 				</div>
-			</div>
-			<div class="row">
-				<div class="medium-12 columns">
-					<label>{{_("Scale Type")}}
-						<select name="scale_type">
+				<div class="medium-3 columns">
+					<select name="analyzer_type" class="mousetrap">
+						<option {{ "selected" if settings["ANALYZER_TYPE"] == "SATHIYAM" else "" }}>ULTRA</option>
+						<option {{ "selected" if settings["ANALYZER_TYPE"] == "ULTRA-PRO" else "" }}>ULTRA-PRO</option>
+						<option {{ "selected" if settings["ANALYZER_TYPE"] == "LACTO-SCAN" else "" }}>LACTO-SCAN</option>
+						<option {{ "selected" if settings["ANALYZER_TYPE"] == "KSHEERA" else "" }}>KSHEERA</option>
+					</select>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Scale Type")}}</label>
+				</div>
+				<div class="medium-3 columns">
+						<select name="scale_type" class="mousetrap">
 							<option {{ "selected" if settings["SCALE_TYPE"] == "SATHIYAM" else "" }}>SATHIYAM</option>
 							<option {{ "selected" if settings["SCALE_TYPE"] == "D-SONIC" else "" }}>D-SONIC</option>
 							<option {{ "selected" if settings["SCALE_TYPE"] == "ISHATA" else "" }}>ISHATA</option>
 							<option {{ "selected" if settings["SCALE_TYPE"] == "OPAL" else "" }}>OPAL</option>
 						</select>
-					</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>{{_("Rate Type")}}
-						<select name="rate_type">
-							<option value="FAT" {{ "selected" if settings["RATE_TYPE"] == "FAT" else "" }}>FAT</option>
-							<option value="FAT_AND_SNF" {{ "selected" if settings["RATE_TYPE"] == "FAT_AND_SNF" else "" }}>FAT and SNF</option>
-							<option value="TS_1" {{ "selected" if settings["RATE_TYPE"] == "TS_1" else "" }}>Total Solid</option>
-							<option value="TS_2" {{ "selected" if settings["RATE_TYPE"] == "TS_2" else "" }}>Total Solid 1</option>
-						</select>
-					</label>
+			<div class="medium-3 columns">
+					<label>{{_("Rate Type")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<select name="rate_type" class="mousetrap">
+						<option value="FAT" {{ "selected" if settings["RATE_TYPE"] == "FAT" else "" }}>FAT</option>
+						<option value="FAT_AND_SNF" {{ "selected" if settings["RATE_TYPE"] == "FAT_AND_SNF" else "" }}>FAT and SNF</option>
+						<option value="TS_1" {{ "selected" if settings["RATE_TYPE"] == "TS_1" else "" }}>Total Solid</option>
+						<option value="TS_2" {{ "selected" if settings["RATE_TYPE"] == "TS_2" else "" }}>Total Solid 1</option>
+					</select>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Collection Printer")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<select name="collection_printer" class="mousetrap">
+						<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Thermal" else "" }}>Thermal</option>
+						<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "LPT" else "" }}>LPT</option>
+						<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Laser" else "" }}>Laser</option>
+					</select>
 				</div>
 			</div>
 			<div class="row">
-				<div class="medium-12 columns">
-					<label>{{_("Collection Printer")}}
-						<select name="collection_printer">
-							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Thermal" else "" }}>Thermal</option>
-							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "LPT" else "" }}>LPT</option>
-							<option {{ "selected" if settings["COLLECTION_PRINTER_TYPE"] == "Laser" else "" }}>Laser</option>
-						</select>
-					</label>
+				<div class="medium-3 columns">
+					<label>{{_("Data Export format")}}</label>
 				</div>
-			</div>
-			<div class="row">
-				<div class="medium-12 columns">
-					<label>{{_("Data Export format")}}
-						<select name="data_export_format">
-							<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "TXT" else "" }}>TXT</option>
-							<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "PDF" else "" }}>PDF</option>
-						</select>
-					</label>
+				<div class="medium-3 columns">
+					<select name="data_export_format" class="mousetrap">
+						<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "TXT" else "" }}>TXT</option>
+						<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "PDF" else "" }}>PDF</option>
+					</select>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Quantity 2 Decimal")}}</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" {{ "checked" if settings["QUANTITY_2_DECIMAL"] == "True" else "" }}  value="True"  class="mousetrap" />
+						<label for="quantity_2_decimal"></label>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -77,7 +87,7 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_fat" name="manual_fat" {{ "checked" if settings["MANUAL_FAT"] == "True" else "" }} value="True"/>
+						<input type="checkbox" id="manual_fat" name="manual_fat" {{ "checked" if settings["MANUAL_FAT"] == "True" else "" }} value="True" class="mousetrap"/>
 						<label for="manual_fat"></label>
 					</div>
 				</div>
@@ -86,7 +96,7 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_snf" name="manual_snf" {{ "checked" if settings["MANUAL_SNF"] == "True" else "" }} value="True" />
+						<input type="checkbox" id="manual_snf" name="manual_snf" {{ "checked" if settings["MANUAL_SNF"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="manual_snf"></label>
 					</div>
 				</div>
@@ -97,7 +107,7 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="manual_qty" name="manual_qty" {{ "checked" if settings["MANUAL_QTY"] == "True" else "" }} value="True" />
+						<input type="checkbox" id="manual_qty" name="manual_qty" {{ "checked" if settings["MANUAL_QTY"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="manual_qty"></label>
 					</div>
 				</div>
@@ -106,7 +116,7 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="print_clr" name="print_clr" {{ "checked" if settings["PRINT_CLR"] == "True" else "" }} value="True" />
+						<input type="checkbox" id="print_clr" name="print_clr" {{ "checked" if settings["PRINT_CLR"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="print_clr"></label>
 					</div>
 				</div>
@@ -117,7 +127,7 @@
 				</div>
 				<div class="medium-3 columns">
 					<div class="switch round large">
-						<input type="checkbox" id="print_water" name="print_water" {{ "checked" if settings["PRINT_WATER"] == "True" else "" }} value="True" />
+						<input type="checkbox" id="print_water" name="print_water" {{ "checked" if settings["PRINT_WATER"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="print_water"></label>
 					</div>
 				</div>
@@ -126,19 +136,8 @@
 				</div>
 				<div class="medium-3 columns end">
 					<div class="switch round large">
-						<input type="checkbox" id="print_bill" name="print_bill" {{ "checked" if settings["PRINT_BILL"] == "True" else "" }} value="True" />
+						<input type="checkbox" id="print_bill" name="print_bill" {{ "checked" if settings["PRINT_BILL"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="print_bill"></label>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-3 columns">
-					<label>{{_("Quantity 2 Decimal")}}</label>
-				</div>
-				<div class="medium-6 columns end">
-					<div class="switch round large">
-						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" {{ "checked" if settings["QUANTITY_2_DECIMAL"] == "True" else "" }}  value="True"/>
-						<label for="quantity_2_decimal"></label>
 					</div>
 				</div>
 			</div>
@@ -153,7 +152,7 @@
 		<a href="#" onclick="$('#frmBasicSetup').submit();return false;" data-key="f2" class="success button expand">{{_("SAVE")}} <span class="access_key">F2</span></a>
 	</div>
 	<div class="medium-3 columns">
-		<button type="button" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></button>
+		<a href="#" data-key="f1" onclick="$('select:first').focus();return false;" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
 	</div>
 	<div class="medium-3 columns end">
 		<a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>

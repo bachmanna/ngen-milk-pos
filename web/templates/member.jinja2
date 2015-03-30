@@ -9,33 +9,29 @@
 {% include "flash_messages.jinja2" %}
 <form name="frmMember" id="frmMember" action="/member" method="post">
     <div class="row">
-        <div class="medium-6 columns">
-            <label>{{_("Member Code")}}
-                <input type="text" name="code"/>
+        <div class="medium-2 columns">
+            <label>{{_("M.Code")}}
+                <input type="text" name="code" maxlength="4" value="{{member.id}}" class="mousetrap"/>
             </label>
         </div>
-        <div class="medium-6 columns">
-            <label>{{_("Member Name")}}
-                <input type="text" name="name"/>
+        <div class="medium-3 columns">
+            <label>{{_("M.Name")}}
+                <input type="text" name="name" maxlength="20" value="{{member.name}}" class="mousetrap"/>
             </label>
         </div>
-    </div>
-    <div class="row">
-        <div class="medium-6 columns">
-            <label>{{_("Cattle Type")}}
-                <select name="cattle_type">
-                    <option>COW</option>
-                    <option>BUFFALO</option>
+        <div class="medium-2 columns">
+            <label>{{_("Cattle")}}
+                <select name="cattle_type" class="mousetrap">
+                    <option {{ "selected" if member.cattle_type == "COW" }} value="COW">{{_("COW")}}</option>
+                    <option {{ "selected" if member.cattle_type == "BUFFALO" }} value="BUFFALO">{{_("BUFFALO")}}</option>
                 </select>
             </label>
         </div>
-        <div class="medium-6 columns">
+        <div class="medium-3 columns">
             <label>{{_("Mobile")}}
-                <input type="text" name="mobile"/>
+                <input type="text" name="mobile" maxlength="10" class="mousetrap" value="{{member.mobile}}"/>
             </label>
         </div>
-    </div>
-    <div class="row">
         <div class="medium-2 columns">
             <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
         </div>
@@ -84,12 +80,29 @@
         </p>
     </div>
 </div>
+<div class="row">
+    <div class="medium-12 columns">
+        <div id="usb_devices">
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block statusbar %}
 <div class="row action-buttons">
+    <div class="medium-3 columns">
+        <a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
+    </div>
+    <div class="medium-3 columns">
+        <a href="/member_export" data-key="f2" data-confirm="{{_("Do you want to export member data to USB?")}}" class="button expand">{{_("EXPORT")}} <span class="access_key">F2</span></a>
+    </div>
+    <div class="medium-3 columns">
+        <a href="/member_import" data-key="f3" data-confirm="{{_("Do you want to import member data from USB?")}}" class="button expand">{{_("IMPORT")}} <span class="access_key">F3</span></a>
+    </div>
     <div class="medium-3 columns end">
-        <a href="/system_setup" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+        <a href="/system_setup" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
+        <a href="#" onclick="$('#slab_no').focus();" data-key="f" class="hide"></a>
     </div>
 </div>
+
 {% endblock %}

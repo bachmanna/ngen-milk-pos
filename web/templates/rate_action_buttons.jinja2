@@ -1,12 +1,14 @@
 <div class="row action-buttons">
     <div class="medium-3 columns">
-    <a href="/rate_export?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="e" data-confirm="{{_("Do you want to export '%(r)s' data to USB?",r=rate_type)}}" class="button expand">{{_("EXPORT")}} <span class="access_key">E</span></a>
+        <a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
     </div>
     <div class="medium-3 columns">
-        <a href="/rate_import?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="i" data-confirm="{{_("Do you want to import '%(r)s' data from USB?",r=rate_type)}}" class="button expand">{{_("IMPORT")}} <span class="access_key">I</span></a>
+        <a href="/rate_export?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="f2" data-confirm="{{_("Do you want to export '%(r)s' data to USB?",r=rate_type)}}" class="button expand">{{_("EXPORT")}} <span class="access_key">F2</span></a>
+    </div>
+    <div class="medium-3 columns">
+        <a href="/rate_import?page={{request.endpoint}}&rate_type={{rate_type}}" data-key="f3" data-confirm="{{_("Do you want to import '%(r)s' data from USB?",r=rate_type)}}" class="button expand">{{_("IMPORT")}} <span class="access_key">F3</span></a>
     </div>
     <div class="medium-3 columns end">
         <a href="/rate_setup" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
-        <a href="#" onclick="$('#slab_no').focus();" data-key="f" class="hide"></a>
     </div>
 </div>

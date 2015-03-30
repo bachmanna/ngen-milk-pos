@@ -81,10 +81,6 @@ $(function(){
         }
         return false;
     });
-
-    $.get('{{url_for("get_usb_storage_devices")}}', function(data){
-        $("#usb_devices").html(data);
-    });
 });
 </script>
 

@@ -71,8 +71,36 @@
   $(document).foundation();
 
   $(function(){
+
+    if($("#usb_devices").length > 0 ){
+      $.get('{{url_for("get_usb_storage_devices")}}', function(data){
+          $("#usb_devices").html(data);
+      });
+    }
+
     Mousetrap.bind("home", function(e) {
       window.location.replace("/");
+      return false;
+    });
+
+    Mousetrap.bind("enter", function(e) {
+      var $el = $(e.target);
+
+      if($el.is("button")){
+        return true;
+      }
+
+      var frm = $el.closest('form');
+      var inputs = frm.find(':input');
+      var t = inputs.eq( inputs.index(e.target) + 1 );
+
+      if(t.is("input[type=text]"))
+      {
+        t.select();
+      }else{
+        t.focus();
+      }
+
       return false;
     });
 

@@ -9,35 +9,29 @@
 {% include "flash_messages.jinja2" %}
 <form name="frmFatRateSetup" id="frmFatRateSetup" action="" method="post">
     <div class="row">
-        <div class="medium-6 columns">
-            <label>{{_("Slab No")}}
-                <input type="text" name="id" id="slab_no" class="mousetrap"/>
-                <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
+        <div class="medium-2 columns">
+            <label>{{_("Slab No")}}                
+                <input type="text" name="id" id="slab_no" class="mousetrap" maxlength="2" />
             </label>
         </div>
-        <div class="medium-6 columns">
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-4 columns">
+        <div class="medium-3 columns">
             <label>{{_("Min Value")}}
-                <input type="text" name="min_value" class="mousetrap"/>
+                <input type="text" name="min_value" class="mousetrap" maxlength="6" />
             </label>
         </div>
-        <div class="medium-4 columns">
+        <div class="medium-3 columns">
             <label>{{_("Max Value")}}
-                <input type="text" name="max_value" class="mousetrap"/>
+                <input type="text" name="max_value" class="mousetrap" maxlength="6" />
             </label>
         </div>
-        <div class="medium-4 columns">
+        <div class="medium-2 columns">
             <label>{{_("Rate TS")}}
-                <input type="text" name="rate" class="mousetrap"/>
+                <input type="text" name="rate" class="mousetrap" maxlength="6" />
             </label>
         </div>
-    </div>
-    <div class="row">
         <div class="medium-2 columns">
             <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
+            <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
         </div>
     </div>
 </form>
@@ -69,12 +63,7 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="row">
-    <div class="medium-12 columns end">
-        <a href="?cattle_type=COW" data-key="f1" class="button expand {{"success" if cattle_type == "COW"}}">F1 - {{_("COW")}}</a>
-        <a href="?cattle_type=BUFFALO" data-key="f2" class="button expand {{"success" if cattle_type == "BUFFALO"}}">F2 - {{_("BUFFALO")}}</a>
-    </div>
-</div>
+{% include "rate_action_cattle_type.jinja2" %}
 {% endblock %}
 
 {% block statusbar %}
