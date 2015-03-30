@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, g, flash, url_for, jsonify
 from flask_login import login_required
-from flask.ext.babel import lazy_gettext, gettext
+from flask_babel import lazy_gettext, gettext
 
 from web import app, admin_permission, get_backup_directory, is_usb_storage_connected
 

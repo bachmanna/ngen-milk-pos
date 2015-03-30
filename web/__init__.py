@@ -1,13 +1,13 @@
 from flask import Flask, session, render_template, request, redirect, g, flash, current_app, jsonify
 from flask import make_response, Response
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
-from flask.ext.principal import Principal, Permission, RoleNeed, UserNeed, AnonymousIdentity
-from flask.ext.principal import identity_changed, identity_loaded, Identity, PermissionDenied
+from flask_principal import Principal, Permission, RoleNeed, UserNeed, AnonymousIdentity
+from flask_principal import identity_changed, identity_loaded, Identity, PermissionDenied
 
 from passlib.handlers.md5_crypt import md5_crypt
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from flask.ext.babel import Babel
+from flask_babel import Babel
 import babel.numbers as bn
 import os
 import sys

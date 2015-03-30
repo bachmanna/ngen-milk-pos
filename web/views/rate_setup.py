@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, g, flash, url_for
 from flask_login import login_required
-from flask.ext.babel import lazy_gettext, gettext
+from flask_babel import lazy_gettext, gettext
 
 try:
     from collections import OrderedDict

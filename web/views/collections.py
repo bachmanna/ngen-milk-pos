@@ -6,7 +6,7 @@ import json
 
 from web import app, fmtDecimal, format_currency, get_currency_symbol
 
-from flask.ext.babel import lazy_gettext
+from flask_babel import lazy_gettext
 from services.member_service import MemberService
 from services.milkcollection_service import MilkCollectionService
 from services.rate_service import RateService

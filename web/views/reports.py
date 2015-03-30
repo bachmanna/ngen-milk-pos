@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, g, flash, url_for, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
-from flask.ext.babel import lazy_gettext, gettext
+from flask_babel import lazy_gettext, gettext
 
 from web import app, settings_provider, get_backup_directory
 
