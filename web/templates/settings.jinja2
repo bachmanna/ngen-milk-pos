@@ -150,13 +150,13 @@
 {% block statusbar %}
 <div class="row action-buttons">
 	<div class="medium-3 columns">
-		<a href="#" onclick="$('#frmBasicSetup').submit();" data-key="s" class="success button expand">S - {{_("SAVE")}}</a>
+		<a href="#" onclick="$('#frmBasicSetup').submit();return false;" data-key="f2" class="success button expand">{{_("SAVE")}} <span class="access_key">F2</span></a>
 	</div>
 	<div class="medium-3 columns">
-		<button type="button" data-key="c" class="button expand">C - {{_("CLEAR")}}</button>
+		<button type="button" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></button>
 	</div>
 	<div class="medium-3 columns end">
-		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+		<a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
 	</div>
 </div>
 {% endblock %}

@@ -13,11 +13,11 @@
             <label>{{_("Date")}}</label>
         </div>
         <div class="medium-4 columns">
-            <input type="text" class="mousetrap tiny" name="day" value="{{search_date.day}}" />
+            <input type="text" maxlength="2" class="mousetrap tiny" name="day" value="{{search_date.day}}" />
             /
-            <input type="text" class="mousetrap tiny" name="month" value="{{search_date.month}}"/>
+            <input type="text" maxlength="2" class="mousetrap tiny" name="month" value="{{search_date.month}}"/>
             /
-            <input type="text" class="mousetrap medium" name="year" value="{{search_date.year}}" />
+            <input type="text" maxlength="4" class="mousetrap medium" name="year" value="{{search_date.year}}" />
         </div>
         <div class="medium-1 columns">
             <label>{{_("Shift")}}</label>

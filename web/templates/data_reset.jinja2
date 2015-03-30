@@ -13,32 +13,29 @@
             {% include "flash_messages.jinja2" %}
             <div class="text-center">
                 <div class="row">
-                    <div class="medium-5 small-centered columns">
-                        <a id="backupBtn" href="/data_backup" class="large button expand" data-key="f1">{{_("Backup")}} - F1</a>
+                    <div class="medium-6 small-centered columns">
+                        <a id="backupBtn" href="/data_backup" class="large button expand" data-key="f1">{{_("Backup")}} <span class="access_key">F1</span></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="medium-5 small-centered columns">
-                        <a id="restoreBtn" href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2" data-confirm="{{_("Do you want to restore all data from USB?")}}">{{_("Restore")}} - F2</a>
+                    <div class="medium-6 small-centered columns">
+                        <a id="restoreBtn" href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2" data-confirm="{{_("Do you want to restore all data from USB?")}}">{{_("Restore")}} <span class="access_key">F2</span></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="medium-5 small-centered columns">
-                        <a href="/clear_collection_bills" class="large button expand" data-key="f3" data-confirm="{{_("Do you want to clear all milk collection data?")}}">{{_("Clear collection bills")}} - F3</a>
+                    <div class="medium-6 small-centered columns">
+                        <a href="/clear_collection_bills" class="large button expand" data-key="f3" data-confirm="{{_("Do you want to clear all milk collection data?")}}">{{_("Clear bills")}} <span class="access_key">F3</span></a>
                     </div>
                 </div>
-                {% if can_access("admin") %}
                 <div class="row">
-                    <div class="medium-5 small-centered columns">
-                        <a id="factoryResetBtn" href="/factory_reset" class="alert large button expand" data-key="f4">{{_("Factory reset")}} - F4</a>
+                    <div class="medium-6 small-centered columns">
+                        <a id="factoryResetBtn" href="/factory_reset" class="alert large button expand" data-key="f4" {{"disabled='disabled' tabindex='-1'" if not can_access("admin")}}>{{_("Factory reset")}} <span class="access_key">F4</span></a>
                     </div>
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
-<a href="/" data-key="esc" class="hide"></a>
 <div id="backupListModal" class="reveal-modal medium" data-reveal>
 </div>
 {% endblock %}
@@ -48,6 +45,14 @@
     <div class="medium-12 columns">
         <div id="usb_devices">
         </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block statusbar %}
+<div class="row action-buttons">
+    <div class="medium-3 columns end">
+        <a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
     </div>
 </div>
 {% endblock %}

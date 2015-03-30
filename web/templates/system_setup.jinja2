@@ -12,24 +12,30 @@
             <br/>
             <br/>
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/member" class="large button expand" data-key="f1">{{_("Member")}} - F1</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/member" class="large button expand" data-key="f1">{{_("Member")}} <span class="access_key">F1</span></a>
                 </div>
             </div>
-            {% if can_access("admin") or can_access("setup") %}
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/rate_setup" class="large button expand" data-key="f2">{{_("Rate")}} - F2</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/rate_setup" class="large button expand" data-key="f2" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("setup"))}}>{{_("Rate")}} <span class="access_key">F2</span></a>
                 </div>
             </div>
-            {% endif %}
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/language" class="large button expand" data-key="f3">{{_("Language")}} - F3</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/language" class="large button expand" data-key="f3">{{_("Language")}} <span class="access_key">F3</span></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<a href="/" data-key="esc" class="hide"></a>
+{% endblock %}
+
+
+{% block statusbar %}
+<div class="row action-buttons">
+    <div class="medium-3 columns end">
+        <a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
+    </div>
+</div>
 {% endblock %}

@@ -12,27 +12,34 @@
             <br/>
             <br/>
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/rate_fat" class="large button expand" data-key="f1">{{_("FAT")}} - F1</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/rate_fat" class="large button expand" data-key="f1">{{_("FAT")}} <span class="access_key">F1</span></a>
                 </div>
             </div>
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/rate_fat_and_snf" class="large button expand" data-key="f2">{{_("FAT AND SNF")}} - F2</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/rate_fat_and_snf" class="large button expand" data-key="f2">{{_("FAT AND SNF")}} <span class="access_key">F2</span></a>
                 </div>
             </div>
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/rate_total_solid" class="large button expand" data-key="f3">{{_("Total Solid")}} - F3</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/rate_total_solid" class="large button expand" data-key="f3">{{_("Total Solid")}} <span class="access_key">F3</span></a>
                 </div>
             </div>
             <div class="row">
-                <div class="medium-4 small-centered columns">
-                    <a href="/rate_total_solid1" class="large button expand" data-key="f4">{{_("Total Solid 1")}} - F4</a>
+                <div class="medium-5 small-centered columns">
+                    <a href="/rate_total_solid1" class="large button expand" data-key="f4">{{_("Total Solid 1")}} <span class="access_key">F4</span></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<a href="/system_setup" data-key="esc" class="hide"></a>
+{% endblock %}
+
+{% block statusbar %}
+<div class="row action-buttons">
+    <div class="medium-3 columns end">
+        <a href="/system_setup" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
+    </div>
+</div>
 {% endblock %}

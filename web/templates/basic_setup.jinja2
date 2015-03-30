@@ -17,37 +17,37 @@
 			<div class="row">
 				<div class="medium-6 columns end">
 					<label>{{_("Date")}}
-						<input type="text" placeholder="" name="date" value="{{sys_date}}"/>
+						<input type="text" class="mousetrap" name="date" value="{{sys_date}}"/>
 					</label>
 				</div>
 				<div class="medium-6 columns">
 					<label>{{_("Time")}}
-						<input type="text" placeholder="" name="time" value="{{sys_time}}" />
+						<input type="text" class="mousetrap" name="time" value="{{sys_time}}" />
 					</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>{{_("Society Name")}}</label>
-					<input type="text" placeholder="" name="society_name" value="{{settings['SOCIETY_NAME']}}"/>
-					<input type="text" placeholder="" name="society_address" value="{{settings['SOCIETY_ADDRESS']}}"/>
-					<input type="text" placeholder="" name="society_address1" value="{{settings['SOCIETY_ADDRESS1']}}"/>
+					<input type="text" class="mousetrap" name="society_name" value="{{settings['SOCIETY_NAME']}}"/>
+					<input type="text" class="mousetrap" name="society_address" value="{{settings['SOCIETY_ADDRESS']}}"/>
+					<input type="text" class="mousetrap" name="society_address1" value="{{settings['SOCIETY_ADDRESS1']}}"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>{{_("Header")}}</label>
-					<input type="text" placeholder="" name="header_line1" value="{{settings['HEADER_LINE1']}}"/>
-					<input type="text" placeholder="" name="header_line2"  value="{{settings['HEADER_LINE2']}}"/>
-					<input type="text" placeholder="" name="header_line3"  value="{{settings['HEADER_LINE3']}}"/>
-					<input type="text" placeholder="" name="header_line4"  value="{{settings['HEADER_LINE4']}}"/>
+					<input type="text" class="mousetrap" name="header_line1" value="{{settings['HEADER_LINE1']}}"/>
+					<input type="text" class="mousetrap" name="header_line2"  value="{{settings['HEADER_LINE2']}}"/>
+					<input type="text" class="mousetrap" name="header_line3"  value="{{settings['HEADER_LINE3']}}"/>
+					<input type="text" class="mousetrap" name="header_line4"  value="{{settings['HEADER_LINE4']}}"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="medium-12 columns">
 					<label>{{_("Footer")}}</label>
-					<input type="text" placeholder="" name="footer_line1" value="{{settings['FOOTER_LINE1']}}"/>
-					<input type="text" placeholder="" name="footer_line2" value="{{settings['FOOTER_LINE2']}}"/>
+					<input type="text" class="mousetrap" name="footer_line1" value="{{settings['FOOTER_LINE1']}}"/>
+					<input type="text" class="mousetrap" name="footer_line2" value="{{settings['FOOTER_LINE2']}}"/>
 				</div>
 			</div>
 		</form>
@@ -58,10 +58,13 @@
 {% block statusbar %}
 <div class="row action-buttons">
 	<div class="medium-3 columns">
-		<a data-key="s" onclick="$('#frmBasicSetup').submit();" class="success button expand">S - {{_("SAVE")}}</a>
+		<a href="#" onclick="$('#frmBasicSetup').submit();return false;" data-key="f2" class="success button expand">{{_("SAVE")}} <span class="access_key">F2</span></a>
 	</div>
 	<div class="medium-3 columns end">
-		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+		<a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}}  <span class="access_key">F1</span></a>
+	</div>
+	<div class="medium-3 columns end">
+		<a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}}  <span class="access_key">ESC</span></a>
 	</div>
 </div>
 {% endblock %}

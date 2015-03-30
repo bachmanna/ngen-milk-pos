@@ -9,27 +9,23 @@
 {% include "flash_messages.jinja2" %}
 <form name="frmUser" action="/user" method="post">
    <div class="row">
-       <div class="medium-6 columns end">
+       <div class="medium-2 columns">
         <label>{{_("User Id")}}
-            <input type="text" name="id" value="{{user.id}}" />
+            <input type="text" name="id" value="{{user.id}}" maxlength="4" class="mousetrap"/>
         </label>
     </div>
-</div>
-<div class="row">
-    <div class="medium-6 columns">
+    <div class="medium-3 columns">
         <label>{{_("Name")}}
-            <input type="text" name="name" value="{{user.name}}"/>
+            <input type="text" name="name" value="{{user.name}}" maxlength="20" class="mousetrap" />
         </label>
     </div>
-    <div class="medium-6 columns">
+    <div class="medium-3 columns">
         <label>{{_("Password")}}
-            <input type="password" name="password"/>
+            <input type="password" name="password" maxlength="10" class="mousetrap"/>
         </label>
     </div>
-</div>
-<div class="row">
-    <div class="medium-2 columns">
-    <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
+    <div class="medium-2 columns end"> 
+        <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
     </div>
 </div>
 </form>
@@ -60,7 +56,10 @@
 {% block statusbar %}
 <div class="row action-buttons">
     <div class="medium-3 columns end">
-        <a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+        <a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
+    </div>
+    <div class="medium-3 columns end">
+        <a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
     </div>
 </div>
 {% endblock %}

@@ -1,9 +1,12 @@
 <div class="row">
 	<div class="medium-12 columns">
-		<a href="{{request.path}}?{{request.query_string + ("" if request.query_string | count == 0 else "&")  + "print=True"}}" onclick="event.preventDefault();doReportPrint(this);" data-key="p" class="button expand">P - {{_("PRINT")}}</a>
+		<a href="{{request.path}}?{{request.query_string + ("" if request.query_string | count == 0 else "&")  + "print=True"}}" onclick="event.preventDefault();doReportPrint(this);" data-key="p" class="button expand">{{_("PRINT")}} <span class="access_key">P</span></a>
 	</div>
 	<div class="medium-12 columns end">
-		<a href="/reports" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+		<a href="#" onclick="$('input:first').select();return false;" data-key="e" class="button warning expand">{{_("EDIT")}}  <span class="access_key">E</span></a>
+	</div>
+	<div class="medium-12 columns end">
+		<a href="/reports" data-key="esc" class="button alert expand">{{_("EXIT")}}  <span class="access_key">ESC</span></a>
 	</div>
 </div>
 <hr/>

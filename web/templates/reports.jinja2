@@ -13,38 +13,45 @@
             <br/>
             <div class="row">
                 <div class="medium-6 columns">
-                    <a href="/detail_shift" class="large button expand" data-key="f1">{{_("Detail shift report")}} - F1</a>
+                    <a href="/detail_shift" class="large button expand" data-key="f1">{{_("Detail shift report")}} <span class="access_key">F1</span></a>
                 </div>
                 <div class="medium-6 columns">
-                    <a href="/shift_summary" class="large button expand" data-key="f2">{{_("Shift summary report")}} - F2</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="medium-6 columns">
-                    <a href="/member_report" class="large button expand" data-key="f3">{{_("Member report")}} - F3</a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/payment_report" class="large button expand" data-key="f4">{{_("Payment report")}} - F4</a>
+                    <a href="/shift_summary" class="large button expand" data-key="f2">{{_("Shift summary report")}} <span class="access_key">F2</span></a>
                 </div>
             </div>
             <div class="row">
                 <div class="medium-6 columns">
-                    <a href="/dairy_report" class="large button expand" data-key="f5">{{_("Dairy report")}} - F5</a>
+                    <a href="/member_report" class="large button expand" data-key="f3">{{_("Member report")}} <span class="access_key">F3</span></a>
                 </div>
                 <div class="medium-6 columns">
-                    <a href="/settings_report" class="large button expand" data-key="f6">{{_("Settings report")}} - F6</a>
+                    <a href="/payment_report" class="large button expand" data-key="f4">{{_("Payment report")}} <span class="access_key">F4</span></a>
                 </div>
             </div>
             <div class="row">
                 <div class="medium-6 columns">
-                    <a href="/member_list" class="large button expand" data-key="f7">{{_("Member list")}} - F7</a>
+                    <a href="/dairy_report" class="large button expand" data-key="f5">{{_("Dairy report")}} <span class="access_key">F5</span></a>
                 </div>
                 <div class="medium-6 columns">
-                    <a href="/absence_list" class="large button expand" data-key="f8">{{_("Absense list")}} - F8</a>
+                    <a href="/settings_report" class="large button expand" data-key="f6">{{_("Settings report")}} <span class="access_key">F6</span></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-6 columns">
+                    <a href="/member_list" class="large button expand" data-key="f7">{{_("Member list")}} <span class="access_key">F7</span></a>
+                </div>
+                <div class="medium-6 columns">
+                    <a href="/absence_list" class="large button expand" data-key="f8">{{_("Absense list")}} <span class="access_key">F8</span></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<a href="/" data-key="esc" class="hide"></a>
+{% endblock %}
+
+{% block statusbar %}
+<div class="row action-buttons">
+    <div class="medium-3 columns end">
+        <a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
+    </div>
+</div>
 {% endblock %}
