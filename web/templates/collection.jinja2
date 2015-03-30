@@ -26,7 +26,7 @@
 						<label for="member_code">{{_("M.Code")}}</label>
 					</div>
 					<div class="medium-2 columns">
-						<input type="text" class="mousetrap" id="member_code" name="member_code" />
+						<input type="text" class="mousetrap" id="member_code" name="member_code"  maxlength="4" />
 					</div>
 					<div class="medium-4 columns">
 						<div id="member_name"></div>
@@ -49,7 +49,7 @@
 						<label>{{_("CLR")}}</label>
 					</div>
 					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" name="clr" id="clr"/>
+						<input class="mousetrap" type="text" name="clr" id="clr" disabled="disabled" />
 					</div>
 				</div>
 				<div class="row">
@@ -63,7 +63,7 @@
 						<label>{{_("AW")}}</label>
 					</div>
 					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" name="water" id="water" />
+						<input class="mousetrap" type="text" name="water" id="water" disabled="disabled" />
 					</div>
 				</div>
 				<div class="row">
@@ -75,23 +75,21 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="medium-2 columns" style="line-height: 110px;">
-						<span>{{_("RATE")}}</span>
-					</div>
-					<div class="medium-4 columns">
+					<div class="medium-6 columns">
+						<label>{{_("RATE")}}
 						<div class="text-right">
-							<span id="rate">00.00</span>
+							<span id="rate"></span>
 						</div>
-						<input type="hidden" name="rate" id="txtRate" />
+						</label>
 					</div>
-					<div class="medium-2 columns text-right" style="line-height: 110px;">
-						<span>{{_("TOTAL")}}</span>
-					</div>
-					<div class="medium-4 columns end text-right">
-						<span id="total">000.00</span>
-						<input type="hidden" name="total" id="txtTotal" />
+					<div class="medium-6 columns">
+						<label>{{_("TOTAL")}}
+							<div class="text-right" id="total"></div>
+						</label>
 					</div>
 				</div>
+				<input type="hidden" name="rate" id="txtRate" />
+				<input type="hidden" name="total" id="txtTotal" />
 			</form>
 		</div>
 	</div>
@@ -124,17 +122,8 @@
 				<span>{{_("COW")}}</span>
 				<div class="bar-wrapper">
 					<div class="bar-container">
-						<div class="bar-inner" data-value="{{'%0.2f'| format(c_qty)}}" style="height:{{'%0.2f'| format(c_qty)}}%"></div>
-						<div class="bar-text">{{'%0.2f'| format(c_qty)}}</div>
-					</div>
-				</div>
-			</li>
-			<li class="buffalo">
-				<span>{{_("BUFFALO")}}</span>
-				<div class="bar-wrapper">
-					<div class="bar-container">
-						<div class="bar-inner" data-value="{{'%0.2f'| format(b_qty)}}" style="height:{{'%0.2f'| format(b_qty)}}%"></div>
-						<div class="bar-text">{{'%0.2f'| format(b_qty)}}</div>
+						<div class="bar-inner" data-value="{{'%0.2f'| format(t_qty)}}" style="height:{{'%0.2f'| format(t_qty)}}%"></div>
+						<div class="bar-text">{{'%0.2f'| format(t_qty)}}</div>
 					</div>
 				</div>
 			</li>
@@ -198,18 +187,18 @@
 {% block statusbar %}
 <div class="row action-buttons">
 	<div class="medium-2 columns">
-		<a href="#" id="btnSave" data-key="s" class="success button expand">S - {{_("SAVE")}}</a>
+		<button type="submit" id="btnSave" data-key="s" class="success button expand">{{_("SAVE")}} <span class="access_key">S</span></button>
 	</div>
 	<div class="medium-2 columns">
-		<a href="#" id="btnClear" data-key="c" class="button expand">C - {{_("CLEAR")}}</a>
+		<a href="#" id="btnClear" data-key="c" class="button expand">{{_("CLEAR")}} <span class="access_key">C</span></a>
 	</div>
 	<div class="medium-3 columns">
-		<a href="#" data-key="d" class="button expand" data-reveal-id="dateChangeModal">D - {{_("CHANGE DATE")}}</a>
+		<a href="#" data-key="d" class="button expand" data-reveal-id="dateChangeModal">{{_("CHANGE DATE")}} <span class="access_key">D</span></a>
 	</div>
 	<div class="medium-3 columns end">
-		<a href="/" data-key="esc" class="warning button expand">ESC - {{_("EXIT")}}</a>
+		<a href="/" data-key="esc" class="warning button expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
 	</div>
-	<a href="#" onclick="$('#member_code').focus();" data-key="f" class="hide"></a>
+	<a href="#" onclick="$('#member_code').select();" data-key="f1" class="hide"></a>
 	<a href="#" onclick="readOverride();" data-key="r" class="hide"></a>
 </div>
 <div id="dateChangeModal" class="reveal-modal medium" data-reveal>
@@ -218,22 +207,22 @@
 		<div class="row">
 			<div class="medium-12 columns">
 				<label>{{_("Date")}}</label>
-				<input type="text" class="mousetrap tiny" name="day" value="{{date.day}}" />
+				<input type="text" class="mousetrap tiny" name="day" value="{{date.day}}" maxlength="2" />
 				/
-				<input type="text" class="mousetrap tiny" name="month" value="{{date.month}}"/>
+				<input type="text" class="mousetrap tiny" name="month" value="{{date.month}}" maxlength="2" />
 				/
-				<input type="text" class="mousetrap medium" name="year" value="{{date.year}}" />
+				<input type="text" class="mousetrap medium" name="year" value="{{date.year}}"  maxlength="4" />
 			</div>
 		</div>
 		<br/>
 		<div class="row">
 			<div class="medium-12 columns">
 				<label>{{_("Time")}}</label>
-				<input type="text" class="mousetrap tiny" name="hour" value="{{date.strftime("%I")}}" />
+				<input type="text" class="mousetrap tiny" name="hour" value="{{date.strftime("%I")}}"  maxlength="2" />
 				/
-				<input type="text" class="mousetrap tiny" name="minute" value="{{date.strftime("%M")}}"/>
+				<input type="text" class="mousetrap tiny" name="minute" value="{{date.strftime("%M")}}" maxlength="2" />
 				/
-				<input type="text" class="mousetrap medium" name="dn" value="{{date.strftime("%p")}}" />
+				<input type="text" class="mousetrap medium" name="dn" value="{{date.strftime("%p")}}"  maxlength="2" />
 			</div>
 		</div>
 		<br/>
@@ -386,35 +375,33 @@
 			$("#qty").val("");
 			$("#collection_id").val("");
 
-			$("#rate").text("00.00");
-			$("#total").text("000.00");			
+			$("#rate").text("{{currency_symbol}}00.00");
+			$("#total").text("{{currency_symbol}}000.00");			
 			$("#txtRate").val("");
 			$("#txtTotal").val("");
 			$("#member_code").focus();
 		}
 
-		$("#member_code").on("keypress",function(e){
-			if(e.keyCode == 13){
-				hideError();
-				$("#member_name").text("");
-				$("#member_cattle_type").text("");
-				var code = parseInt($(this).val());
+		$("#member_code").on("blur",function(e){
+			hideError();
+			$("#member_name").text("");
+			$("#member_cattle_type").text("");
+			var code = parseInt($(this).val());
 
-				if(isNaN(code)){
-					return;
-				}
+			if(isNaN(code)){
+				return;
+			}
 
-				var res = $.grep(members, function(x){ return x.id == code; });
-				if(res && res.length == 1) {				
-					var m = res[0];
-					$("#member_name").text(m.name);
-					$("#member_cattle_type").text(m.cattle_type);
-					updateData(code);
-				}else{
-					clearData();
-					$("#member_code").val(code);
-					showError(error_member_no_found);
-				}
+			var res = $.grep(members, function(x){ return x.id == code; });
+			if(res && res.length == 1) {				
+				var m = res[0];
+				$("#member_name").text(m.name);
+				$("#member_cattle_type").text(m.cattle_type);
+				updateData(code);
+			}else{
+				clearData();
+				$("#member_code").val(code);
+				showError(error_member_no_found);
 			}
 		});
 

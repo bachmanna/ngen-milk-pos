@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="ta-IN">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -91,7 +91,7 @@
       }
 
       var frm = $el.closest('form');
-      var inputs = frm.find(':input');
+      var inputs = frm.find(':input[disabled!=disabled][type!=hidden]');
       var t = inputs.eq( inputs.index(e.target) + 1 );
 
       if(t.is("input[type=text]"))
