@@ -176,7 +176,7 @@ def app_shutdown():
 
 
 def is_usb_storage_connected():
-  return os.path.ismount("/home/pi/usbdrv/")
+  return os.path.exists("/dev/sda1") and os.path.ismount("/home/pi/usbdrv/")
 
 
 def get_backup_directory():
