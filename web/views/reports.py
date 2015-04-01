@@ -281,10 +281,15 @@ def member_payment_report():
 def get_collection_search_data(member_id, from_date, to_date, increment):
   collectionService = MilkCollectionService()
   lst = collectionService.search_by_date(member_id=member_id,from_date=from_date,to_date=to_date)
-  summary = {"qty": 0.0, "rate": 0, "amount": 0, "increment": 0, "total": 0}
+  summary = {"qty": 0.0, "fat": 0.0,  "snf": 0.0, "rate": 0, "amount": 0, "increment": 0, "total": 0}
+
 
   summary["qty"] = sum([x.qty for x in lst])
-  summary["rate"] = sum([x.rate for x in lst])
+  if summary["qty"] > 0.0:
+    summary["fat"] = sum([x.fat * x.qty for x in lst])/summary["qty"]
+    summary["snf"] = sum([x.snf * x.qty for x in lst])/summary["qty"]
+    summary["rate"] = sum([x.rate * x.qty for x in lst])/summary["qty"]
+
   summary["amount"] = sum([x.total for x in lst])
   summary["increment"] = summary["qty"] * increment
   summary["total"] = summary["increment"] + summary["amount"]
@@ -341,13 +346,22 @@ def dairy_report():
         item["snf"] = item["snf"] + x.snf
         item["total"] = item["total"] + x.total
 
-  summary = {"qty": 0.0, "rate": 0, "total": 0}
+  summary = {"fat": 0.0, "snf": 0.0, "qty": 0.0, "rate": 0, "total": 0}
+  kg_fat = []
+  kg_snf = []
+  kg_rate = []
   for d in lst.keys():
     for shift in lst[d].keys():
       item = lst[d][shift]
+      kg_fat.append(item["fat"] * item["qty"])
+      kg_snf.append(item["snf"] * item["qty"])
+      kg_rate.append(item["rate"] * item["qty"])
       summary["qty"] = summary["qty"] + item["qty"]
-      summary["rate"] = summary["rate"] + item["rate"]
       summary["total"] = summary["total"] + item["total"]
+
+  summary["fat"] = sum(kg_fat)/summary["qty"]
+  summary["snf"] = sum(kg_snf)/summary["qty"]
+  summary["rate"] = sum(kg_rate)/summary["qty"]
 
   data = dict(from_date=from_date,to_date=to_date,lst=lst,summary=summary)
 
