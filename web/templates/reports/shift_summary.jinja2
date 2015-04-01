@@ -44,13 +44,13 @@
                         <th class="text-right">{{'%0.2f'| format(summary["total"][1]|float)}}</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th class="text-right">{{_("Grand Total")}}</th>
-                        <th class="text-right">{{summary["total"][0] + summary["total"][1]}}</th>
+                        <th>{{_("Grand value")}}</th>
+                        <td class="text-right">{{summary["grand"]["member"]}}</td>
+                        <td class="text-right">{{'%0.2f'| format(summary["grand"]["fat"])}}</td>
+                        <td class="text-right">{{'%0.2f'| format(summary["grand"]["snf"])}}</td>
+                        <td class="text-right">{{'%0.2f'| format(summary["grand"]["qty"])}}</td>
+                        <th class="text-right">{{'%0.2f'| format(summary["grand"]["rate"])}}</th>
+                        <th class="text-right">{{'%0.2f'| format(summary["grand"]["total"])}}</th>
                     </tr>
                 </tbody>
             </table>

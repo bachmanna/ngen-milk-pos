@@ -86,6 +86,7 @@ class MilkCollectionService:
       for x in member_list:
         members[x.id] = x
       mcollection = self.search(None, shift=shift, created_at=search_date)
+
       cow_collection = [x for x in mcollection if members[x.member.id].cattle_type == "COW"]
       buffalo_collection = [x for x in mcollection if members[x.member.id].cattle_type == "BUFFALO"]
       summary = {}
@@ -96,14 +97,28 @@ class MilkCollectionService:
       summary["rate"] = [0,0]
 
       if summary["milk"][0] != 0:
-        summary["fat"][0] = sum([x.fat for x in cow_collection])/summary["milk"][0]
-        summary["snf"][0] = sum([x.snf for x in cow_collection])/summary["milk"][0]
-        summary["rate"][0] = sum([x.rate for x in cow_collection])/summary["milk"][0]
+        summary["fat"][0] = sum([x.fat*x.qty for x in cow_collection])/summary["milk"][0]
+        summary["snf"][0] = sum([x.snf*x.qty for x in cow_collection])/summary["milk"][0]
+        summary["rate"][0] = sum([x.rate*x.qty for x in cow_collection])/summary["milk"][0]
 
       if summary["milk"][1] != 0:
-        summary["fat"][1] = sum([x.fat for x in buffalo_collection])/summary["milk"][1]
-        summary["snf"][1] = sum([x.snf for x in buffalo_collection])/summary["milk"][1]
-        summary["rate"][1] = sum([x.rate for x in buffalo_collection])/summary["milk"][1]
+        summary["fat"][1] = sum([x.fat*x.qty for x in buffalo_collection])/summary["milk"][1]
+        summary["snf"][1] = sum([x.snf*x.qty for x in buffalo_collection])/summary["milk"][1]
+        summary["rate"][1] = sum([x.rate*x.qty for x in buffalo_collection])/summary["milk"][1]
 
       summary["total"] = [sum([x.total for x in cow_collection]), sum([x.total for x in buffalo_collection])]
+
+      summary["grand"] = {}
+      summary["grand"]["member"] = len(mcollection)
+      summary["grand"]["qty"] = sum([x.qty for x in mcollection])
+      summary["grand"]["total"] = sum([x.total for x in mcollection])
+      summary["grand"]["fat"] = 0
+      summary["grand"]["snf"] = 0
+      summary["grand"]["rate"] = 0
+
+      if summary["grand"]["qty"] != 0.0:
+        summary["grand"]["fat"] = sum([x.fat*x.qty for x in mcollection])/summary["grand"]["qty"]
+        summary["grand"]["snf"] = sum([x.snf*x.qty for x in mcollection])/summary["grand"]["qty"]
+        summary["grand"]["rate"] = sum([x.rate*x.qty for x in mcollection])/summary["grand"]["qty"]
+
       return members, mcollection, summary
