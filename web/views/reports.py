@@ -37,7 +37,7 @@ def do_print_report(template,outfile, **kwargs):
   HTML(string=data).write_pdf(target=dest, stylesheets = styles)
   if sys.platform == "win32":
     import xhtml2pdf.pisa as pisa
-    pisa.startViewer(dest)
+    #pisa.startViewer(dest)
 
 @app.route("/reports")
 @login_required
@@ -241,11 +241,46 @@ def member_payment_report():
     from_date = start
     flash(str(lazy_gettext("From Date cannot be greater than to date!")), "error")
 
-  from_member = float(request.args.get("from_member", 1))
-  to_member = float(request.args.get("to_member", 100))
+  from_member = int(request.args.get("from_member", 1))
+  to_member = int(request.args.get("to_member", 10))
 
+  member_service = MemberService()
+  mlst = member_service.search()
+  member_list = {}
+  for x in mlst:
+    member_list[x.id] = x
+
+  if from_member not in member_list or to_member not in member_list:
+    flash(gettext("Invalid member code range"), "error")
+    from_member = 1
+    to_member = 10
+
+  lst, summary = get_collection_search_data(from_member, from_date, to_date, increment)
+  data = dict(from_date=from_date,
+    to_date=to_date,lst=lst,
+    from_member=from_member,to_member=to_member,
+    increment=increment,summary=summary,member_list=member_list)
+
+  if request.args.get("print", "False") == "True":
+    for x in range(from_member, to_member+1):
+      if x not in member_list:
+        continue
+      lst, summary = get_collection_search_data(x, from_date, to_date, increment)
+      #if not lst or len(lst) == 0:
+      #  continue
+      print_data = dict(from_date=from_date,
+                        to_date=to_date,lst=lst,
+                        from_member=from_member,to_member=to_member,
+                        increment=increment,summary=summary,member_list=member_list)
+      do_print_report("reports/member_report.jinja2", "member_report_%d.pdf" % (x), **print_data)
+    return jsonify({"success": True})
+
+  return render_template("member_report.jinja2",**data)
+
+
+def get_collection_search_data(member_id, from_date, to_date, increment):
   collectionService = MilkCollectionService()
-  lst = collectionService.search_by_date(member_id=from_member,from_date=from_date,to_date=to_date)
+  lst = collectionService.search_by_date(member_id=member_id,from_date=from_date,to_date=to_date)
   summary = {"qty": 0.0, "rate": 0, "amount": 0, "increment": 0, "total": 0}
 
   summary["qty"] = sum([x.qty for x in lst])
@@ -254,22 +289,7 @@ def member_payment_report():
   summary["increment"] = summary["qty"] * increment
   summary["total"] = summary["increment"] + summary["amount"]
 
-  member_service = MemberService()
-  mlst = member_service.search()
-  member_list = {}
-  for x in mlst:
-    member_list[x.id] = x
-
-  data = dict(from_date=from_date,
-    to_date=to_date,lst=lst,
-    from_member=from_member,to_member=to_member,
-    increment=increment,summary=summary,member_list=member_list)
-
-  if request.args.get("print", "False") == "True":
-    do_print_report("reports/member_report.jinja2", "member_report.pdf", **data)
-    return jsonify({"success": True})
-
-  return render_template("member_report.jinja2",**data)
+  return lst, summary
 
 
 @app.route("/dairy_report")
