@@ -10,6 +10,7 @@ from datetime import datetime
 from flask_babel import Babel
 import babel.numbers as bn
 import os
+import time
 import sys
 
 
@@ -165,6 +166,7 @@ def app_logout():
 
 @app.route('/shutdown')
 def app_shutdown():
+  do_backup_milk_collection_data()
   if sys.platform == 'linux2':
     #os.system("sudo shutdown now -h")
     command = "/usr/bin/sudo /sbin/shutdown -r now"
@@ -189,6 +191,15 @@ def get_backup_directory():
   if not os.path.exists(directory):
     os.makedirs(directory)
   return directory
+
+
+from services.export_import_service import ExportImportService
+def do_backup_milk_collection_data():
+  filename = "MilkCollection_%s.csv" % str(int(time.mktime(datetime.now().timetuple())))
+  service = ExportImportService(MilkCollection.__table__, filename)
+  service.do_export()
+  pass
+
 
 import views.users
 import views.collections

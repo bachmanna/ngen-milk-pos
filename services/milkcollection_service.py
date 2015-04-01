@@ -69,9 +69,13 @@ class MilkCollectionService:
     def export_data(self):
         return None
 
-    def clear_collection_bills(self):
-      count = MilkCollection.query.count()
-      MilkCollection.query.delete()
+    def clear_collection_bills(self, from_date=None, to_date=None):
+      query = MilkCollection.query
+      if from_date and to_date:
+        query = query.filter(MilkCollection.created_at >= from_date)
+        query = query.filter(MilkCollection.created_at < to_date)
+      count = query.count()
+      query.delete()
       db.session.commit()
       return count
 

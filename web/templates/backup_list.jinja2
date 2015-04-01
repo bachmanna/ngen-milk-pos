@@ -14,14 +14,18 @@
 	</div>
 	{% endfor %}
 </div>
-
+<div class="row modal-footer">
+    <div class="medium-4 columns">&nbsp;</div>
+    <div class="medium-4 columns">
+        <a href="#" data-key="n" id="btnBackupCancel" class="button expand warning">{{_("Cancel")}} <span class="access_key">N</span></a>
+    </div>
+</div>
 <script>
 	$(function(){
 		$("#backuplist [data-key]").each(function(){
 			var key = $(this).data("key");
 			var $that = $(this);
 			Mousetrap.bind(key.toString(), function(e) {
-				console.log($(this));
 				$that[0].click();
 				return true;
 			});
@@ -34,6 +38,11 @@
 			$("#page_loading").removeClass("hide");
 			return true;
 		});
+
+		$("#btnBackupCancel").click(function() {
+	        $("#backupListModal").foundation("reveal", "close");
+	        return false;
+	    });
 
 		setTimeout(function(){
 			document.getElementById('backuplist').focus();

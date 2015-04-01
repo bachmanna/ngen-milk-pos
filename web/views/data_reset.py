@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, g, flash, url_for, jsonify
 from flask_login import login_required
 from flask_babel import lazy_gettext, gettext
+from datetime import datetime, timedelta
 
 from web import app, admin_permission, get_backup_directory, is_usb_storage_connected
 
@@ -16,9 +17,27 @@ def data_reset():
 @app.route("/clear_collection_bills")
 @login_required
 def clear_collection_bills():
+	period = request.args.get("period", "lastmonth")
+	
+	#by default delete only previous month data
+	today = datetime.now()
+	to_date = today - timedelta(days=today.day)
+	from_date = to_date - timedelta(days=30)
+
+	if period == "last3month":
+		from_date = to_date - timedelta(days=90)
+	elif period == "all":
+		to_date = None
+		from_date = None
+
 	service = MilkCollectionService()
-	count = service.clear_collection_bills()
-	msg = "%s Milk collection data deleted!" % (count)
+	count = service.clear_collection_bills(from_date, to_date)
+	
+	if to_date is None:
+		msg = "%s Milk collection data deleted" % (count)
+	else:
+		msg = "%s Milk collection data deleted from %s to %s!" % (count, from_date, to_date)
+
 	flash(str(lazy_gettext(msg)))
 	return redirect(url_for("data_reset"))
 

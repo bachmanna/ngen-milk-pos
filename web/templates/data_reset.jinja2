@@ -19,12 +19,12 @@
                 </div>
                 <div class="row">
                     <div class="medium-6 small-centered columns">
-                        <a id="restoreBtn" href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2" data-confirm="{{_("Do you want to restore all data from USB?")}}">{{_("Restore")}} <span class="access_key">F2</span></a>
+                        <a id="restoreBtn" href="/get_available_data_backup" class="large button expand" data-reveal-id="backupListModal" data-reveal-ajax="true" data-key="f2">{{_("Restore")}} <span class="access_key">F2</span></a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="medium-6 small-centered columns">
-                        <a href="/clear_collection_bills" class="large button expand" data-key="f3" data-confirm="{{_("Do you want to clear all milk collection data?")}}">{{_("Clear bills")}} <span class="access_key">F3</span></a>
+                        <a href="/clear_collection_bills" class="large button expand" data-key="f3" id="btnClearBills">{{_("Clear bills")}} <span class="access_key">F3</span></a>
                     </div>
                 </div>
                 <div class="row">
@@ -37,6 +37,39 @@
     </div>
 </div>
 <div id="backupListModal" class="reveal-modal medium" data-reveal>
+</div>
+<div id="confirmModal" class="reveal-modal" data-reveal>
+    <a class="close-reveal-modal">&#215;</a>
+    <div class="row">
+        <div class="medium-12 columns">
+            <h1 id="modal-header">{{_("Alert")}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns" id="modal-message">
+        </div>
+    </div>
+    <div class="row modal-footer">
+        <div class="medium-4 columns">&nbsp;</div>
+        <div class="medium-4 columns">
+            <a href="#" data-key="n" id="btnConfirmCancel" class="button expand warning">{{_("Cancel")}} <span class="access_key">N</span></a>
+        </div>        
+        <div class="medium-4 columns">
+            <a href="#" data-key="y" id="btnConfirmOK" class="button expand success">{{_("OK")}} <span class="access_key">Y</span></a>
+        </div>
+    </div>
+</div>
+<div class="hide" id="clickBillsContent">
+    <p>{{_("Select a time period to clear milk collection data")}}</p>
+    <a href="/clear_collection_bills?period=lastmonth" class="button expand" data-key="a">
+        {{_("Last Month")}} <span class="access_key">A</span>
+    </a>
+    <a href="/clear_collection_bills?period=last3month" class="button expand" data-key="b">
+        {{_("Last 3 Months")}} <span class="access_key">B</span>
+    </a>
+    <a href="/clear_collection_bills?period=all" class="button expand" data-key="c">
+        {{_("ALL")}} <span class="access_key">C</span>
+    </a>
 </div>
 {% endblock %}
 
@@ -61,24 +94,50 @@
 
 <script>
 $(function(){
+    var okCallback = null;
     var backup_confirm_msg = '{{_("Do you want to backup all data to USB?")}}';
     var factory_reset_confirm_msg = '{{_("Be sure to backup before doing this operation. ALL DATA WILL BE ERASED AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory reset? ")}}';
 
     $("#backupBtn").click(function(){
-        if(confirm(backup_confirm_msg)){
+        $("#modal-message").html(backup_confirm_msg);
+        $("#confirmModal").foundation("reveal", "open");
+
+        okCallback = function() {
             $("#page_loading h1").text('{{_("BACKUP IN PROCESS...")}}');
             $("#page_loading").removeClass("hide");
-            return true;
-        }
+            window.location.href = $("#backupBtn").prop("href");
+        };
+
         return false;
     });
 
     $("#factoryResetBtn").click(function(){
-        if(confirm(factory_reset_confirm_msg)){
+        $("#modal-message").html(factory_reset_confirm_msg);
+        $("#confirmModal").foundation("reveal", "open");
+
+        okCallback = function() {
             $("#page_loading h1").text('{{_("FACTORY RESET IN PROCESS...")}}');
             $("#page_loading").removeClass("hide");
-            return true;
-        }
+            window.location.href = $("#factoryResetBtn").prop("href");
+        };
+
+        return false;
+    });
+
+    $("#btnClearBills").click(function(){
+        $("#modal-message").html($("#clickBillsContent").html());
+        $("#confirmModal").foundation("reveal", "open");
+        return false;
+    });
+
+    $("#btnConfirmCancel").click(function() {
+        $("#confirmModal").foundation("reveal", "close");
+        return false;
+    });
+
+    $("#btnConfirmOK").click(function() {
+        $("#confirmModal").foundation("reveal", "close");
+        if(okCallback) okCallback();
         return false;
     });
 });
