@@ -337,8 +337,8 @@
 				$("#water").val(data.water);
 				$("#qty").val(data.qty);*/
 				$("#rate").text(data.fmt_rate);
-				$("#total").text(data.fmt_total);
-				//animateNumber(data.currency_symbol, data.total, "#total");
+				//$("#total").text(data.fmt_total);
+				animateNumber(data.currency_symbol, data.total, "#total");
 				animateNumber("", data.fat, "#fat");
 				animateNumber("", data.snf, "#snf");
 				animateNumber("", data.clr, "#clr");
@@ -400,10 +400,47 @@
 				updateData(code);
 			}else{
 				clearData();
-				$("#member_code").val(code);
+				$(this).val(code);
 				showError(error_member_no_found);
 			}
 		});
+
+		$("#qty").on("focus", function(){
+			updateQtyData();
+		});
+
+		var handle_qty_timer = null;
+
+		function updateQtyData(){
+			var isFocused = $(document.activeElement).prop("id") == "qty";
+
+			var member_id = parseInt($("#member_code").val());
+
+			if(!isFocused || $("#collection_id").val() != "" || isNaN(member_id)) {
+				return;
+			}
+
+			var member_id = parseInt($("#member_code").val());
+			var shift = $("input[name=shift]").val();
+			var cattle_type = $("#member_cattle_type").text().trim();
+			var created_at = $("input[name=created_at]").val();
+			var postdata = {"member_id": member_id,"created_at":created_at,"shift":shift,"cattle_type": cattle_type };
+
+			$.get('/get_qty_data', postdata,function(data) {
+				if(data && data.status == "success" && parseFloat(data.value) > 0.0){
+					var qty = parseFloat(data.value);
+					var rate = parseFloat($("#txtRate").val());
+					var total = (rate * qty).toFixed(2);
+
+					$("#qty").val(qty);
+					$("#txtTotal").val(total);
+					$("#total").text("{{currency_symbol}} " + total);
+				}
+			})
+			.complete(function() {
+				handle_qty_timer = setTimeout(updateQtyData, 1000);
+			});
+		}
 
 		$("#btnSave").click(function(){
 			is_saving = true;
@@ -422,21 +459,6 @@
 		});
 
 		clearData();
-
-		var updateIntervalData = function(){
-			setTimeout(updateIntervalData, 1000);
-			var code = parseInt($("#member_code").val());
-			var name = $("#member_name").text();
-			var id = $("#collection_id").val();
-
-			if(isNaN(code) || name === "" || name.length == 0 || id != "") {
-				return;
-			}
-
-			updateData(code);
-		};
-
-		setTimeout(updateIntervalData, 1000);
 
 		window.readOverride = function(){
 			var code = parseInt($("#member_code").val());

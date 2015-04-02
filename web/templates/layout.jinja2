@@ -93,12 +93,11 @@
       var frm = $el.closest('form');
       var inputs = frm.find(':input[disabled!=disabled][type!=hidden]');
       var t = inputs.eq( inputs.index(e.target) + 1 );
-
+      t.focus();
+      
       if(t.is("input[type=text]"))
       {
         t.select();
-      }else{
-        t.focus();
       }
 
       return false;

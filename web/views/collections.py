@@ -109,7 +109,7 @@ def get_collection_data():
   created_at = parser.parse(request.form.get("created_at", str(today))).date()
   data = { "collection_id": None, "currency_symbol": get_currency_symbol() }
 
-  if member_id and shift and created_at:
+  if member_id and int(member_id) > 0 and shift and created_at:
     collectionService = MilkCollectionService()
     lst = collectionService.search(member_id=int(member_id), shift=shift, created_at=created_at)
     if lst and len(lst) > 0:
@@ -155,14 +155,32 @@ def get_collection_data():
   data["fmt_total"] = format_currency(total)
   return jsonify(**data)
 
+
+@app.route("/get_qty_data")
+@login_required
+def get_qty_data():
+  member_id = request.args.get("member_id", None)
+  shift = request.args.get("shift", None)
+  cattle_type = request.args.get("cattle_type", "COW")
+  today = datetime.now()
+  created_at = parser.parse(request.form.get("created_at", str(today))).date()
+  if member_id and int(member_id) > 0 and shift and created_at:
+    collectionService = MilkCollectionService()
+    lst = collectionService.search(member_id=int(member_id), shift=shift, created_at=created_at)
+    if lst and len(lst) > 0:
+      return jsonify({"status" : "failure"})
+
+  settings = g.app_settings
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE])
+  return jsonify({"status" : "success", "value": scale.get()})
+
+
 def get_sensor_data():
-  config_manager = ConfigurationManager()
-  settings = config_manager.get_all_settings()
+  settings = g.app_settings
   scale = WeightScale(settings[SystemSettings.SCALE_TYPE])
   analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE])
   data = analyzer.get()
   data["qty"] = scale.get()
-
   return data
 
 def printTicket(entity):
