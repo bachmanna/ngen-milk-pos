@@ -118,8 +118,7 @@
 <div class="row">
 	<div class="medium-12 columns">
 		<ul class="graph-container">
-			<li class="cow">
-				<span>{{_("COW")}}</span>
+			<li>
 				<div class="bar-wrapper">
 					<div class="bar-container">
 						<div class="bar-inner" data-value="{{'%0.2f'| format(t_qty)}}" style="height:{{'%0.2f'| format(t_qty)}}%"></div>
@@ -321,11 +320,7 @@
 					return;
 				}				
 
-				var grpElement = $(".graph-container .cow .bar-inner");
-				if(cattle_type !== "COW") {
-					grpElement = $(".graph-container .buffalo .bar-inner");
-				}
-
+				var grpElement = $(".graph-container .bar-inner");
 				var prevVal = parseFloat(grpElement.data("value"));
 				var heightVal = (prevVal + data.qty).toFixed(2).toString();
 				animateNumber("", heightVal, grpElement.next(".bar-text"));
@@ -435,6 +430,12 @@
 					$("#qty").val(qty);
 					$("#txtTotal").val(total);
 					$("#total").text("{{currency_symbol}} " + total);
+
+					var grpElement = $(".graph-container .bar-inner");
+					var prevVal = parseFloat(grpElement.data("value"));
+					var heightVal = (prevVal + qty).toFixed(2).toString();
+					animateNumber("", heightVal, grpElement.next(".bar-text"));
+					grpElement.height(heightVal+"%");
 				}
 			})
 			.complete(function() {
