@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="medium-12 columns">
-		<a href="{{request.path}}?{{request.query_string + ("" if request.query_string | count == 0 else "&")  + "print=True"}}" onclick="event.preventDefault();doReportPrint(this);" data-key="p" class="button expand">{{_("PRINT")}} <span class="access_key">P</span></a>
+		<a href="#" onclick="event.preventDefault();showPrintOptions(this);" data-key="p" class="button expand">{{_("PRINT")}} <span class="access_key">P</span></a>
 	</div>
 	<div class="medium-12 columns end">
 		<a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}}  <span class="access_key">F1</span></a>
@@ -10,6 +10,17 @@
 	</div>
 </div>
 <hr/>
+{% set p = request.path + "?" + request.query_string + ("" if request.query_string | count == 0 else "&")  + "print=True" %}
+<div class="row">
+	<div class="medium-12 columns">
+		<div id="print_options" class="hide">
+			<h4>{{_("Available printers")}}</h4>
+			<a href="{{p}}&printer_type=thermal" onclick="event.preventDefault();doReportPrint(this);" data-key="t" class="button expand">{{_("Thermal")}} <span class="access_key">T</span></a>
+			<a href="{{p}}&printer_type=laser" onclick="event.preventDefault();doReportPrint(this);" data-key="l" class="button expand">{{_("Laser")}} <span class="access_key">L</span></a>
+			<a href="{{p}}&printer_type=usb" onclick="event.preventDefault();doReportPrint(this);" data-key="u" class="button expand">{{_("USB (PDF)")}} <span class="access_key">U</span></a>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="medium-12 columns">
 		<div id="print_report_status" class="alert-box info hide">
@@ -17,3 +28,8 @@
 		</div>
 	</div>
 </div>
+<script>
+$(function(){
+
+});
+</script>

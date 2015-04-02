@@ -168,9 +168,15 @@
 
   var print_msg = { 'start': '{{_("Print started...")}}', 'complete': '{{_("Print completed.")}}', 'error': '{{_("Print error.")}}' };
 
+  function showPrintOptions(el){
+    $("#print_report_status").addClass("hide");
+    $("#print_options").toggleClass("hide");
+  }
+
   function doReportPrint(el){
     var url = el.href;
     Mousetrap.pause();
+    $("#print_options").addClass("hide");
     $("#print_report_status").removeClass("hide");
     $("#print_report_status_text").text(print_msg.start);
 

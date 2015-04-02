@@ -6,6 +6,10 @@ a[disabled] {
     pointer-events: none;
 }
 
+.row{
+	max-width: 98%;
+}
+
 .sidebar{
 	border-left: 1px solid #aaa;
 	min-height: 500px;

@@ -18,26 +18,37 @@ from flask_weasyprint import HTML, CSS
 
 styles = None
 
-def do_print_report(template,outfile, **kwargs):
+def do_print_report(template, outfile, **kwargs):
   global styles
   bakdir = get_backup_directory()
 
-  dest = os.path.join(bakdir, outfile)
-  print "Print pdf report to %s" % dest
-  tmp = app.jinja_env.get_template(template)
-  s = settings_provider() or {}
-  s.update(**kwargs)
-  data = tmp.render(s)
+  printer_type = request.args.get("printer_type", "usb")
 
-  if styles is None:
-    app_css = CSS(url_for("static", filename="css/app.css"))
-    custom_css = CSS(url_for("static", filename="css/custom.css"))
-    print_css = CSS(url_for("static", filename="css/print.css"))
-    styles = [app_css,custom_css,print_css]
-  HTML(string=data).write_pdf(target=dest, stylesheets = styles)
-  if sys.platform == "win32":
-    import xhtml2pdf.pisa as pisa
-    #pisa.startViewer(dest)
+  if printer_type == "thermal":
+    print "Printing to thermal printer"
+  else:
+    dest = os.path.join(bakdir, outfile)
+    print "Print pdf report to %s" % dest
+    tmp = app.jinja_env.get_template(template)
+    data = settings_provider() or {}
+    data.update(**kwargs)
+    html = tmp.render(data)
+
+    if styles is None:
+      app_css = CSS(url_for("static", filename="css/app.css"))
+      custom_css = CSS(url_for("static", filename="css/custom.css"))
+      print_css = CSS(url_for("static", filename="css/print.css"))
+      styles = [app_css,custom_css,print_css]
+
+    HTML(string=html).write_pdf(target=dest, stylesheets=styles)
+    
+    if printer_type == "laser":
+      print "Printing to laser printer."
+      # send the pdf to CUPS
+
+    if sys.platform == "win32":
+      import xhtml2pdf.pisa as pisa
+      #pisa.startViewer(dest)
 
 @app.route("/reports")
 @login_required
