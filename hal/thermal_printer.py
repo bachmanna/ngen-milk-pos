@@ -377,18 +377,3 @@ class ThermalPrinter(object):
             test_img.save(test_print, 'PNG')
             print "output saved to %s" % test_print.name
             test_print.close()
-
-if __name__ == '__main__':
-    import sys, os
-
-    if len(sys.argv) == 2:
-        serialport = sys.argv[1]
-    else:
-        serialport = ThermalPrinter.SERIALPORT
-
-    if not os.path.exists(serialport):
-        sys.exit("ERROR: Serial port not found at: %s" % serialport)
-
-    print "Testing printer on port %s" % serialport
-    p = ThermalPrinter(serialport=serialport)
-    p.print_text("\n~~~~~~~!!!!! TEST?")

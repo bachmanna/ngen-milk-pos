@@ -224,7 +224,7 @@ nl --------------------------------"""
 
   print markup.encode("utf-8")
   printer = ThermalPrinter(serialport="/dev/ttyUSB0")
-  printer.linefeed()
   printer.print_markup(markup.encode("utf-8"))
+  printer.linefeed()
   printer.linefeed()
   pass
