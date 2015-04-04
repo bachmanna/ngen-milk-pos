@@ -71,6 +71,7 @@ def collection():
         printTicket(entity)
       except Exception as e:
         print e
+        flash(str(lazy_gettext("Error in printing!")), "error")
 
       flash("Saved successfully!", "success")
     else:
@@ -128,9 +129,6 @@ def get_collection_data():
       data["total"] = entity.total
       data["fmt_rate"] = format_currency(entity.rate)
       data["fmt_total"] = format_currency(entity.total)
-      ##############
-      printTicket(entity)
-      ##############
       override = request.args.get("override", "False")
       if override == "False":
         return jsonify(**data)
@@ -171,21 +169,20 @@ def get_qty_data():
       return jsonify({"status" : "failure"})
 
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE])
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
   return jsonify({"status" : "success", "value": scale.get()})
 
 
 def get_sensor_data():
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE])
-  analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE])
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
+  analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE], address="/dev/ttyUSB2")
   data = analyzer.get()
   data["qty"] = scale.get()
   return data
 
 def printTicket(entity):
-  config_manager = ConfigurationManager()
-  settings = config_manager.get_all_settings()
+  settings = g.app_settings
 
   template = "bc %s" % settings[SystemSettings.HEADER_LINE1]
   template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE2]
@@ -213,4 +210,7 @@ def printTicket(entity):
   template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE1]
   template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE2]
   print template
+  printer = ThermalPrinter(serialport="/dev/ttyUSB0")
+  printer.print_markup(template)
+  printer.linefeed()
   pass
