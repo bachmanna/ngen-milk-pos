@@ -61,14 +61,13 @@ def collection():
       entity["created_by"] = current_user.id
       entity["created_at"] = parser.parse(request.form.get("created_at", str(date)))
       entity["status"] = True
-      print entity
       if collection_id and int(collection_id) > 0:
         collectionService.update(int(collection_id), entity)
       else:
-        collectionService.add(entity)
+        collection_id = collectionService.add(entity)
 
       try:
-        printTicket(entity)
+        printTicket(collectionService.get(collection_id))
       except Exception as e:
         print e
         flash(str(lazy_gettext("Error in printing!")), "error")
