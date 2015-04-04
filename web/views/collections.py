@@ -69,7 +69,7 @@ def collection():
       try:
         printTicket(collectionService.get(collection_id))
       except Exception as e:
-        print e
+        print "print exception:", e
         flash(str(lazy_gettext("Error in printing!")), "error")
 
       flash("Saved successfully!", "success")
@@ -128,6 +128,12 @@ def get_collection_data():
       data["total"] = entity.total
       data["fmt_rate"] = format_currency(entity.rate)
       data["fmt_total"] = format_currency(entity.total)
+
+      #try:
+      #  printTicket(entity)
+      #except Exception as e:
+      #  print "print exception:", e
+
       override = request.args.get("override", "False")
       if override == "False":
         return jsonify(**data)
@@ -182,33 +188,45 @@ def get_sensor_data():
 
 def printTicket(entity):
   settings = g.app_settings
+  h1 = settings[SystemSettings.HEADER_LINE1]
+  h2 = settings[SystemSettings.HEADER_LINE2]
+  h3 = settings[SystemSettings.HEADER_LINE3]
+  h4 = settings[SystemSettings.HEADER_LINE4]
+  f1 = settings[SystemSettings.FOOTER_LINE1]
+  f2 = settings[SystemSettings.FOOTER_LINE2]
+  template = u"""@@@
+bc {h1}
+###
+bc {h2}
+bc {h3}
+bc {h4}
+nl --------------------------------
+nl   Date: {date}
+nl  Shift: {shift}
+nl Member: {mname} [{mcode}]
+nl Cattle: {cattle}
+nl    FAT: {fat:>4.2f}       CLR: {clr:>4.2f}
+nl    SNF: {snf:>4.2f}       WTR: {aw:>4.2f}
+nl    QTY: {qty:>4.2f}       RATE: {rate}
+@@@  
+bl  TOTAL: {total}
+###
+nl --------------------------------
+bc {f1}
+bc {f2}
+nl --------------------------------"""
+  date   = entity.created_at.strftime("%d/%m/%Y %I:%M%p")
+  total  = format_currency(entity.total)
+  rate   = format_currency(entity.rate)
+  markup = template.format(mcode=entity.member_id,mname=entity.member.name,
+                          cattle=entity.member.cattle_type,
+                          date=date,shift=entity.shift,
+                          fat=entity.fat,snf=entity.snf,qty=entity.qty,
+                          clr=entity.clr,aw=entity.aw,
+                          rate=rate,total=total,
+                          h1=h1, h2=h2, h3=h3, h4=h4, f1=f1, f2=f2)
 
-  template = "bc %s" % settings[SystemSettings.HEADER_LINE1]
-  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE2]
-  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE3]
-  template = template + "\nbc %s" % settings[SystemSettings.HEADER_LINE4]
-
-  template = template + "\nnl %s" % ("*" * 40)
-
-  shift = "M"
-  if entity.shift == "EVENING":
-    shift = "E"
-  template = template + "\nnl Date: %s       Shift: %s" % (entity.created_at.strftime("%d/%m/%Y %I:%M%p"), shift)
-  template = template + "\nnl M.Code: %d Name: %s" % (entity.member_id, entity.member.name)
-  template = template + "\nnl Cattle: %s" % (entity.member.cattle_type)
-
-  template = template + "\nnl FAT: %.2f CLR: %.2f" % (entity.fat, entity.clr)
-  template = template + "\nnl SNF: %.2f WTR: %.2f" % (entity.snf, entity.aw)
-
-  template = template + "\nnl QTY: %.2f RATE: %.2f" % (entity.qty, entity.rate)
-
-  template = template + "\nbl TOTAL: %.2f" % (entity.total)
-
-  template = template + "\nnl %s" % ("*" * 40)
-
-  template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE1]
-  template = template + "\nnc %s" % settings[SystemSettings.FOOTER_LINE2]
-  print template
+  print markup.encode("utf-8")
   printer = ThermalPrinter(serialport="/dev/ttyUSB0")
   printer.print_markup(template)
   printer.linefeed()

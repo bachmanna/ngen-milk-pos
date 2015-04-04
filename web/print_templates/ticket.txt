@@ -1,0 +1,21 @@
+@@@
+bc {h1}
+###
+bc {h2}
+bc {h3}
+bc {h4}
+nl --------------------------------
+nl   Date: {date}
+nl  Shift: {shift}
+nl Member: {mname} [{mcode}]
+nl Cattle: {cattle}
+nl    FAT: {fat:>4.2f}       CLR: {clr:>4.2f}
+nl    SNF: {snf:>4.2f}       WTR: {aw:>4.2f}
+nl    QTY: {qty:>4.2f}       RATE: {rate}
+@@@
+bl  TOTAL: {total}
+###
+nl --------------------------------
+bc {f1}
+bc {f2}
+nl --------------------------------

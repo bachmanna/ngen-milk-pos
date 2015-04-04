@@ -182,7 +182,17 @@ class ThermalPrinter(object):
         self.printer.write(chr(29))  # Leave
         self.printer.write(chr(119)) # Leave
         self.printer.write(chr(2))   # Value 2,3 Default 2
-        
+
+    def big_font_on(self):
+        self.printer.write(chr(27))
+        self.printer.write(chr(33))
+        self.printer.write(chr((1 << 4) + (1 << 5) + (1 << 3))) # double width, height and bold
+
+    def big_font_off(self):
+        self.printer.write(chr(27))
+        self.printer.write(chr(33))
+        self.printer.write(chr(0)) # normal
+
     def barcode(self, msg):
         """ Please read http://www.adafruit.com/datasheets/A2-user%20manual.pdf
             for information on how to use barcodes. """
@@ -236,6 +246,12 @@ class ThermalPrinter(object):
                self.inverse_on()
             elif style == 'f':
                 self.font_b_on()
+            elif style == '@':
+                self.big_font_on()
+                continue
+            elif style == '#':
+                self.big_font_off()
+                continue
 
             self.justify(justification)
             self.print_text(text)
