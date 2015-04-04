@@ -227,4 +227,6 @@ nl --------------------------------"""
   printer.print_markup(markup.encode("utf-8"))
   printer.linefeed()
   printer.linefeed()
+  printer.linefeed()
+  printer.linefeed()
   pass
