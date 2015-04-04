@@ -194,9 +194,7 @@ def printTicket(entity):
   h4 = settings[SystemSettings.HEADER_LINE4]
   f1 = settings[SystemSettings.FOOTER_LINE1]
   f2 = settings[SystemSettings.FOOTER_LINE2]
-  template = u"""@@@
-bc {h1}
-###
+  template = u"""bc {h1}
 bc {h2}
 bc {h3}
 bc {h4}
@@ -207,17 +205,15 @@ nl Member: {mname} [{mcode}]
 nl Cattle: {cattle}
 nl    FAT: {fat:>4.2f}       CLR: {clr:>4.2f}
 nl    SNF: {snf:>4.2f}       WTR: {aw:>4.2f}
-nl    QTY: {qty:>4.2f}       RATE: {rate}
-@@@  
-bl  TOTAL: {total}
-###
+nl    QTY: {qty:>4.2f}       RATE: ~{rate}
+bl  TOTAL: ~{total}
 nl --------------------------------
 bc {f1}
 bc {f2}
 nl --------------------------------"""
   date   = entity.created_at.strftime("%d/%m/%Y %I:%M%p")
-  total  = format_currency(entity.total)
-  rate   = format_currency(entity.rate)
+  total  = entity.total # format_currency(entity.total)
+  rate   = entity.rate # format_currency(entity.rate)
   markup = template.format(mcode=entity.member_id,mname=entity.member.name,
                           cattle=entity.member.cattle_type,
                           date=date,shift=entity.shift,
@@ -228,6 +224,7 @@ nl --------------------------------"""
 
   print markup.encode("utf-8")
   printer = ThermalPrinter(serialport="/dev/ttyUSB0")
-  printer.print_markup(template)
+  printer.linefeed()
+  printer.print_markup(markup.encode("utf-8"))
   printer.linefeed()
   pass
