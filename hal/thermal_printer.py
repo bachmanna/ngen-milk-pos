@@ -249,8 +249,28 @@ class ThermalPrinter(object):
         lines = markup.splitlines(True)
         for l in lines:
             style = l[0]
+
+            if style == ':':
+                cmd = l[1:]
+                if cmd == "linefeed":
+                    self.linefeed()
+
+                if cmd == "font_b_on":
+                    self.font_b_on()
+                if cmd == "font_b_off":
+                    self.font_b_off()
+
+                if cmd == "font_a_on":
+                    self.font_a_on()
+                if cmd == "font_a_off":
+                    self.font_a_off()
+                return
+
             justification = l[1].upper()
-            text = l[3:]
+            text = l[3:].strip()
+
+            if not text or len(text) == 0:
+                return
 
             if style == 'b':
                 self.bold_on()
@@ -263,6 +283,7 @@ class ThermalPrinter(object):
 
             self.justify(justification)
             self.print_text(text)
+
             if justification != 'L':
                 self.justify()
 

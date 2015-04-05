@@ -1,0 +1,22 @@
+{% if h1 | count > 0 %}bc {{h1}}{% endif %}
+{% if h2 | count > 0 %}bc {{h2}}{% endif %}
+{% if h3 | count > 0 %}bc {{h3}}{% endif %}
+{% if h4 | count > 0 %}bc {{h4}}{% endif %}
+nl --------------------------------
+:font_b_on
+nl   Date: {{entity.created_at.strftime("%d/%m/%Y %I:%M%p")}}
+nl  Shift: {{entity.shift}}  C.T: {{entity.member.cattle_type[0:3]}}
+nl Member: {{entity.member.name}}/{{entity.member_id}}
+nl    FAT: {{ "%4.2f" | format(entity.fat) }}       CLR: {{ "%4.2f" | format(entity.clr) }}
+nl    SNF: {{ "%4.2f" | format(entity.snf) }}        AW: {{ "%4.2f" | format(entity.aw) }}
+nl    QTY: {{ "%4.2f" | format(entity.qty) }}
+nl   RATE: ~{{ "%4.2f" | format(entity.rate) }}    TOTAL: ~{{ "%4.2f" | format(entity.total) }}
+:font_b_off
+nl --------------------------------
+{% if f1 | count > 0 %}bc {{f1}}{% endif %}
+{% if f2 | count > 0 %}bc {{f2}}{% endif %}
+nl --------------------------------
+:linefeed
+:linefeed
+:linefeed
+:linefeed

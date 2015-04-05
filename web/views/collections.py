@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from dateutil import parser
 import json
+import os
 
 from web import app, fmtDecimal, format_currency, get_currency_symbol
 
@@ -66,11 +67,14 @@ def collection():
       else:
         collection_id = collectionService.add(entity)
 
-      try:
-        printTicket(collectionService.get(collection_id))
-      except Exception as e:
-        print "print exception:", e
-        flash(str(lazy_gettext("Error in printing!")), "error")
+      settings = g.app_settings
+      can_print_bill = settings[SystemSettings.PRINT_BILL]
+      if can_print_bill and (can_print_bill == "True" or bool(can_print_bill)):
+        try:
+          printTicket(collectionService.get(collection_id))
+        except Exception as e:
+          print "print exception:", e
+          flash(str(lazy_gettext("Error in printing!")), "error")
 
       flash("Saved successfully!", "success")
     else:
@@ -128,12 +132,6 @@ def get_collection_data():
       data["total"] = entity.total
       data["fmt_rate"] = format_currency(entity.rate)
       data["fmt_total"] = format_currency(entity.total)
-
-      #try:
-      #  printTicket(entity)
-      #except Exception as e:
-      #  print "print exception:", e
-
       override = request.args.get("override", "False")
       if override == "False":
         return jsonify(**data)
@@ -186,6 +184,16 @@ def get_sensor_data():
   data["qty"] = scale.get()
   return data
 
+
+@app.route("/tare_scale")
+@login_required
+def tare_scale():
+  settings = g.app_settings
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
+  success = scale.tare()
+  return jsonify(success=success)
+
+
 def printTicket(entity):
   settings = g.app_settings
   h1 = settings[SystemSettings.HEADER_LINE1]
@@ -194,39 +202,11 @@ def printTicket(entity):
   h4 = settings[SystemSettings.HEADER_LINE4]
   f1 = settings[SystemSettings.FOOTER_LINE1]
   f2 = settings[SystemSettings.FOOTER_LINE2]
-  template = u"""bc {h1}
-bc {h2}
-bc {h3}
-bc {h4}
-nl --------------------------------
-nl   Date: {date}
-nl  Shift: {shift}
-nl Member: {mname} [{mcode}]
-nl Cattle: {cattle}
-nl    FAT: {fat:>4.2f}       CLR: {clr:>4.2f}
-nl    SNF: {snf:>4.2f}       WTR: {aw:>4.2f}
-nl    QTY: {qty:>4.2f}       RATE: ~{rate}
-bl  TOTAL: ~{total}
-nl --------------------------------
-bc {f1}
-bc {f2}
-nl --------------------------------"""
-  date   = entity.created_at.strftime("%d/%m/%Y %I:%M%p")
-  total  = entity.total # format_currency(entity.total)
-  rate   = entity.rate # format_currency(entity.rate)
-  markup = template.format(mcode=entity.member_id,mname=entity.member.name,
-                          cattle=entity.member.cattle_type,
-                          date=date,shift=entity.shift,
-                          fat=entity.fat,snf=entity.snf,qty=entity.qty,
-                          clr=entity.clr,aw=entity.aw,
-                          rate=rate,total=total,
-                          h1=h1, h2=h2, h3=h3, h4=h4, f1=f1, f2=f2)
 
+  tmp = app.jinja_env.get_template("thermal_templates/ticket.jinja2")
+  markup = tmp.render(entity=entity,h1=h1, h2=h2, h3=h3, h4=h4, f1=f1, f2=f2)
+  
   print markup.encode("utf-8")
   printer = ThermalPrinter(serialport="/dev/ttyUSB0")
   printer.print_markup(markup.encode("utf-8"))
-  printer.linefeed()
-  printer.linefeed()
-  printer.linefeed()
-  printer.linefeed()
   pass

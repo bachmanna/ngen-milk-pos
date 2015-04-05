@@ -75,14 +75,14 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="medium-6 columns">
+					<div class="medium-6 columns text-right">
 						<label>{{_("RATE")}}
 						<div class="text-right">
 							<span id="rate"></span>
 						</div>
 						</label>
 					</div>
-					<div class="medium-6 columns">
+					<div class="medium-6 columns text-right">
 						<label>{{_("TOTAL")}}
 							<div class="text-right" id="total"></div>
 						</label>
@@ -108,11 +108,12 @@
 {% block sidebar %}
 <div class="row">
 	<div class="medium-12 columns">
-		<p>
-			{{_("Press: <em>T</em> to tare scale")}}
-			<br/>
-			{{_("Press: <em>Z</em> to tare can")}}
-		</p>
+		<a href="#" data-key="t" tabindex="-1" id="btnTareScale" class="button expand">{{_("TARE SCALE")}} <span class="access_key">T</span></a>
+	</div>
+</div>
+<div class="row">
+	<div class="medium-12 columns">
+		<a href="#" data-key="z" tabindex="-1" id="btnTareCan" class="button expand">{{_("TARE CAN")}} <span class="access_key">Z</span></a>
 	</div>
 </div>
 <div class="row">
@@ -200,7 +201,7 @@
 	<a href="#" onclick="$('#member_code').select();" data-key="f1" class="hide"></a>
 	<a href="#" onclick="readOverride();" data-key="r" class="hide"></a>
 </div>
-<div id="dateChangeModal" class="reveal-modal medium" data-reveal>
+<div id="dateChangeModal" class="reveal-modal tiny" data-reveal>
 	<h3>{{_("Change Date")}}</h3>
 	<form name="frmChangeDate" id="frmChangeDate" method="get" class="inline">
 		<div class="row">
@@ -218,18 +219,20 @@
 			<div class="medium-12 columns">
 				<label>{{_("Time")}}</label>
 				<input type="text" class="mousetrap tiny" name="hour" value="{{date.strftime("%I")}}"  maxlength="2" />
-				/
+				:
 				<input type="text" class="mousetrap tiny" name="minute" value="{{date.strftime("%M")}}" maxlength="2" />
-				/
-				<input type="text" class="mousetrap medium" name="dn" value="{{date.strftime("%p")}}"  maxlength="2" />
+				<select name="dn" class="mousetrap medium" style="width: auto;">
+					<option {{ "selected" if date.strftime("%p") == "AM"}}>AM</option>
+					<option {{ "selected" if date.strftime("%p") == "PM"}}>PM</option>
+				</select>
 			</div>
 		</div>
 		<br/>
 		<div class="row">
-			<div class="medium-7 columns">
+			<div class="medium-5 columns">
 				&nbsp;
 			</div>
-			<div class="medium-5 columns end">
+			<div class="medium-7 columns end">
 				<button type="submit" name="btnChangeDate" value="True" class="expand button">{{_("Change")}}</button>
 			</div>
 		</div>
@@ -243,6 +246,7 @@
 	$(function(){
 		var error_member_no_found = '{{_("Member not found!")}}';
 		var error_milk_already_collected = '{{_("Milk already collected!")}}';
+		var error_tare_scale = '{{_("Tare error!")}}';
 		var members = {{members_json}};
 		var is_saving = false;
 
@@ -459,6 +463,18 @@
 			return false;
 		});
 
+		$("#btnTareScale").click(function(){
+			hideError();
+			$.get('/tare_scale', function(data){
+				if(data && data.success){
+					// showError(success_tare_scale);
+				}else{
+					showError(error_tare_scale);
+				}
+			});
+			return false;
+		});
+
 		clearData();
 
 		window.readOverride = function(){
@@ -474,13 +490,13 @@
 
 
 		$(document).on('opened.fndtn.reveal', '#dateChangeModal', function () {
-			Mousetrap.pause();
-			$("input[name=day]").focus();
+			//Mousetrap.pause();
+			$("input[name=day]").select();
 		});
 
 		$(document).on('closed.fndtn.reveal', '#dateChangeModal', function () {
-			Mousetrap.unpause();
-			$("#member_code").focus();
+			//Mousetrap.unpause();
+			$("#member_code").select();
 		});
 	});
 </script>
