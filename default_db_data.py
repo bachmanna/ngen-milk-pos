@@ -18,11 +18,16 @@ class DefaultDbData:
     def create_members(self):
         mservice = MemberService()
 
-        for i in range(1,10):
+        for i in range(1,100):
             name = "John" + str(random.randint(0, 9999))
             mobile = str(random.randint(111111111, 999999999))
+            cattle_type = CattleType.BUFFALO
+
+            if i%2 == 0:
+                cattle_type = CattleType.COW
+
             member_id = mservice.add(name=name,
-                                     cattle_type=CattleType.COW,
+                                     cattle_type=cattle_type,
                                      mobile=mobile,
                                      created_by=1,
                                      created_at=datetime.now())
@@ -32,12 +37,12 @@ class DefaultDbData:
             collection = {}
             collection['member'] = member
             collection['shift'] = CollectionShift.MORNING
-            collection['fat'] = 4.2
-            collection['snf'] = 7.9
-            collection['qty'] = 1.5
+            collection['fat'] = random.randint(3, 7)
+            collection['snf'] = random.randint(5, 12)
+            collection['qty'] = random.randint(1, 5)
             collection['clr'] = 28.63
             collection['aw'] = 89.24
-            collection['rate'] = 26.48
+            collection['rate'] = 20.48
             collection['total'] = collection['rate'] * collection['qty']
             collection['created_at'] = datetime.now()
             collection['created_by'] = 1
@@ -106,12 +111,12 @@ class DefaultDbData:
 
     def test_rate_setup(self):
         rate_service = RateService()
-        rate_service.update_fat_collection_rate("COW",1,2.5,3.5,150)
+        rate_service.update_fat_collection_rate("COW",1,2.0,3.5,150)
         rate_service.update_fat_collection_rate("COW",2,3.6,4.5,170)
         rate_service.update_fat_collection_rate("COW",3,4.6,6.0,195)
         rate_service.update_fat_collection_rate("COW",4,6.1,22.0,205)
 
-        rate_service.update_fat_collection_rate("BUFFALO",5,2.5,3.5,150)
+        rate_service.update_fat_collection_rate("BUFFALO",5,2.0,3.5,150)
         rate_service.update_fat_collection_rate("BUFFALO",6,3.6,4.5,170)
         rate_service.update_fat_collection_rate("BUFFALO",7,4.6,6.0,195)
         rate_service.update_fat_collection_rate("BUFFALO",8,6.1,22.0,205)
