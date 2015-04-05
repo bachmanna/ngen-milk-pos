@@ -64,13 +64,13 @@
                     <tr>
                         <th class="text-right">&nbsp;</th>
                         <th class="text-right">&nbsp;</th>
-                        <th class="text-right">{{summary["fat"]}}</th>
-                        <th class="text-right">{{summary["snf"]}}</th>
-                        <th class="text-right">{{summary["qty"]}}</th>
-                        <th class="text-right">{{summary["rate"]}}</th>
-                        <th class="text-right">{{summary["amount"]}}</th>
-                        <th class="text-right">{{summary["increment"]}}</th>
-                        <th class="text-right">{{summary["total"]}}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["fat"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["snf"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["qty"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["rate"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["amount"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["increment"]) }}</th>
+                        <th class="text-right">{{ "%0.2f" | format(summary["total"]) }}</th>
                     </tr>
                 </tfoot>
             </table>
