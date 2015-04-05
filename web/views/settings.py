@@ -22,7 +22,7 @@ def basic_setup():
             dt = parse(d + " " + t)
             print dt
             if sys.platform == "linux2":
-                os.system("sudo hwclock --set --date %s" % str(dt)) # set rtc hardware
+                os.system("sudo hwclock --set --date '%s'" % str(dt)) # set rtc hardware
                 os.system("sudo hwclock -s") # copy to system
         except Exception as e:
             print "basic_setup", e
