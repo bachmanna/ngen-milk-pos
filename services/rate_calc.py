@@ -14,10 +14,22 @@ class FATRateCalculator(object):
 
 class FATSNFRateCalculator(object):
   def get_rate(self, cattle_type, fat, snf):
+    rate_service = RateService()
+    rate_list = rate_service.get_fat_and_snf_collection_rate(cattle_type)
+    fat = float("%.1f" % fat)
+    snf = float("%.1f" % snf)
+    for item in rate_list:
+      if item.fat == fat and item.snf == snf:
+        return item.rate
     return 0
 
 class TS1RateCalculator(object):
   def get_rate(self, cattle_type, fat, snf):
+    rate_service = RateService()
+    rate_list = rate_service.get_ts1_collection_rate(cattle_type)
+    for item in rate_list:
+      if item.min_fat > fat and item.max_fat <= fat and item.min_snf > snf and item.max_snf <= snf:
+        return (item.fat_rate + item.snf_rate)/10.0
     return 0
 
 class TS2RateCalculator(object):
