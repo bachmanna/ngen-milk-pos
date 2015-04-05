@@ -102,15 +102,17 @@ header.banner{
 }
 
 #member_name, #member_cattle_type{
-	border: 1px solid #ddd;
-    font-weight: bold;
-    height: 50px;
-    line-height: 53px;
-    width: 100%;
+	border: 1px solid #DDD;
+	font-weight: bold;
+	height: 70px;
+	line-height: 70px;
+	width: 100%;
+	padding-left: 15px;
 }
 
 #total, #rate {
-	font-size: 64px;
+	font-size: 100px;
+	white-space: nowrap;
 }
 
 #total {	
@@ -219,4 +221,12 @@ form.inline .button {
 .modal-footer{
   position: relative;
   bottom: -35px;
+}
+
+input#fat, input#snf {
+	color: rgba(35, 5, 123, 0.75);
+}
+
+input#qty{
+	color: #368A55;
 }

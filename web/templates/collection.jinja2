@@ -7,11 +7,11 @@
 {% block body %}
 <div class=" collection-wrapper">
 	<div class="row">
-		<div class="medium-12 columns">
-			<h1>
-				{{_("Milk Collection")}}
-				<small id="edit_date">{{date.strftime("%d/%m/%Y %I:%M%p")}}</small>
-			</h1>
+		<div class="medium-6 columns">
+			<h1>{{_("Milk Collection")}}</h1>
+		</div>
+		<div class="medium-6 columns text-right" style="line-height: 80px;">
+			<span id="edit_date">{{date.strftime("%d/%m/%Y %I:%M%p")}}</span>
 		</div>
 	</div>
 

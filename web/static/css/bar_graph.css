@@ -61,7 +61,7 @@
 /* Bar container - this guy is a real parent of a bar's parts - they all are positioned relative to him */
 .bar-container {
     position: relative;
-    width: 20em; /* required, we have to define the width of a bar */
+    width: 18em; /* required, we have to define the width of a bar */
 }
 /* right bottom patch - make sure inner bar's right bottom corner is "cut" when it slides down */
 .bar-container:before {
@@ -100,7 +100,7 @@
 
 /** BAR's inner block **/
 .bar-inner {
-    z-index: 2; /* to be above .bar-background */
+    z-index: 0; /* to be above .bar-background */
     top: auto; /* reset position top */
     background-color: rgba(5, 62, 123, .6);
     height: 0;
@@ -111,11 +111,6 @@
 /****************
  * SIZES        *
  ****************/
- /* Size of the Graph */
-.graph-container,
-.bar-container {
-  font-size: 8px;
-}
 /* Height of Bars */
 .bar-container,
 .graph-container:after,
