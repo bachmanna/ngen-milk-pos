@@ -1,0 +1,17 @@
+{% include "thermal/header.jinja2" %}
+bc DAIRY REGISTER
+nl Print Date:{{sys_date}} {{sys_time}}
+nl From:{{from_date.strftime("%d/%m/%Y")}} To:{{to_date.strftime("%d/%m/%Y")}}
+:font_b_on
+nl ------------------------------------------
+bl Date Shift FAT%  SNF%   QTY   RATE  TOTAL
+nl ------------------------------------------
+{% for d in lst.keys() %}
+{% for shift in lst[d].keys() %}
+{% set item = lst[d][shift] %}
+nl {{ "%-5s" | format(d.strftime("%d/%m")) }} {{ "%3s" | format(shift[:3]) }} {{ "%5.1f" | format(item.fat)}} {{ "%5.1f" | format(item.snf)}} {{ "%5.1f" | format(item.qty)}} {{ "%6.1f" | format(item.rate)}} {{ "%6.1f" | format(item.total)}} 
+{% endfor %}
+{% endfor %}
+bl {{ "%9s" | format(" ") }} {{ "%5.1f" | format(summary["fat"])}} {{ "%5.1f" | format(summary["snf"])}} {{ "%5.1f" | format(summary["qty"])}} {{ "%6.1f" | format(summary["rate"])}} {{ "%6.1f" | format(summary["total"])}} 
+:font_b_off
+{% include "thermal/footer.jinja2" %}

@@ -5,7 +5,7 @@ from dateutil import parser
 import json
 import os
 
-from web import app, fmtDecimal, format_currency, get_currency_symbol
+from web import app, fmtDecimal, format_currency, get_currency_symbol, send_to_thermal_printer, settings_provider
 
 from flask_babel import lazy_gettext
 from services.member_service import MemberService
@@ -195,18 +195,8 @@ def tare_scale():
 
 
 def printTicket(entity):
-  settings = g.app_settings
-  h1 = settings[SystemSettings.HEADER_LINE1]
-  h2 = settings[SystemSettings.HEADER_LINE2]
-  h3 = settings[SystemSettings.HEADER_LINE3]
-  h4 = settings[SystemSettings.HEADER_LINE4]
-  f1 = settings[SystemSettings.FOOTER_LINE1]
-  f2 = settings[SystemSettings.FOOTER_LINE2]
-
-  tmp = app.jinja_env.get_template("thermal_templates/ticket.jinja2")
-  markup = tmp.render(entity=entity,h1=h1, h2=h2, h3=h3, h4=h4, f1=f1, f2=f2)
-  
-  print markup.encode("utf-8")
-  printer = ThermalPrinter(serialport="/dev/ttyUSB0")
-  printer.print_markup(markup.encode("utf-8"))
-  pass
+  tmp = app.jinja_env.get_template("thermal/ticket.jinja2")
+  data = settings_provider()
+  data.update(entity=entity)
+  markup = tmp.render(data)
+  send_to_thermal_printer(markup)

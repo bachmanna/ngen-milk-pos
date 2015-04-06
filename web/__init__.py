@@ -118,7 +118,7 @@ def settings_provider():
     d = datetime.now().strftime("%d/%m/%Y")
     t = datetime.now().strftime("%I:%M%p")
 
-    return dict(settings=settings, sys_date=d, sys_time=t)
+    return dict(settings=settings, sys_date=d, sys_time=t, SystemSettings=SystemSettings)
 
 
 @app.route("/")
@@ -199,6 +199,14 @@ def do_backup_milk_collection_data():
   service = ExportImportService(MilkCollection.__table__, filename)
   service.do_export()
   pass
+
+
+from hal import ThermalPrinter
+def send_to_thermal_printer(data):
+  data = data.encode("utf-8")
+  print data
+  printer = ThermalPrinter(serialport="/dev/ttyUSB0")
+  printer.print_markup(data)
 
 
 import views.users

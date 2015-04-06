@@ -246,13 +246,13 @@ class ThermalPrinter(object):
         second character denotes justification (l=left, c=centre, r=right)
         third character must be a space, followed by the text of the line.
         """
-        lines = markup.splitlines(True)
+        lines = [x.rstrip().rstrip('\n') for x in markup.splitlines(True) if x.strip()]
         for l in lines:
             style = l[0]
 
             if style == ':':
-                cmd = l[1:]
-                if cmd == "linefeed":
+                cmd = l[1:].strip()
+                if cmd == 'linefeed':
                     self.linefeed()
 
                 if cmd == "font_b_on":
@@ -264,13 +264,14 @@ class ThermalPrinter(object):
                     self.font_a_on()
                 if cmd == "font_a_off":
                     self.font_a_off()
-                return
+
+                continue
 
             justification = l[1].upper()
-            text = l[3:].strip()
+            text = l[3:]
 
-            if not text or len(text) == 0:
-                return
+            if not text or len(text.strip()) == 0:
+                continue
 
             if style == 'b':
                 self.bold_on()
@@ -283,6 +284,7 @@ class ThermalPrinter(object):
 
             self.justify(justification)
             self.print_text(text)
+            self.linefeed()
 
             if justification != 'L':
                 self.justify()

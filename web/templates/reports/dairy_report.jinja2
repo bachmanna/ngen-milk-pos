@@ -35,11 +35,11 @@
                     <tr>
                         <td>{{d}}</td>
                         <td>{{shift}}</td>
-                        <td class="text-right">{{item.fat}}</td>
-                        <td class="text-right">{{item.snf}}</td>
-                        <td class="text-right">{{item.qty}}</td>
-                        <td class="text-right">{{item.rate}}</td>
-                        <td class="text-right">{{item.total}}</td>
+                        <td class="text-right">{{ "%0.2f" | format(item.fat) }}</td>
+                        <td class="text-right">{{ "%0.2f" | format(item.snf) }}</td>
+                        <td class="text-right">{{ "%0.2f" | format(item.qty) }}</td>
+                        <td class="text-right">{{ "%0.2f" | format(item.rate) }}</td>
+                        <td class="text-right">{{ "%0.2f" | format(item.total) }}</td>
                     </tr>
                     {% endfor %}
                     {% endfor %}

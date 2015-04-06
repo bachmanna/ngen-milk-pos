@@ -1,0 +1,12 @@
+{% include "thermal/header.jinja2" %}
+bc MEMBER LIST
+nl Date: {{sys_date}} {{sys_time}}
+nl Total: {{member_list|count}} C: {{cow_member_list|count}} B: {{buffalo_member_list|count}}
+:font_b_on
+nl ------------------------------------------
+bl M.Code M.Name             C.T Mobile
+nl ------------------------------------------
+{% for item in member_list %}
+bl {{ "%-6d" | format(item.id)}} {{ "%-18s" | format(item.name[:20]) }}{{ "%3s" | format(item.cattle_type[0])}}  {{"%-10s" | format(item.mobile)}}
+{% endfor %}
+{% include "thermal/footer.jinja2" %}

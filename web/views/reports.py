@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 from flask_babel import lazy_gettext, gettext
 
-from web import app, settings_provider, get_backup_directory
+from web import app, settings_provider, get_backup_directory, send_to_thermal_printer
 
 from services.member_service import MemberService
 from services.rate_service import RateService
@@ -21,15 +21,19 @@ styles = None
 def do_print_report(template, outfile, **kwargs):
   global styles
   bakdir = get_backup_directory()
-
   printer_type = request.args.get("printer_type", "usb")
 
   if printer_type == "thermal":
     print "Printing to thermal printer"
+    tmp = app.jinja_env.get_template("thermal/" + template)
+    data = settings_provider() or {}
+    data.update(**kwargs)
+    html = tmp.render(data)
+    send_to_thermal_printer(html)
   else:
     dest = os.path.join(bakdir, outfile)
     print "Print pdf report to %s" % dest
-    tmp = app.jinja_env.get_template(template)
+    tmp = app.jinja_env.get_template("reports/" + template)
     data = settings_provider() or {}
     data.update(**kwargs)
     html = tmp.render(data)
@@ -67,7 +71,7 @@ def report_member_list():
   data = dict(member_list=member_list,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/member_list.jinja2", "member_list.pdf", **data)
+    do_print_report("member_list.jinja2", "member_list.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("member_list.jinja2", **data)
@@ -105,7 +109,7 @@ def absence_list():
   data = dict(member_list=absence_members,cow_member_list=cow_member_list,buffalo_member_list=buffalo_member_list,search_date=search_date,shift=shift)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/absence_list.jinja2", "absence_list.pdf", **data)
+    do_print_report("absence_list.jinja2", "absence_list.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("absence_list.jinja2", **data)
@@ -131,7 +135,7 @@ def report_detail_shift():
   data = dict(mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/detail_shift.jinja2", "detail_shift.pdf", **data)
+    do_print_report("detail_shift.jinja2", "detail_shift.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("detail_shift.jinja2", **data)
@@ -157,7 +161,7 @@ def report_shift_summary():
   data = dict(mcollection=mcollection, member_list=members, summary=summary, search_date=search_date, shift=shift)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/shift_summary.jinja2", "shift_summary.pdf", **data)
+    do_print_report("shift_summary.jinja2", "shift_summary.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("shift_summary.jinja2", **data)
@@ -220,7 +224,7 @@ def payment_report():
   data = dict(from_date=from_date,to_date=to_date,lst=lst,increment=increment,summary=summary)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/payment_report.jinja2", "payment_report.pdf", **data)
+    do_print_report("payment_report.jinja2", "payment_report.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("payment_report.jinja2",**data)
@@ -283,7 +287,7 @@ def member_payment_report():
                         to_date=to_date,lst=lst,
                         from_member=from_member,to_member=to_member,
                         increment=increment,summary=summary,member_list=member_list)
-      do_print_report("reports/member_report.jinja2", "member_report_%d.pdf" % (x), **print_data)
+      do_print_report("member_report.jinja2", "member_report_%d.pdf" % (x), **print_data)
     return jsonify({"success": True})
 
   return render_template("member_report.jinja2",**data)
@@ -341,43 +345,47 @@ def dairy_report():
     d = x.created_at.date()
     if not d in lst.keys():
       lst[d] = {}
-      lst[d][x.shift] = { "qty": x.qty, "rate": x.rate,
-                          "fat": x.fat, "snf": x.snf,
+      lst[d][x.shift] = { "qty": x.qty, "rate": (x.rate * x.qty),
+                          "fat": x.fat * x.qty, "snf": x.snf * x.qty,
                           "total": x.total }
     else:
       if not x.shift in lst[d]:
-        lst[d][x.shift] = { "qty": x.qty, "rate": x.rate,
-                          "fat": x.fat, "snf": x.snf,
+        lst[d][x.shift] = { "qty": x.qty, "rate": (x.rate * x.qty),
+                          "fat": x.fat * x.qty, "snf": x.snf * x.qty,
                           "total": x.total }
       else:
         item = lst[d][x.shift]
-        item["qty"] = item["qty"] + x.qty
-        item["rate"] = item["rate"] + x.rate
-        item["fat"] = item["fat"] + x.fat
-        item["snf"] = item["snf"] + x.snf
-        item["total"] = item["total"] + x.total
+        item["qty"]  = item["qty"] + x.qty
+        item["rate"] = (item["rate"] + (x.rate * x.qty))
+        item["fat"]  = (item["fat"] + (x.fat * x.qty))
+        item["snf"]  = (item["snf"] + (x.snf * x.qty))
+        item["total"]= item["total"] + x.total
 
   summary = {"fat": 0.0, "snf": 0.0, "qty": 0.0, "rate": 0, "total": 0}
-  kg_fat = []
-  kg_snf = []
-  kg_rate = []
+  kg_fat = 0
+  kg_snf = 0
+  kg_rate = 0
   for d in lst.keys():
     for shift in lst[d].keys():
       item = lst[d][shift]
-      kg_fat.append(item["fat"] * item["qty"])
-      kg_snf.append(item["snf"] * item["qty"])
-      kg_rate.append(item["rate"] * item["qty"])
+      item["fat"] = item["fat"]/item["qty"]
+      item["snf"] = item["snf"]/item["qty"]
+      item["rate"] = item["rate"]/item["qty"]
+
+      kg_fat = kg_fat + item["fat"]
+      kg_snf = kg_snf + item["snf"]
+      kg_rate= kg_rate + item["rate"]
       summary["qty"] = summary["qty"] + item["qty"]
       summary["total"] = summary["total"] + item["total"]
 
-  summary["fat"] = sum(kg_fat)/summary["qty"]
-  summary["snf"] = sum(kg_snf)/summary["qty"]
-  summary["rate"] = sum(kg_rate)/summary["qty"]
+  summary["fat"] = kg_fat/len(lst)
+  summary["snf"] = kg_snf/len(lst)
+  summary["rate"] = kg_rate/len(lst)
 
   data = dict(from_date=from_date,to_date=to_date,lst=lst,summary=summary)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/dairy_report.jinja2", "dairy_report.pdf", **data)
+    do_print_report("dairy_report.jinja2", "dairy_report.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("dairy_report.jinja2", **data)
@@ -393,7 +401,7 @@ def settings_report():
   data = dict(settings=settings, basic_keys=basic_keys,settings_keys=settings_keys)
 
   if request.args.get("print", "False") == "True":
-    do_print_report("reports/settings_report.jinja2", "settings_report.pdf", **data)
+    do_print_report("settings_report.jinja2", "settings_report.pdf", **data)
     return jsonify({"success": True})
 
   return render_template("settings_report.jinja2", **data)

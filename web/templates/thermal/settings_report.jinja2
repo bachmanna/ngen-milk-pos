@@ -1,0 +1,19 @@
+{% include "thermal/header.jinja2" %}
+bc SETTINGS REPORT
+nl Date: {{sys_date}} {{sys_time}}
+nl --------------------------------
+nl BASIC SETTINGS
+nl ********************************
+:font_b_on
+{% for key in basic_keys %}
+nl {{ "%-18s" | format(key) }} {{ "%s" | format(settings[key] if settings[key] != None else "") }}
+{% endfor %}
+:font_b_off
+nl SETTINGS
+nl ********************************
+:font_b_on
+{% for key in settings_keys %}
+nl {{ "%-18s" | format(key) }} {{ "%s" | format(settings[key] if settings[key] != None else "") }}
+{% endfor %}
+:font_b_off
+{% include "thermal/footer.jinja2" %}

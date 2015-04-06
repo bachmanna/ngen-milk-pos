@@ -1,0 +1,12 @@
+{% include "thermal/header.jinja2" %}
+bc SUMMARY SHIFT REPORT
+nl Date: {{search_date}} / Shift: {{shift[:3]}}
+:font_b_on
+nl ------------------------------------------
+bl T.Mem C.T  FAT%   SNF%  QTY   RATE   TOTAL
+nl ------------------------------------------
+bl {{ "%4d" | format(summary["member"][0])}} {{ "%3s" | format("C") }} {{ "%6.1f" | format(summary["fat"][0])}} {{"%6.1f" | format(summary["snf"][0])}} {{"%5.1f" | format(summary["milk"][0])}} {{"%5.1f" | format(summary["rate"][0])}} {{"%7.2f" | format(summary["total"][0])}}
+bl {{ "%4d" | format(summary["member"][1])}} {{ "%3s" | format("B") }} {{ "%6.1f" | format(summary["fat"][1])}} {{"%6.1f" | format(summary["snf"][1])}} {{"%5.1f" | format(summary["milk"][1])}} {{"%5.1f" | format(summary["rate"][1])}} {{"%7.2f" | format(summary["total"][1])}}
+bl {{ "%4d" | format(summary["grand"]["member"])}} {{ "%3s" | format("C+B") }} {{ "%6.1f" | format(summary["grand"]["fat"])}} {{"%6.1f" | format(summary["grand"]["snf"])}} {{"%5.1f" | format(summary["grand"]["qty"])}} {{"%5.1f" | format(summary["grand"]["rate"])}} {{"%7.2f" | format(summary["grand"]["total"])}}
+:font_b_off
+{% include "thermal/footer.jinja2" %}
