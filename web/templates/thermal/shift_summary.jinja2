@@ -1,6 +1,6 @@
 {% include "thermal/header.jinja2" %}
 bc SUMMARY SHIFT REPORT
-nl Date: {{search_date}} / Shift: {{shift[:3]}}
+nl Date: {{search_date.strftime("%d/%m/%Y")}} / Shift: {{shift[:3]}}
 :font_b_on
 nl ------------------------------------------
 bl T.Mem C.T  FAT%   SNF%  QTY   RATE   TOTAL

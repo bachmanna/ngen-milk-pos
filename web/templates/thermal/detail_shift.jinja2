@@ -1,5 +1,5 @@
 {% include "thermal/header.jinja2" %}
-bc  DAY REPORT / {{search_date}} / {{shift[:3]}}
+bc  DAY REPORT / {{search_date.strftime("%d/%m/%Y")}} / {{shift[:3]}}
 :font_b_on
 nl ------------------------------------------
 bl  M.C  C.T  FAT%   SNF%   QTY  RATE   TOTAL
