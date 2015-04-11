@@ -22,67 +22,76 @@
 				<input type="hidden" name="created_at" id="created_at" value="{{date}}"/>
 				<input type="hidden" name="shift" id="shift" value="{{shift}}"/>
 				<div class="row">
-					<div class="medium-2 columns">
-						<label for="member_code">{{_("M.Code")}}</label>
-					</div>
-					<div class="medium-2 columns">
-						<input type="text" class="mousetrap" id="member_code" name="member_code"  maxlength="4" />
-					</div>
 					<div class="medium-4 columns">
-						<div id="member_name"></div>
-					</div>
-					<div class="medium-2 columns text-right">
-						<label>{{_("Cattle")}}</label>
-					</div>
-					<div class="medium-2 columns end">
-						<div id="member_cattle_type"></div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="medium-2 columns">
-						<label>{{_("FAT")}}</label>
-					</div>
-					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
-					</div>
-					<div class="medium-2 columns">
-						<label>{{_("CLR")}}</label>
-					</div>
-					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" name="clr" id="clr" disabled="disabled" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="medium-2 columns">
-						<label>{{_("SNF")}}</label>
-					</div>
-					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
-					</div>
-					<div class="medium-2 columns">
-						<label>{{_("AW")}}</label>
-					</div>
-					<div class="medium-4 columns">
-						<input class="mousetrap" type="text" name="water" id="water" disabled="disabled" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="medium-2 columns">
-						<label>{{_("QTY")}}</label>
-					</div>
-					<div class="medium-4 columns end">
-						<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="medium-6 columns text-right">
-						<label>{{_("RATE")}}
-						<div class="text-right">
-							<span id="rate"></span>
+						<div class="row">
+							<div class="medium-4 columns text-right">
+								<label id="lbl_member_code" for="member_code">{{_("M.Code")}}</label>
+							</div>
+							<div class="medium-8 columns">
+								<input type="text" class="mousetrap" id="member_code" name="member_code"  maxlength="4" />
+							</div>
 						</div>
-						</label>
+						<div class="row">
+							<div class="medium-4 columns text-right">
+								<label>{{_("FAT")}}</label>
+							</div>
+							<div class="medium-8 columns">
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="medium-4 columns text-right">
+								<label>{{_("SNF")}}</label>
+							</div>
+							<div class="medium-8 columns">
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="medium-4 columns text-right">
+								<label>{{_("QTY")}}</label>
+							</div>
+							<div class="medium-8 columns end">
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
+							</div>					
+						</div>
 					</div>
-					<div class="medium-6 columns text-right">
+					<div class="medium-8 columns">
+						<div class="row">
+							<div class="medium-8 columns">
+								<div id="member_name"></div>
+							</div>
+							<div class="medium-4 columns end">
+								<div id="member_cattle_type"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="medium-2 columns text-right">
+								<label>{{_("CLR")}}</label>
+							</div>
+							<div class="medium-4 columns">
+								<input class="mousetrap" type="text" name="clr" id="clr" disabled="disabled" />
+							</div>
+							<div class="medium-2 columns text-right">
+								<label>{{_("AW")}}</label>
+							</div>
+							<div class="medium-4 columns">
+								<input class="mousetrap" type="text" name="water" id="water" disabled="disabled" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="medium-12 columns" style="text-indent: 20px;">
+								<label>{{_("RATE")}}
+									<div class="text-right rate-bg">
+										<span id="rate"></span>
+									</div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>		
+				<div class="row">
+					<div class="medium-12 columns" style="text-indent: 20px;">
 						<label>{{_("TOTAL")}}
 							<div class="text-right" id="total"></div>
 						</label>
@@ -94,6 +103,7 @@
 		</div>
 	</div>
 </div>
+<br/>
 <div class="row">
 	<div class="medium-12 columns hide">
 		<div class="alert-box alert" id="member_status"></div>

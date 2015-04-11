@@ -43,24 +43,33 @@
   </div>
 
     <div class="row">
-      <div class="medium-9 columns">
+      <div class="medium-7 columns">
         {% block body %}
 
         {% endblock %}
       </div>
-      <div class="medium-3 columns end sidebar">
+      <div class="medium-2 columns sidebar">
         {% block sidebar %}
 
         {% endblock %}
+      </div>
+      <div class="medium-3 columns sidebar-img end">
+        <img src="{{ url_for('static', filename='images/cow.png', _external=True)}}"/>
       </div>
     </div>
     <div class="push"></div>
   </div>
 
   <footer>
-   {% block statusbar %}
-
-   {% endblock %}
+   <div class="row">
+      <div class="medium-9 columns">
+        {% block statusbar %}
+        {% endblock %}
+      </div>
+      <div class="medium-3 columns footer-img text-right">
+        <img src="{{ url_for('static', filename='images/footer.png', _external=True)}}" />
+      </div>
+   </div>
  </footer>
 
  <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>

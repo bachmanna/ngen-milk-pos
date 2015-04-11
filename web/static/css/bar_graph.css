@@ -61,7 +61,7 @@
 /* Bar container - this guy is a real parent of a bar's parts - they all are positioned relative to him */
 .bar-container {
     position: relative;
-    width: 18em; /* required, we have to define the width of a bar */
+    width: 15em; /* required, we have to define the width of a bar */
 }
 /* right bottom patch - make sure inner bar's right bottom corner is "cut" when it slides down */
 .bar-container:before {
@@ -122,8 +122,8 @@
  * SPACING      *
  ****************/
 .graph-container li .bar-container{
-    border: 2px solid rgba(35, 5, 123, 0.6);
-    background-color: rgba(35, 5, 123, 0.6);
+    border: 4px solid #333;
+    background-color: #DB6FA1;
 }
 
 .graph-container li .bar-inner{
