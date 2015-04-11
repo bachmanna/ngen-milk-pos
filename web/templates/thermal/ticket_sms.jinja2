@@ -1,0 +1,8 @@
+Date: {{entity.created_at.strftime("%d/%m/%Y %I:%M%p")}}
+Shift: {{entity.shift}}  
+Member: {{entity.member.name}}/{{entity.member_id}}
+Cattle: {{entity.member.cattle_type}}
+FAT: {{ "%4.2f" | format(entity.fat) }}  CLR: {{ "%4.2f" | format(entity.clr) }}
+SNF: {{ "%4.2f" | format(entity.snf) }}  AW: {{ "%4.2f" | format(entity.aw) }}
+QTY: {{ "%4.2f" | format(entity.qty) }}  RATE: Rs.{{ "%4.2f" | format(entity.rate) }} 
+TOTAL: Rs.{{ "%4.2f" | format(entity.total) }}

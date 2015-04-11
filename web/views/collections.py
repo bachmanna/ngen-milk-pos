@@ -19,6 +19,20 @@ from models import *
 from hal import *
 
 
+def sendSms(entity):
+  mobile = entity.member.mobile
+  mobile = "+919789443696"
+  #mobile = "+919952463624"
+  
+  tmp = app.jinja_env.get_template("thermal/ticket_sms.jinja2")
+  data = settings_provider()
+  data.update(entity=entity)
+  markup = tmp.render(data)
+  
+  modem = SmsService(address="com4")
+  modem.send(mobile, markup)
+
+
 @app.route("/collection", methods=['GET', 'POST'])
 @login_required
 def collection():
@@ -69,12 +83,15 @@ def collection():
 
       settings = g.app_settings
       can_print_bill = settings[SystemSettings.PRINT_BILL]
+      saved_entity = collectionService.get(collection_id)
       if can_print_bill and (can_print_bill == "True" or bool(can_print_bill)):
         try:
-          printTicket(collectionService.get(collection_id))
+          printTicket(saved_entity)
         except Exception as e:
           print "print exception:", e
           flash(str(lazy_gettext("Error in printing!")), "error")
+
+      sendSms(saved_entity)
 
       flash("Saved successfully!", "success")
     else:
