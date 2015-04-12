@@ -1,4 +1,5 @@
-import sys, logging
+import sys
+import os
 
 from gsmmodem.modem import GsmModem, SentSms
 from gsmmodem.exceptions import TimeoutException, PinRequiredError, IncorrectPinError
@@ -14,18 +15,19 @@ class SmsService(object):
 		print msg
 
 	def connect(self):
+		if not os.path.exists(self.address):
+			return False
 		self.log("Connecting to GSM modem")
 		try:
 			self.modem.connect(self.pin)
+			self.modem.waitForNetworkCoverage(5)
+			return True
 		except PinRequiredError:
 			self.log('Error: SIM card PIN required')
 		except IncorrectPinError:
 			self.log('Error: Incorrect SIM card PIN entered.\n')
-		try:
-			self.modem.waitForNetworkCoverage(5)
-			return True
 		except TimeoutException:
-			self.log('Network signal strength is not sufficient, please adjust modem position/antenna and try again.')
+			self.log('Error: Timeout.\n')
 			self.close()
 		return False
 

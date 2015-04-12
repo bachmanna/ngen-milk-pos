@@ -190,7 +190,37 @@ def get_qty_data():
 
   settings = g.app_settings
   scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
-  return jsonify({"status" : "success", "value": scale.get()})
+  qty = scale.get()
+  qty = 0.0
+  return jsonify({"status" : "success", "value": qty})
+
+
+@app.route("/get_manual_data")
+@login_required
+def get_manual_data():
+  cattle_type = request.args.get("cattle_type", "COW")
+  rateCalc = RateCalc(g.app_settings[SystemSettings.RATE_TYPE])
+  
+  fat = float(request.args.get("fat", 0.0))
+  snf = float(request.args.get("snf", 0.0))
+  qty = float(request.args.get("qty", 0.0))
+  clr = 4.0*(snf - (0.21 * fat)) - 0.36
+  S = 8.5
+  if cattle_type != "COW":
+    S = 9.0
+  aw = (((S-snf)/S)*100.0) - 0.7
+
+  rate = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
+  total = fmtDecimal(rate * qty)
+
+  data = { "status" : "success", "currency_symbol": get_currency_symbol() }
+  data["clr"] = fmtDecimal(clr)
+  data["water"] = fmtDecimal(aw)
+  data["rate"] = rate
+  data["total"] = total
+  data["fmt_rate"] = format_currency(rate)
+  data["fmt_total"] = format_currency(total)
+  return jsonify(data)
 
 
 def get_sensor_data():

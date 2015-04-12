@@ -132,8 +132,11 @@
 			<li>
 				<div class="bar-wrapper">
 					<div class="bar-container">
-						<div class="bar-inner" data-value="{{'%0.2f'| format(t_qty)}}" style="height:{{'%0.2f'| format(t_qty)}}%"></div>
-						<div class="bar-text">{{'%0.2f'| format(t_qty)}}</div>
+						<div class="bar-inner" data-value="{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}" style="height:{{'%0.2f'| format(t_qty)}}%"></div>
+						<div class="bar-text">
+							<div class="number">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</div>
+							{{_("Litres")}}
+						</div>
 					</div>
 				</div>
 			</li>
@@ -334,19 +337,13 @@
 					return;
 				}				
 
-				var grpElement = $(".graph-container .bar-inner");
-				var prevVal = parseFloat(grpElement.data("value"));
-				var heightVal = (prevVal + data.qty).toFixed(2).toString();
-				animateNumber("", heightVal, grpElement.next(".bar-text"));
-				grpElement.height(heightVal+"%");
-
 				/*$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);
 				$("#water").val(data.water);
-				$("#qty").val(data.qty);*/
+				$("#qty").val(data.qty);
+				$("#total").text(data.fmt_total);*/
 				$("#rate").text(data.fmt_rate);
-				//$("#total").text(data.fmt_total);
 				animateNumber(data.currency_symbol, data.total, "#total");
 				animateNumber("", data.fat, "#fat");
 				animateNumber("", data.snf, "#snf");
@@ -363,6 +360,12 @@
 					$("input[name=created_at]").val(data.created_at);
 					//$("#shift").val(data.shift);
 					showError(error_milk_already_collected);
+				}else{
+					var grpElement = $(".graph-container .bar-inner");
+					var prevVal = parseFloat(grpElement.data("value"));
+					var heightVal = (prevVal + data.qty).toFixed(2).toString();
+					animateNumber("", heightVal, $(".bar-text .number"));
+					grpElement.height(heightVal+"%");
 				}
 			}).complete(function(){
 				
@@ -388,6 +391,12 @@
 			$("#total").text("{{currency_symbol}}000.00");			
 			$("#txtRate").val("");
 			$("#txtTotal").val("");
+
+			var grpElement = $(".graph-container .bar-inner");
+			var prevVal = parseFloat(grpElement.data("value"));
+			animateNumber("", prevVal, $(".bar-text .number"));
+			grpElement.height(prevVal+"%");
+
 			$("#member_code").focus();
 		}
 
@@ -416,6 +425,30 @@
 
 		$("#qty").on("focus", function(){
 			updateQtyData();
+		});
+
+		$("#qty").on("keyup", function(e){
+			console.log(e);
+			console.log(e.keyCode);
+			if(e.keyCode == 13){
+				var cattle_type = $("#member_cattle_type").text().trim();
+				var fat = parseFloat($("#fat").val());
+				var snf = parseFloat($("#snf").val());
+				var qty = parseFloat($("#qty").val());
+
+				var args = { "fat": fat, "snf": snf, "qty": qty, "cattle_type": cattle_type}
+				$.get("/get_manual_data", args, function(data){
+					if(data && data.status === "success"){
+						animateNumber("", data.clr, "#clr");
+						animateNumber("", data.water, "#water");
+						$("#txtRate").val(data.rate);
+						$("#txtTotal").val(data.total);
+						$("#rate").text(data.fmt_rate);
+						animateNumber(data.currency_symbol, data.total, "#total");
+					}
+				});
+				return false;
+			}
 		});
 
 		var handle_qty_timer = null;
@@ -448,7 +481,7 @@
 					var grpElement = $(".graph-container .bar-inner");
 					var prevVal = parseFloat(grpElement.data("value"));
 					var heightVal = (prevVal + qty).toFixed(2).toString();
-					animateNumber("", heightVal, grpElement.next(".bar-text"));
+					animateNumber("", heightVal, $(".bar-text .number"));
 					grpElement.height(heightVal+"%");
 				}
 			})
