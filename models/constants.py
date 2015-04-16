@@ -77,6 +77,8 @@ class SystemSettings(BaseType):
     COLLECTION_PRINTER_TYPE = "COLLECTION_PRINTER_TYPE"
     DATA_EXPORT_FORMAT = "DATA_EXPORT_FORMAT"
 
+    SEND_SMS = "SEND_SMS"
+
 
 class CollectionPrinterType(BaseType):
     THERMAL = "THERMAL"

@@ -98,6 +98,7 @@ class DefaultDbData:
         settings[SystemSettings.PRINT_CLR] = False
         settings[SystemSettings.PRINT_WATER] = False
         settings[SystemSettings.PRINT_BILL] = True
+        settings[SystemSettings.SEND_SMS] = False
         settings[SystemSettings.QUANTITY_2_DECIMAL] = True
         settings[SystemSettings.EXTERNAL_DISPLAY] = False
         settings[SystemSettings.COLLECTION_PRINTER_TYPE] = "Thermal"

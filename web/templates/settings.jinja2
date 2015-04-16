@@ -141,6 +141,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="medium-3 columns">
+					<label>{{_("Send SMS")}}</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="send_sms" name="send_sms" {{ "checked" if settings["SEND_SMS"] == "True" else "" }} value="True"  class="mousetrap" />
+						<label for="send_sms"></label>
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 </div>

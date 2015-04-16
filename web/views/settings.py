@@ -65,6 +65,7 @@ def settings():
     settings[SystemSettings.PRINT_CLR] = bool(request.form.get("print_clr", False))
     settings[SystemSettings.PRINT_WATER] = bool(request.form.get("print_water", False))
     settings[SystemSettings.PRINT_BILL] = bool(request.form.get("print_bill", False))
+    settings[SystemSettings.SEND_SMS] = bool(request.form.get("send_sms", False))
     settings[SystemSettings.QUANTITY_2_DECIMAL] = bool(request.form.get("quantity_2_decimal", False))
     configManager.set_all_settings(settings)
     return redirect("/")

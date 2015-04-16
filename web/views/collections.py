@@ -83,15 +83,18 @@ def collection():
 
       settings = g.app_settings
       can_print_bill = settings[SystemSettings.PRINT_BILL]
+      can_send_sms = settings[SystemSettings.SEND_SMS]
+
       saved_entity = collectionService.get(collection_id)
-      if can_print_bill and (can_print_bill == "True" or bool(can_print_bill)):
+      if can_print_bill:
         try:
           printTicket(saved_entity)
         except Exception as e:
           print "print exception:", e
           flash(str(lazy_gettext("Error in printing!")), "error")
 
-      sendSms(saved_entity)
+      if can_send_sms:
+        sendSms(saved_entity)
 
       flash("Saved successfully!", "success")
     else:
