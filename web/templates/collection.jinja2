@@ -132,9 +132,9 @@
 			<li>
 				<div class="bar-wrapper">
 					<div class="bar-container">
-						<div class="bar-inner" data-value="{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}" style="height:{{'%0.2f'| format(t_qty)}}%"></div>
+						<div class="bar-inner" data-height="{{'%0.2f'| format(can_height)}}" data-litres="{{'%0.2f'| format(can_litres)}}" style="height:{{'%0.2f'| format(can_height)}}%"></div>
 						<div class="bar-text">
-							<div class="number">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</div>
+							<div class="number">{{'%0.2f'| format(can_litres)}}</div>
 							{{_("Litres")}}
 						</div>
 					</div>
@@ -145,6 +145,14 @@
 		</ul>
 	</div>
 	<hr/>
+</div>
+<div class="row">
+	<div class="medium-6 columns">
+		{{_("Can count")}}
+	</div>
+	<div class="medium-6 columns">
+		<b id="current_can_no">{{current_can_no}}</b>
+	</div>
 </div>
 <div class="row">
 	<div class="medium-6 columns">
@@ -361,15 +369,23 @@
 					//$("#shift").val(data.shift);
 					showError(error_milk_already_collected);
 				}else{
-					var grpElement = $(".graph-container .bar-inner");
-					var prevVal = parseFloat(grpElement.data("value"));
-					var heightVal = (prevVal + data.qty).toFixed(2).toString();
-					animateNumber("", heightVal, $(".bar-text .number"));
-					grpElement.height(heightVal+"%");
+					updateMilkCan(data.can_litres, data.can_height);
 				}
 			}).complete(function(){
 				
 			});
+		}
+
+		function updateMilkCan(litres, height){
+			var grpElement = $(".graph-container .bar-inner");
+
+			if(!litres || !height){
+				litres = grpElement.data("litres");
+				height = grpElement.data("height");
+			}
+
+			animateNumber("", parseFloat(litres).toFixed(2), $(".bar-text .number"));
+			grpElement.height(parseFloat(height).toFixed(2).toString() +"%");
 		}
 
 		function clearData(){
@@ -392,10 +408,7 @@
 			$("#txtRate").val("");
 			$("#txtTotal").val("");
 
-			var grpElement = $(".graph-container .bar-inner");
-			var prevVal = parseFloat(grpElement.data("value"));
-			animateNumber("", prevVal, $(".bar-text .number"));
-			grpElement.height(prevVal+"%");
+			updateMilkCan();
 
 			$("#member_code").focus();
 		}
@@ -428,8 +441,6 @@
 		});
 
 		$("#qty").on("keyup", function(e){
-			console.log(e);
-			console.log(e.keyCode);
 			if(e.keyCode == 13){
 				var cattle_type = $("#member_cattle_type").text().trim();
 				var fat = parseFloat($("#fat").val());
@@ -478,11 +489,7 @@
 					$("#txtTotal").val(total);
 					$("#total").text("{{currency_symbol}} " + total);
 
-					var grpElement = $(".graph-container .bar-inner");
-					var prevVal = parseFloat(grpElement.data("value"));
-					var heightVal = (prevVal + qty).toFixed(2).toString();
-					animateNumber("", heightVal, $(".bar-text .number"));
-					grpElement.height(heightVal+"%");
+					updateMilkCan(data.can_litres, data.can_height);
 				}
 			})
 			.complete(function() {
@@ -514,6 +521,15 @@
 				}else{
 					showError(error_tare_scale);
 				}
+			});
+			return false;
+		});
+		
+		$("#btnTareCan").click(function(){
+			hideError();
+			$.get('/tare_can', function(data){
+			}).complete(function(){
+				window.location.reload();
 			});
 			return false;
 		});

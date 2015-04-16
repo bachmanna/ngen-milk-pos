@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, g, flash, jsonify
+from flask import render_template, request, redirect, g, flash, jsonify, session
 from flask_login import login_required, current_user
 from datetime import datetime
 from dateutil import parser
@@ -18,6 +18,8 @@ from configuration_manager import ConfigurationManager
 from models import *
 from hal import *
 
+def get_current_can_count():
+  return session.get("can_count", 1)
 
 def sendSms(entity):
   mobile = entity.member.mobile
@@ -38,6 +40,7 @@ def sendSms(entity):
 def collection():
   shift = "MORNING"
   date = datetime.now()
+  settings = g.app_settings
 
   changeDate = request.args.get("btnChangeDate", "False") == "True"
 
@@ -76,14 +79,15 @@ def collection():
       entity["created_by"] = current_user.id
       entity["created_at"] = parser.parse(request.form.get("created_at", str(date)))
       entity["status"] = True
+      entity["can_no"] = get_current_can_count()
+
       if collection_id and int(collection_id) > 0:
         collectionService.update(int(collection_id), entity)
       else:
         collection_id = collectionService.add(entity)
 
-      settings = g.app_settings
-      can_print_bill = settings[SystemSettings.PRINT_BILL]
-      can_send_sms = settings[SystemSettings.SEND_SMS]
+      can_print_bill = bool(settings[SystemSettings.PRINT_BILL])
+      can_send_sms =  bool(settings[SystemSettings.SEND_SMS])
 
       saved_entity = collectionService.get(collection_id)
       if can_print_bill:
@@ -106,9 +110,14 @@ def collection():
 
   collection_members, mcollection, summary = collectionService.get_milk_collection_and_summary(shift, date.date())
 
-  qty_total = 38.0
-  t_qty = summary["milk"][0] + summary["milk"][1]
-  t_qty = (1 - ((qty_total - t_qty)/qty_total))*100.0
+  can_capacity = float(settings[SystemSettings.CAN_CAPACITY])
+  current_can_no = get_current_can_count()
+  if current_can_no == 1:
+    current_can_no = collectionService.get_latest_can(shift, date.date())
+    session["can_count"] = current_can_no
+
+  can_litres = collectionService.get_total_litres(shift=shift, can_no=current_can_no, created_at=date.date())
+  can_height = (1 - ((can_capacity - can_litres)/can_capacity))*100.0
   
   currency_symbol = get_currency_symbol()
 
@@ -117,10 +126,11 @@ def collection():
     member_list=member_list,
     members_json=members_json,
     date=date,
-    collection_members=collection_members,
     summary=summary,
-    t_qty=t_qty,
-    currency_symbol=currency_symbol)
+    can_litres=can_litres,
+    can_height=can_height,
+    currency_symbol=currency_symbol,
+    current_can_no=current_can_no)
 
 
 @app.route("/get_collection_data")
@@ -132,9 +142,9 @@ def get_collection_data():
   today = datetime.now()
   created_at = parser.parse(request.form.get("created_at", str(today))).date()
   data = { "collection_id": None, "currency_symbol": get_currency_symbol() }
+  collectionService = MilkCollectionService()
 
   if member_id and int(member_id) > 0 and shift and created_at:
-    collectionService = MilkCollectionService()
     lst = collectionService.search(member_id=int(member_id), shift=shift, created_at=created_at)
     if lst and len(lst) > 0:
       entity = lst[0]
@@ -152,6 +162,8 @@ def get_collection_data():
       data["total"] = entity.total
       data["fmt_rate"] = format_currency(entity.rate)
       data["fmt_total"] = format_currency(entity.total)
+      data["can_litres"] = None
+      data["can_height"] = None
       override = request.args.get("override", "False")
       if override == "False":
         return jsonify(**data)
@@ -174,6 +186,20 @@ def get_collection_data():
   data["total"] = total
   data["fmt_rate"] = format_currency(rate)
   data["fmt_total"] = format_currency(total)
+
+  can_capacity = float(g.app_settings[SystemSettings.CAN_CAPACITY])
+  current_can_no = get_current_can_count()
+
+  if current_can_no == 1:
+    current_can_no = collectionService.get_latest_can(shift, created_at)
+    session["can_count"] = current_can_no
+
+  can_litres = qty + collectionService.get_total_litres(shift=shift, can_no=current_can_no, created_at=created_at)
+  can_height = (1 - ((can_capacity - can_litres)/can_capacity))*100.0
+
+  data["can_litres"] = can_litres
+  data["can_height"] = can_height
+
   return jsonify(**data)
 
 
@@ -185,8 +211,9 @@ def get_qty_data():
   cattle_type = request.args.get("cattle_type", "COW")
   today = datetime.now()
   created_at = parser.parse(request.form.get("created_at", str(today))).date()
+  collectionService = MilkCollectionService()
+
   if member_id and int(member_id) > 0 and shift and created_at:
-    collectionService = MilkCollectionService()
     lst = collectionService.search(member_id=int(member_id), shift=shift, created_at=created_at)
     if lst and len(lst) > 0:
       return jsonify({"status" : "failure"})
@@ -194,8 +221,14 @@ def get_qty_data():
   settings = g.app_settings
   scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
   qty = scale.get()
-  qty = 0.0
-  return jsonify({"status" : "success", "value": qty})
+
+  can_capacity = float(g.app_settings[SystemSettings.CAN_CAPACITY])
+  current_can_no = get_current_can_count()
+
+  can_litres = qty + collectionService.get_total_litres(shift=shift, can_no=current_can_no, created_at=created_at)
+  can_height = (1 - ((can_capacity - can_litres)/can_capacity))*100.0
+
+  return jsonify({"status" : "success", "value": qty, "can_litres": can_litres, "can_height": can_height})
 
 
 @app.route("/get_manual_data")
@@ -242,6 +275,14 @@ def tare_scale():
   scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
   success = scale.tare()
   return jsonify(success=success)
+
+
+@app.route("/tare_can")
+@login_required
+def tare_can():
+  session["can_count"] = get_current_can_count() + 1
+  print "Tare can: ", session["can_count"]
+  return jsonify(success=True)
 
 
 def printTicket(entity):

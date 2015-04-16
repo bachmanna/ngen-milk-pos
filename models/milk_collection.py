@@ -16,6 +16,8 @@ class MilkCollection(db.Model):
     rate = db.Column(db.Float(precision=2))
     total = db.Column(db.Float(precision=2))
 
+    can_no = db.Column(db.Integer)
+
     created_at = db.Column(db.DateTime, nullable=False)
     created_by = db.Column(db.Integer, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)

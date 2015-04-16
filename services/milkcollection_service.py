@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 from db_manager import db
 from sqlalchemy import Date, cast
 from services.member_service import MemberService
+from sqlalchemy.sql import func
 
 class MilkCollectionService:
     def __init__(self):
@@ -12,8 +13,8 @@ class MilkCollectionService:
         collection = MilkCollection(member=entity["member"]
             ,shift=entity["shift"],fat = entity["fat"],snf = entity["snf"]
             ,clr = entity["clr"],aw = entity["aw"],qty = entity["qty"]
-            ,rate = entity["rate"],total = entity["total"],created_by = entity["created_by"]
-            ,created_at = entity["created_at"],status = entity["status"])
+            ,rate = entity["rate"],total = entity["total"], can_no=entity["can_no"]
+            ,created_by = entity["created_by"], created_at = entity["created_at"],status = entity["status"])
         db.session.add(collection)
         db.session.commit()
         return collection.id
@@ -61,6 +62,7 @@ class MilkCollectionService:
         collection.qty = entity["qty"]
         collection.rate = entity["rate"]
         collection.total = entity["total"]
+        collection.can_no = entity["can_no"]
         db.session.commit()
 
     def import_data(self, csv_data):
@@ -78,6 +80,30 @@ class MilkCollectionService:
       query.delete()
       db.session.commit()
       return count
+
+    def get_total_litres(self, shift, can_no, created_at):
+      query = db.session.query(func.sum(MilkCollection.qty))
+
+      query = query.filter_by(can_no=can_no)
+      query = query.filter_by(shift=shift)
+
+      start = created_at
+      end = start + timedelta(days=1)
+      query = query.filter(MilkCollection.created_at >= start)
+      query = query.filter(MilkCollection.created_at < end)
+
+      return query.scalar() or 0.0
+
+    def get_latest_can(self, shift, created_at):
+      query = db.session.query(func.max(MilkCollection.can_no))
+
+      query = query.filter_by(shift=shift)
+      start = created_at
+      end = start + timedelta(days=1)
+      query = query.filter(MilkCollection.created_at >= start)
+      query = query.filter(MilkCollection.created_at < end)
+
+      return query.scalar() or 1
 
     def get_milk_collection_and_summary(self, shift, search_date):
       member_service = MemberService()

@@ -43,6 +43,7 @@ class DefaultDbData:
             collection['clr'] = 28.63
             collection['aw'] = 89.24
             collection['rate'] = 20.48
+            collection['can_no'] = 1
             collection['total'] = collection['rate'] * collection['qty']
             collection['created_at'] = datetime.now()
             collection['created_by'] = 1
@@ -103,6 +104,7 @@ class DefaultDbData:
         settings[SystemSettings.EXTERNAL_DISPLAY] = False
         settings[SystemSettings.COLLECTION_PRINTER_TYPE] = "Thermal"
         settings[SystemSettings.DATA_EXPORT_FORMAT] = "PDF"
+        settings[SystemSettings.CAN_CAPACITY] = 38.0
 
         configManager.set_all_settings(settings)
 
