@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div class="row">
-			<div class="medium-3 columns">
+				<div class="medium-3 columns">
 					<label>{{_("Rate Type")}}</label>
 				</div>
 				<div class="medium-3 columns">
@@ -63,22 +63,19 @@
 			</div>
 			<div class="row">
 				<div class="medium-3 columns">
-					<label>{{_("Data Export format")}}</label>
+					<label for="data_export_format">{{_("Data Export format")}}</label>
 				</div>
 				<div class="medium-3 columns">
-					<select name="data_export_format" class="mousetrap">
+					<select id="data_export_format" name="data_export_format" class="mousetrap">
 						<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "TXT" else "" }}>TXT</option>
 						<option {{ "selected" if settings["DATA_EXPORT_FORMAT"] == "PDF" else "" }}>PDF</option>
 					</select>
 				</div>
 				<div class="medium-3 columns">
-					<label>{{_("Quantity 2 Decimal")}}</label>
+					<label for="can_capacity">{{_("Can Capacity")}}</label>
 				</div>
 				<div class="medium-3 columns end">
-					<div class="switch round large">
-						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" {{ "checked" if settings["QUANTITY_2_DECIMAL"] == "True" else "" }}  value="True"  class="mousetrap" />
-						<label for="quantity_2_decimal"></label>
-					</div>
+					<input type="text" id="can_capacity" name="can_capacity" value="{{settings['CAN_CAPACITY']}}"  class="mousetrap" />
 				</div>
 			</div>
 			<div class="row">
@@ -145,10 +142,19 @@
 				<div class="medium-3 columns">
 					<label>{{_("Send SMS")}}</label>
 				</div>
-				<div class="medium-3 columns end">
+				<div class="medium-3 columns">
 					<div class="switch round large">
 						<input type="checkbox" id="send_sms" name="send_sms" {{ "checked" if settings["SEND_SMS"] == "True" else "" }} value="True"  class="mousetrap" />
 						<label for="send_sms"></label>
+					</div>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Quantity 2 Decimal")}}</label>
+				</div>
+				<div class="medium-3 columns end">
+					<div class="switch round large">
+						<input type="checkbox" id="quantity_2_decimal" name="quantity_2_decimal" {{ "checked" if settings["QUANTITY_2_DECIMAL"] == "True" else "" }}  value="True"  class="mousetrap" />
+						<label for="quantity_2_decimal"></label>
 					</div>
 				</div>
 			</div>

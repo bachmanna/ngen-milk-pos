@@ -67,6 +67,9 @@ def settings():
     settings[SystemSettings.PRINT_BILL] = bool(request.form.get("print_bill", False))
     settings[SystemSettings.SEND_SMS] = bool(request.form.get("send_sms", False))
     settings[SystemSettings.QUANTITY_2_DECIMAL] = bool(request.form.get("quantity_2_decimal", False))
+
+    settings[SystemSettings.CAN_CAPACITY] = float(request.form.get("can_capacity", 38.0))
+
     configManager.set_all_settings(settings)
     return redirect("/")
 
