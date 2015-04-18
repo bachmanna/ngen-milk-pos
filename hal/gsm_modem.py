@@ -21,6 +21,7 @@ class SmsService(object):
 		try:
 			self.modem.connect(self.pin)
 			self.modem.waitForNetworkCoverage(5)
+			self.modem.smsTextMode = False 
 			return True
 		except PinRequiredError:
 			self.log('Error: SIM card PIN required')

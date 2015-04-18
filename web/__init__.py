@@ -20,6 +20,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db') + '?check_same_thread=False'
 app.config['SQLALCHEMY_ECHO'] = False
+print "Database at ", app.config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 
 # localization
