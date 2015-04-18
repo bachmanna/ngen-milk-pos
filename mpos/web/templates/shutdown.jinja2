@@ -1,0 +1,18 @@
+{% extends "layout.jinja2" %}
+
+{% block body %}
+{% include "flash_messages.jinja2" %}
+
+<div class="row">
+	<div class="medium-12 columns text-center">
+		<h1>{{_("Shutdown")}}</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+		<p>{{_("Shutting down the system. Please wait 20seconds before switching OFF the power")}}</p>
+	</div>
+</div>
+
+{% endblock %}

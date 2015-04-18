@@ -5,14 +5,12 @@ from flask_principal import Principal, Permission, RoleNeed, UserNeed, Anonymous
 from flask_principal import identity_changed, identity_loaded, Identity, PermissionDenied
 
 from passlib.handlers.md5_crypt import md5_crypt
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_babel import Babel
 import babel.numbers as bn
 import os
 import time
 import sys
-
 
 app = Flask(__name__, instance_relative_config=False)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -21,7 +19,6 @@ basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db') + '?check_same_thread=False'
 app.config['SQLALCHEMY_ECHO'] = False
 print "Database at ", app.config['SQLALCHEMY_DATABASE_URI']
-db = SQLAlchemy(app)
 
 # localization
 babel = Babel(app)

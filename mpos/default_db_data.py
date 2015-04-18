@@ -1,4 +1,3 @@
-import random
 from models import *
 from services.member_service import MemberService
 from services.rate_service import RateService
@@ -6,7 +5,7 @@ from services.user_service import UserService
 from services.milkcollection_service import MilkCollectionService
 from configuration_manager import ConfigurationManager
 from datetime import datetime
-
+import random
 
 def frange(start, stop, step=0.1):
   return [start+round(x*step,1) for x in range(0, ((stop-start)*10)+1) if start+round(x*step,1) <= stop]
