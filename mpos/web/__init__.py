@@ -174,9 +174,11 @@ def app_shutdown():
     print output
   return render_template('shutdown.jinja2')
 
+USB_DRV_PATH = "/media/usb0"
+USB_DRV_MOUNT_PATH = "/dev/sda1"
 
 def is_usb_storage_connected():
-  return os.path.exists("/dev/sda1") and os.path.ismount("/home/pi/usbdrv/")
+  return os.path.exists(USB_DRV_MOUNT_PATH) and os.path.ismount(USB_DRV_PATH)
 
 
 def get_backup_directory():
@@ -184,7 +186,7 @@ def get_backup_directory():
   directory = os.path.join(app.root_path, filename)
 
   if is_usb_storage_connected():
-    directory = os.path.join("/home/pi/usbdrv/", filename)
+    directory = os.path.join(USB_DRV_PATH, filename)
 
   if not os.path.exists(directory):
     os.makedirs(directory)
@@ -201,9 +203,10 @@ def do_backup_milk_collection_data():
 
 from hal import ThermalPrinter
 def send_to_thermal_printer(data):
+  settings = g.app_settings
   data = data.encode("utf-8")
   print data
-  printer = ThermalPrinter(serialport="/dev/ttyUSB0")
+  printer = ThermalPrinter(serialport=settings[SystemSettings.THERMAL_PRINTER_PORT])
   printer.print_markup(data)
 
 

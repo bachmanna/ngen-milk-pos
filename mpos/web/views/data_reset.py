@@ -96,9 +96,14 @@ def get_usb_storage_devices():
 	if is_usb_storage_connected():
 		try:
 			import subprocess as sp
-			vendor = sp.check_output(["cat", "/sys/class/block/sda/device/vendor"]).strip("\n").strip(" ")
-			model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
-			name = vendor + model
+			name = ""
+			tmp = [x.split('=')[1] for x in sp.check_output(['sudo', 'blkid', '-o', 'udev', '-p', '/dev/sda1']).split('\n') if x.startswith('ID_FS_LABEL=')]
+			if tmp and len(tmp) > 0:
+				name = tmp[0]
+			if len(name) == 0:
+				vendor = sp.check_output(["cat", "/sys/class/block/sda/device/vendor"]).strip("\n").strip(" ")
+				model = sp.check_output(["cat", "/sys/class/block/sda/device/model"]).strip("\n").strip(" ")
+				name = vendor + model
 			devices.append(name)
 		except Exception as e:
 			print e
