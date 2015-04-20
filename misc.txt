@@ -1,6 +1,9 @@
-sudo apt-get install python-pip fbi python-dev python-lxml libxml2 libxml2-dev libxslt-dev
+sudo apt-get install python-pip fbi python-dev python-lxml libxml2 libxml2-dev libxslt-dev libffi-dev
+
+apt-get install usbmount 
 
 pip install --upgrade lxml
+pip install uwsgi
 
 sudo /sbin/route add -net 0.0.0.0 gw 192.168.137.1 eth0
 
@@ -13,3 +16,11 @@ gateway 192.168.137.1
 
 nameserver  208.67.222.222
 nameserver 208.67.220.220
+
+python setup.py bdist_wheel && scp dist/mpos-1.0.0a1-py2-none-any.whl pi@pi:~/mpos.zip
+
+sudo mkdir /var/log/milk-pos
+
+:set fileformat=unix
+
+sudo tail -f /var/log/milk-pos/uwsgi.log
