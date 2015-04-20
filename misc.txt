@@ -1,0 +1,15 @@
+sudo apt-get install python-pip fbi python-dev python-lxml libxml2 libxml2-dev libxslt-dev
+
+pip install --upgrade lxml
+
+sudo /sbin/route add -net 0.0.0.0 gw 192.168.137.1 eth0
+
+iface eth0 inet static
+address 192.168.137.8
+netmask 255.255.255.0
+network 192.168.137.0
+broadcast 192.168.137.255
+gateway 192.168.137.1
+
+nameserver  208.67.222.222
+nameserver 208.67.220.220
