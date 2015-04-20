@@ -105,6 +105,13 @@ class DefaultDbData:
         settings[SystemSettings.DATA_EXPORT_FORMAT] = "PDF"
         settings[SystemSettings.CAN_CAPACITY] = 38.0
 
+        #sensor ports
+        settings[SystemSettings.ANALYZER_PORT] = "/dev/ttyUSB0"
+        settings[SystemSettings.WEIGH_SCALE_PORT] = "/dev/ttyUSB1"
+        settings[SystemSettings.GSM_PORT] = "/dev/ttyUSB2"
+        settings[SystemSettings.THERMAL_PRINTER_PORT] = "/dev/ttyUSB3"
+
+
         configManager.set_all_settings(settings)
 
         #settings = configManager.get_all_settings()

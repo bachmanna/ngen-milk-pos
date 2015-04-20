@@ -80,6 +80,11 @@ class SystemSettings(BaseType):
     CAN_CAPACITY = "CAN_CAPACITY"
     SEND_SMS = "SEND_SMS"
 
+    ANALYZER_PORT = "ANALYZER_PORT"
+    WEIGH_SCALE_PORT = "WEIGH_SCALE_PORT"
+    GSM_PORT = "GSM_PORT"
+    THERMAL_PRINTER_PORT = "THERMAL_PRINTER_PORT"
+
 
 class CollectionPrinterType(BaseType):
     THERMAL = "THERMAL"

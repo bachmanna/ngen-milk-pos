@@ -70,6 +70,12 @@ def settings():
 
     settings[SystemSettings.CAN_CAPACITY] = float(request.form.get("can_capacity", 38.0))
 
+    #sensor ports
+    settings[SystemSettings.ANALYZER_PORT] = request.form["analyzer_port"]
+    settings[SystemSettings.WEIGH_SCALE_PORT] = request.form["scale_port"]
+    settings[SystemSettings.GSM_PORT] = request.form["gsm_port"]
+    settings[SystemSettings.THERMAL_PRINTER_PORT] = request.form["thermal_port"]
+
     configManager.set_all_settings(settings)
     return redirect("/")
 

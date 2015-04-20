@@ -158,6 +158,39 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="medium-12 columns">
+					<h1>{{_("Sensor")}}</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-3 columns">
+					<label>{{_("Analyzer port")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<input type="text" id="analyzer_port" name="analyzer_port" value="{{settings['ANALYZER_PORT']}}" class="mousetrap"/>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Weigh scale port")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<input type="text" id="scale_port" name="scale_port" value="{{settings['WEIGH_SCALE_PORT']}}" class="mousetrap"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="medium-3 columns">
+					<label>{{_("Gsm port")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<input type="text" id="gsm_port" name="gsm_port" value="{{settings['GSM_PORT']}}" class="mousetrap"/>
+				</div>
+				<div class="medium-3 columns">
+					<label>{{_("Thermal printer port")}}</label>
+				</div>
+				<div class="medium-3 columns">
+					<input type="text" id="thermal_port" name="thermal_port" value="{{settings['THERMAL_PRINTER_PORT']}}" class="mousetrap"/>
+				</div>
+			</div>
 		</form>
 	</div>
 </div>
