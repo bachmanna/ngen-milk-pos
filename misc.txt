@@ -2,10 +2,20 @@ sudo apt-get install python-pip fbi python-dev python-lxml libxml2 libxml2-dev l
 
 apt-get install usbmount 
 
+sudo apt-get install i2c-tools
+
+sudo apt-get install tightvncserver
+
+abcd1234
+
 pip install --upgrade lxml
 pip install uwsgi
 
 sudo /sbin/route add -net 0.0.0.0 gw 192.168.137.1 eth0
+
+sudo nano /etc/resolv.conf
+nameserver  208.67.222.222
+nameserver 208.67.220.220
 
 iface eth0 inet static
 address 192.168.137.8
@@ -14,13 +24,83 @@ network 192.168.137.0
 broadcast 192.168.137.255
 gateway 192.168.137.1
 
-nameserver  208.67.222.222
-nameserver 208.67.220.220
-
-python setup.py bdist_wheel && scp dist/mpos-1.0.0a1-py2-none-any.whl pi@pi:~/mpos.zip
+python setup.py bdist_wheel && scp dist/mpos-1.0.0a1-py2-none-any.whl pi@pi:~/mpos.zip && ssh pi@pi 'unzip -oq mpos.zip' && ssh pi@pi 'chmod +x ~/mpos/web/runprod.sh'
 
 sudo mkdir /var/log/milk-pos
 
 :set fileformat=unix
 
 sudo tail -f /var/log/milk-pos/uwsgi.log
+
+ssh -tt pi@pi 'top'
+
+ssh pi@pi 'unzip -oq mpos.zip'
+
+chmod +x ~/mpos/web/runprod.sh
+
+
+sudo nano /etc/rc.local
+
+echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+sudo hwclock -s
+
+sudo nano /etc/modules
+
+i2c-bcm2835
+i2c-dev
+rtc-ds1307
+
+sudo chmod +x /etc/init.d/vncserver
+sudo nano /etc/init.d/vncserver
+
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          vncserver
+# Required-Start:    networking
+# Default-Start:     3 4 5
+# Default-Stop:      0 6
+### END INIT INFO
+
+PATH="$PATH:/usr/X11R6/bin/"
+
+# The Username:Group that will run VNC
+export USER="mythtv"
+#${RUNAS}
+
+# The display that VNC will use
+DISPLAY="1"
+
+# Color depth (between 8 and 32)
+DEPTH="16"
+
+# The Desktop geometry to use.
+#GEOMETRY="<WIDTH>x<HEIGHT>"
+#GEOMETRY="800x600"
+GEOMETRY="1024x768"
+#GEOMETRY="1280x1024"
+
+# The name that the VNC Desktop will have.
+NAME="my-vnc-server"
+
+OPTIONS="-name ${NAME} -depth ${DEPTH} -geometry ${GEOMETRY} :${DISPLAY}"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+start)
+log_action_begin_msg "Starting vncserver for user '${USER}' on   localhost:${DISPLAY}"
+su ${USER} -c "/usr/bin/vncserver ${OPTIONS}"
+;;
+
+stop)
+log_action_begin_msg "Stoping vncserver for user '${USER}' on localhost:${DISPLAY}"
+su ${USER} -c "/usr/bin/vncserver -kill :${DISPLAY}"
+;;
+
+restart)
+$0 stop
+$0 start
+;;
+esac
+
+exit 0
