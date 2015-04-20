@@ -21,7 +21,7 @@ from hal import *
 def get_current_can_count():
   return session.get("can_count", 1)
 
-def sendSms(entity):
+def sendSms(entity, address):
   mobile = entity.member.mobile
   mobile = "+919789443696"
   #mobile = "+919952463624"
@@ -31,7 +31,7 @@ def sendSms(entity):
   data.update(entity=entity)
   markup = tmp.render(data)
   
-  modem = SmsService(address="com4")
+  modem = SmsService(address=address)
   modem.send(mobile, markup)
 
 
@@ -98,7 +98,7 @@ def collection():
           flash(str(lazy_gettext("Error in printing!")), "error")
 
       if can_send_sms:
-        sendSms(saved_entity)
+        sendSms(saved_entity, settings[SystemSettings.GSM_PORT])
 
       flash("Saved successfully!", "success")
     else:
@@ -219,7 +219,7 @@ def get_qty_data():
       return jsonify({"status" : "failure"})
 
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
   qty = scale.get()
 
   can_capacity = float(g.app_settings[SystemSettings.CAN_CAPACITY])
@@ -261,8 +261,8 @@ def get_manual_data():
 
 def get_sensor_data():
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
-  analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE], address="/dev/ttyUSB2")
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
+  analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE], address=settings[SystemSettings.ANALYZER_PORT])
   data = analyzer.get()
   data["qty"] = scale.get()
   return data
@@ -272,7 +272,7 @@ def get_sensor_data():
 @login_required
 def tare_scale():
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address="/dev/ttyUSB1")
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
   success = scale.tare()
   return jsonify(success=success)
 
