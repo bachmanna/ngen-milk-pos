@@ -4,6 +4,8 @@ import os
 
 pwd = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 
+from services.cache_manager import settings_cache as cache
+
 
 class ResourceFilesConstants:
     BG_IMAGE_FILE = pwd + "/resources/icons/bg.png"
@@ -72,12 +74,16 @@ class ConfigurationManager:
         return self.set(SystemSettings.RATE_TYPE, value)
 
     def get_all_settings(self):
-        settings = {}
-        for x in SystemSettings._get_keys():
-            settings[x] = self.get(x)
-        return settings
+        def get_data():
+            settings = {}
+            for x in SystemSettings._get_keys():
+                settings[x] = self.get(x)
+            return settings
+        data = cache.get(key="settings", createfunc=get_data)
+        return data
 
     def set_all_settings(self, settings):
+        cache.remove_value(key="settings")
         for x in settings.keys():
             if x in SystemSettings._get_keys():
                 self._set_no_commit(x, settings[x])

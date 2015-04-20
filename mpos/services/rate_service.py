@@ -2,6 +2,11 @@ from models import *
 from db_manager import db
 from configuration_manager import ConfigurationManager
 
+from cache_manager import rate_cache as cache
+
+class CacheKey(object):
+    FAT_SNF = "__fat__and__snf__rates"
+    pass
 
 class RateService:
     def __init__(self):
@@ -45,10 +50,14 @@ class RateService:
             self.add_fat_collection_rate(cattle_type, id, min_value, max_value, rate)
 
     def get_fat_and_snf_collection_rate(self, cattle_type):
-        query = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type)
-        query = query.order_by(FATAndSNFCollectionRate.fat_value)
-        lst = query.all()
-        return lst
+        def get_data():
+            query = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type)
+            query = query.order_by(FATAndSNFCollectionRate.fat_value)
+            lst = query.all()
+            return lst
+
+        data = cache.get(key=CacheKey.FAT_SNF, createfunc=get_data)
+        return data
 
     def get_ts1_collection_rate(self, cattle_type):
         query = TS1CollectionRate.query.filter_by(cattle_type=cattle_type)
@@ -71,6 +80,7 @@ class RateService:
         db.session.commit()
 
     def set_fat_and_snf_collection_rate(self, cattle_type, data):
+        cache.remove_value(key=CacheKey.FAT_SNF)
         FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type).delete()
         db.session.commit()
         for x in data:
@@ -79,6 +89,7 @@ class RateService:
         db.engine.execute(smt, data)
 
     def save_fat_and_snf_collection_rate(self, cattle_type, fat_value, snf_value, rate):
+        cache.remove_value(key=CacheKey.FAT_SNF)
         entity = FATAndSNFCollectionRate.query.filter_by(cattle_type=cattle_type, 
                                                          fat_value=fat_value, 
                                                          snf_value=snf_value).first()
