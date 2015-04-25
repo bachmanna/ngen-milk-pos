@@ -23,7 +23,7 @@ def get_current_can_count():
 
 def sendSms(entity, address):
   mobile = entity.member.mobile
-  mobile = "+919789443696"
+  #mobile = "+919789443696"
   #mobile = "+919952463624"
   
   tmp = app.jinja_env.get_template("thermal/ticket_sms.jinja2")

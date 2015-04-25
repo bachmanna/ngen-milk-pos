@@ -78,6 +78,11 @@ setup(
 				'mpos.web': ['*.ini',
 						'*.sh',
 						'*.cfg',
+						'*.pot',
+						'*.po',
+						'*.mo',
+						'translations/*.*',
+						'translations/ta/LC_MESSAGES/*.*',
 						'templates/*.jinja2',
 						'templates/reports/*.jinja2',
 						'templates/thermal/*.jinja2',
@@ -85,10 +90,7 @@ setup(
 						'static/js/*.*',
 						'static/js/vendor/*.*',
 						'static/fonts/*.*',
-						'static/images/*.*',
-						'translations/*.*'
-						'translations/ta/*.*'
-						'translations/ta/LC_MESSAGES/*.*'
+						'static/images/*.*'
 						],
 		},
 

@@ -37,7 +37,8 @@ while true; do
 	# xwit -root -warp $( cat /sys/module/*fb*/parameters/fbwidth ) $( cat /sys/module/*fb*/parameters/fbheight )
 
 	# Start the window manager (remove "-use_cursor no" if you actually want mouse interaction)
-	matchbox-window-manager -use_titlebar no -use_cursor no &
+	#matchbox-window-manager -use_titlebar no -use_cursor no &
+	matchbox-window-manager -use_titlebar no &
 
 	# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
 	sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
