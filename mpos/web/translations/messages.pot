@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-28 09:26+0530\n"
+"POT-Creation-Date: 2015-04-25 20:40+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 
 #: templates/absence_list.jinja2:8 templates/basic_setup.jinja2:19
-#: templates/collection.jinja2:199 templates/detail_shift.jinja2:13
+#: templates/collection.jinja2:230 templates/detail_shift.jinja2:13
 #: templates/layout.jinja2:33 templates/shift_summary.jinja2:13
 #: templates/reports/dairy_report.jinja2:22
 #: templates/reports/detail_shift.jinja2:10
@@ -47,7 +47,7 @@ msgid "EVENING"
 msgstr ""
 
 #: templates/absence_list.jinja2:27 templates/dairy_report.jinja2:25
-#: templates/detail_shift.jinja2:32 templates/member_report.jinja2:29
+#: templates/detail_shift.jinja2:32 templates/member_report.jinja2:39
 #: templates/payment_report.jinja2:29 templates/shift_summary.jinja2:32
 msgid "VIEW"
 msgstr ""
@@ -56,15 +56,19 @@ msgstr ""
 msgid "Available Backups"
 msgstr ""
 
-#: templates/backup_list.jinja2:33
+#: templates/backup_list.jinja2:20 templates/data_reset.jinja2:55
+msgid "Cancel"
+msgstr ""
+
+#: templates/backup_list.jinja2:37
 msgid "RESTORE IN PROCESS..."
 msgstr ""
 
-#: templates/basic_setup.jinja2:10 templates/home.jinja2:23
+#: templates/basic_setup.jinja2:10 templates/home.jinja2:22
 msgid "Basic Setup"
 msgstr ""
 
-#: templates/basic_setup.jinja2:24 templates/collection.jinja2:210
+#: templates/basic_setup.jinja2:24 templates/collection.jinja2:241
 #: templates/layout.jinja2:34 templates/reports/settings_report.jinja2:14
 msgid "Time"
 msgstr ""
@@ -77,34 +81,43 @@ msgstr ""
 msgid "Header"
 msgstr ""
 
-#: templates/basic_setup.jinja2:48
+#: templates/basic_setup.jinja2:46
 msgid "Footer"
 msgstr ""
 
-#: templates/basic_setup.jinja2:61 templates/collection.jinja2:180
-#: templates/manage_user.jinja2:32 templates/member.jinja2:40
-#: templates/rate_fat.jinja2:40 templates/rate_fat_and_snf.jinja2:31
-#: templates/rate_total_solid.jinja2:56 templates/rate_total_solid1.jinja2:36
-#: templates/settings.jinja2:153
+#: templates/basic_setup.jinja2:59 templates/collection.jinja2:211
+#: templates/manage_user.jinja2:28 templates/member.jinja2:36
+#: templates/rate_fat.jinja2:33 templates/rate_fat_and_snf.jinja2:28
+#: templates/rate_total_solid.jinja2:55 templates/rate_total_solid1.jinja2:33
+#: templates/settings.jinja2:169
 msgid "SAVE"
 msgstr ""
 
-#: templates/basic_setup.jinja2:64 templates/collection.jinja2:189
-#: templates/manage_user.jinja2:63 templates/member.jinja2:92
-#: templates/rate_action_buttons.jinja2:9 templates/report_page_footer.jinja2:6
-#: templates/settings.jinja2:159
+#: templates/basic_setup.jinja2:62 templates/manage_user.jinja2:59
+#: templates/member.jinja2:94 templates/rate_action_buttons.jinja2:3
+#: templates/report_page_footer.jinja2:6 templates/settings.jinja2:172
+msgid "EDIT"
+msgstr ""
+
+#: templates/basic_setup.jinja2:65 templates/collection.jinja2:220
+#: templates/data_reset.jinja2:88 templates/manage_user.jinja2:62
+#: templates/member.jinja2:103 templates/rate_action_buttons.jinja2:12
+#: templates/rate_setup.jinja2:42 templates/report_page_footer.jinja2:9
+#: templates/reports.jinja2:54 templates/settings.jinja2:175
+#: templates/system_setup.jinja2:38
 msgid "EXIT"
 msgstr ""
 
-#: templates/collection.jinja2:4 templates/shutdown.jinja2:4
+#: templates/collection.jinja2:4
 msgid "SHIFT"
 msgstr ""
 
-#: templates/collection.jinja2:12
+#: templates/collection.jinja2:11
 msgid "Milk Collection"
 msgstr ""
 
-#: templates/collection.jinja2:26 templates/reports/absence_list.jinja2:25
+#: templates/collection.jinja2:28 templates/member.jinja2:13
+#: templates/reports/absence_list.jinja2:25
 #: templates/reports/detail_shift.jinja2:18
 #: templates/reports/member_list.jinja2:25
 #: templates/reports/member_report.jinja2:11
@@ -112,35 +125,20 @@ msgstr ""
 msgid "M.Code"
 msgstr ""
 
-#: templates/collection.jinja2:35 templates/reports/detail_shift.jinja2:20
-#: templates/reports/detail_shift.jinja2:50
-#: templates/reports/member_report.jinja2:17
-#: templates/reports/shift_summary.jinja2:18
-msgid "Cattle"
-msgstr ""
-
-#: templates/collection.jinja2:44 templates/rate_fat.jinja2:6
-#: templates/rate_fat_and_snf.jinja2:14 templates/rate_setup.jinja2:16
+#: templates/collection.jinja2:36 templates/rate_fat.jinja2:6
+#: templates/rate_fat_and_snf.jinja2:13 templates/rate_setup.jinja2:16
 #: templates/reports/dairy_report.jinja2:24
 #: templates/reports/member_report.jinja2:38
 msgid "FAT"
 msgstr ""
 
-#: templates/collection.jinja2:50
-msgid "CLR"
-msgstr ""
-
-#: templates/collection.jinja2:59 templates/rate_fat_and_snf.jinja2:19
+#: templates/collection.jinja2:44 templates/rate_fat_and_snf.jinja2:18
 #: templates/reports/dairy_report.jinja2:25
 #: templates/reports/member_report.jinja2:39
 msgid "SNF"
 msgstr ""
 
-#: templates/collection.jinja2:65
-msgid "AW"
-msgstr ""
-
-#: templates/collection.jinja2:74 templates/reports/dairy_report.jinja2:26
+#: templates/collection.jinja2:52 templates/reports/dairy_report.jinja2:26
 #: templates/reports/detail_shift.jinja2:23
 #: templates/reports/detail_shift.jinja2:54
 #: templates/reports/member_report.jinja2:40
@@ -149,26 +147,49 @@ msgstr ""
 msgid "QTY"
 msgstr ""
 
-#: templates/collection.jinja2:82
+#: templates/collection.jinja2:70
+msgid "CLR"
+msgstr ""
+
+#: templates/collection.jinja2:76
+msgid "AW"
+msgstr ""
+
+#: templates/collection.jinja2:84
 msgid "RATE"
 msgstr ""
 
-#: templates/collection.jinja2:91
+#: templates/collection.jinja2:95
 msgid "TOTAL"
 msgstr ""
 
-#: templates/collection.jinja2:117
-msgid "Press: <em>T</em> to tare scale"
+#: templates/collection.jinja2:121
+msgid "TARE SCALE"
 msgstr ""
 
-#: templates/collection.jinja2:119
-msgid "Press: <em>Z</em> to tare can"
+#: templates/collection.jinja2:126
+msgid "TARE CAN"
 msgstr ""
 
-#: templates/collection.jinja2:127 templates/collection.jinja2:153
-#: templates/collection.jinja2:166 templates/rate_fat.jinja2:74
-#: templates/rate_fat_and_snf.jinja2:65 templates/rate_total_solid.jinja2:96
-#: templates/rate_total_solid1.jinja2:70
+#: templates/collection.jinja2:138
+msgid "Litres"
+msgstr ""
+
+#: templates/collection.jinja2:151
+msgid "Can count"
+msgstr ""
+
+#: templates/collection.jinja2:159
+msgid "Total Qty"
+msgstr ""
+
+#: templates/collection.jinja2:162 templates/collection.jinja2:170
+#: templates/collection.jinja2:178
+msgid "litres"
+msgstr ""
+
+#: templates/collection.jinja2:167 templates/collection.jinja2:192
+#: templates/member.jinja2:25 templates/rate_action_cattle_type.jinja2:3
 #: templates/reports/absence_list.jinja2:14
 #: templates/reports/detail_shift.jinja2:61
 #: templates/reports/member_list.jinja2:14
@@ -176,10 +197,8 @@ msgstr ""
 msgid "COW"
 msgstr ""
 
-#: templates/collection.jinja2:136 templates/collection.jinja2:154
-#: templates/collection.jinja2:167 templates/rate_fat.jinja2:75
-#: templates/rate_fat_and_snf.jinja2:66 templates/rate_total_solid.jinja2:97
-#: templates/rate_total_solid1.jinja2:71
+#: templates/collection.jinja2:175 templates/collection.jinja2:200
+#: templates/member.jinja2:26 templates/rate_action_cattle_type.jinja2:4
 #: templates/reports/absence_list.jinja2:17
 #: templates/reports/detail_shift.jinja2:70
 #: templates/reports/member_list.jinja2:17
@@ -187,48 +206,43 @@ msgstr ""
 msgid "BUFFALO"
 msgstr ""
 
-#: templates/collection.jinja2:152
-msgid "Total Qty"
-msgstr ""
-
-#: templates/collection.jinja2:157 templates/collection.jinja2:158
-#: templates/collection.jinja2:159
-msgid "litres"
-msgstr ""
-
-#: templates/collection.jinja2:165
+#: templates/collection.jinja2:184
 msgid "Total Mem"
 msgstr ""
 
-#: templates/collection.jinja2:183 templates/settings.jinja2:156
+#: templates/collection.jinja2:214
 msgid "CLEAR"
 msgstr ""
 
-#: templates/collection.jinja2:186
+#: templates/collection.jinja2:217
 msgid "CHANGE DATE"
 msgstr ""
 
-#: templates/collection.jinja2:195
+#: templates/collection.jinja2:226
 msgid "Change Date"
 msgstr ""
 
-#: templates/collection.jinja2:224
+#: templates/collection.jinja2:257
 msgid "Change"
 msgstr ""
 
-#: templates/collection.jinja2:235
+#: templates/collection.jinja2:268
 msgid "Member not found!"
 msgstr ""
 
-#: templates/collection.jinja2:236
+#: templates/collection.jinja2:269
 msgid "Milk already collected!"
 msgstr ""
 
-#: templates/collection.jinja2:239
+#: templates/collection.jinja2:270
+msgid "Tare error!"
+msgstr ""
+
+#: templates/collection.jinja2:274
 msgid "READING DATA..."
 msgstr ""
 
-#: templates/collection.jinja2:343
+#: templates/collection.jinja2:505
 msgid "SAVING DATA..."
 msgstr ""
 
@@ -242,7 +256,7 @@ msgstr ""
 msgid "To Date"
 msgstr ""
 
-#: templates/data_reset.jinja2:9 templates/home.jinja2:34
+#: templates/data_reset.jinja2:9 templates/home.jinja2:31
 msgid "Data Reset"
 msgstr ""
 
@@ -251,41 +265,57 @@ msgid "Backup"
 msgstr ""
 
 #: templates/data_reset.jinja2:22
-msgid "Do you want to restore all data from USB?"
-msgstr ""
-
-#: templates/data_reset.jinja2:22
 msgid "Restore"
 msgstr ""
 
 #: templates/data_reset.jinja2:27
-msgid "Do you want to clear all milk collection data?"
+msgid "Clear bills"
 msgstr ""
 
-#: templates/data_reset.jinja2:27
-msgid "Clear collection bills"
-msgstr ""
-
-#: templates/data_reset.jinja2:33
+#: templates/data_reset.jinja2:32
 msgid "Factory reset"
 msgstr ""
 
-#: templates/data_reset.jinja2:59
+#: templates/data_reset.jinja2:45
+msgid "Alert"
+msgstr ""
+
+#: templates/data_reset.jinja2:58
+msgid "OK"
+msgstr ""
+
+#: templates/data_reset.jinja2:63
+msgid "Select a time period to clear milk collection data"
+msgstr ""
+
+#: templates/data_reset.jinja2:65
+msgid "Last Month"
+msgstr ""
+
+#: templates/data_reset.jinja2:68
+msgid "Last 3 Months"
+msgstr ""
+
+#: templates/data_reset.jinja2:71
+msgid "ALL"
+msgstr ""
+
+#: templates/data_reset.jinja2:98
 msgid "Do you want to backup all data to USB?"
 msgstr ""
 
-#: templates/data_reset.jinja2:60
+#: templates/data_reset.jinja2:99
 msgid ""
 "Be sure to backup before doing this operation. ALL DATA WILL BE ERASED "
 "AND DEFAULT DATA WILL BE LOADED. Do you really want to do a factory "
 "reset? "
 msgstr ""
 
-#: templates/data_reset.jinja2:64
+#: templates/data_reset.jinja2:106
 msgid "BACKUP IN PROCESS..."
 msgstr ""
 
-#: templates/data_reset.jinja2:73
+#: templates/data_reset.jinja2:119
 msgid "FACTORY RESET IN PROCESS..."
 msgstr ""
 
@@ -305,28 +335,28 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: templates/home.jinja2:26 templates/settings.jinja2:10
+#: templates/home.jinja2:25 templates/settings.jinja2:10
 #: templates/reports/settings_report.jinja2:43
 msgid "Settings"
 msgstr ""
 
-#: templates/home.jinja2:30 templates/system_setup.jinja2:9
+#: templates/home.jinja2:28 templates/system_setup.jinja2:9
 msgid "System Setup"
 msgstr ""
 
-#: templates/home.jinja2:39 templates/manage_user.jinja2:6
+#: templates/home.jinja2:34 templates/manage_user.jinja2:6
 msgid "Manage User"
 msgstr ""
 
-#: templates/home.jinja2:43
+#: templates/home.jinja2:37
 msgid "Logout"
 msgstr ""
 
-#: templates/home.jinja2:46 templates/shutdown.jinja2:12
+#: templates/home.jinja2:40 templates/shutdown.jinja2:8
 msgid "Shutdown"
 msgstr ""
 
-#: templates/language.jinja2:10 templates/system_setup.jinja2:28
+#: templates/language.jinja2:10 templates/system_setup.jinja2:26
 msgid "Language"
 msgstr ""
 
@@ -346,15 +376,15 @@ msgstr ""
 msgid "LOADING..."
 msgstr ""
 
-#: templates/layout.jinja2:136
+#: templates/layout.jinja2:175
 msgid "Print started..."
 msgstr ""
 
-#: templates/layout.jinja2:136
+#: templates/layout.jinja2:175
 msgid "Print completed."
 msgstr ""
 
-#: templates/layout.jinja2:136
+#: templates/layout.jinja2:175
 msgid "Print error."
 msgstr ""
 
@@ -362,30 +392,30 @@ msgstr ""
 msgid "LOGIN"
 msgstr ""
 
-#: templates/login.jinja2:31
+#: templates/login.jinja2:44
 msgid "Username"
 msgstr ""
 
-#: templates/login.jinja2:34 templates/manage_user.jinja2:25
+#: templates/login.jinja2:47 templates/manage_user.jinja2:23
 msgid "Password"
 msgstr ""
 
-#: templates/login.jinja2:37
+#: templates/login.jinja2:50
 msgid "Login"
 msgstr ""
 
-#: templates/manage_user.jinja2:13 templates/manage_user.jinja2:42
+#: templates/manage_user.jinja2:13 templates/manage_user.jinja2:38
 msgid "User Id"
 msgstr ""
 
-#: templates/manage_user.jinja2:20 templates/manage_user.jinja2:43
-#: templates/member.jinja2:57 templates/reports/absence_list.jinja2:26
+#: templates/manage_user.jinja2:18 templates/manage_user.jinja2:39
+#: templates/member.jinja2:53 templates/reports/absence_list.jinja2:26
 #: templates/reports/member_list.jinja2:26
 #: templates/reports/member_report.jinja2:14
 msgid "Name"
 msgstr ""
 
-#: templates/manage_user.jinja2:44
+#: templates/manage_user.jinja2:40
 msgid "Role"
 msgstr ""
 
@@ -393,37 +423,59 @@ msgstr ""
 msgid "Member Setup"
 msgstr ""
 
-#: templates/member.jinja2:13 templates/member.jinja2:56
-msgid "Member Code"
+#: templates/member.jinja2:18 templates/reports/detail_shift.jinja2:19
+msgid "M.Name"
 msgstr ""
 
-#: templates/member.jinja2:18
-msgid "Member Name"
+#: templates/member.jinja2:23 templates/reports/detail_shift.jinja2:20
+#: templates/reports/detail_shift.jinja2:50
+#: templates/reports/member_report.jinja2:17
+#: templates/reports/shift_summary.jinja2:18
+msgid "Cattle"
 msgstr ""
 
-#: templates/member.jinja2:25 templates/member.jinja2:59
-#: templates/reports/absence_list.jinja2:28
-#: templates/reports/member_list.jinja2:28
-msgid "Cattle Type"
-msgstr ""
-
-#: templates/member.jinja2:33 templates/member.jinja2:58
+#: templates/member.jinja2:31 templates/member.jinja2:54
 #: templates/reports/absence_list.jinja2:27
 #: templates/reports/member_list.jinja2:27
 msgid "Mobile"
 msgstr ""
 
-#: templates/member.jinja2:47 templates/reports/detail_shift.jinja2:51
+#: templates/member.jinja2:43 templates/reports/detail_shift.jinja2:51
 #: templates/reports/shift_summary.jinja2:19
 msgid "Total Member"
 msgstr ""
 
-#: templates/member.jinja2:60 templates/reports/member_list.jinja2:29
+#: templates/member.jinja2:52
+msgid "Member Code"
+msgstr ""
+
+#: templates/member.jinja2:55 templates/reports/absence_list.jinja2:28
+#: templates/reports/member_list.jinja2:28
+msgid "Cattle Type"
+msgstr ""
+
+#: templates/member.jinja2:56 templates/reports/member_list.jinja2:29
 msgid "Created on"
 msgstr ""
 
-#: templates/member.jinja2:83
+#: templates/member.jinja2:79
 msgid "Free member codes"
+msgstr ""
+
+#: templates/member.jinja2:97
+msgid "Do you want to export member data to USB?"
+msgstr ""
+
+#: templates/member.jinja2:97 templates/rate_action_buttons.jinja2:6
+msgid "EXPORT"
+msgstr ""
+
+#: templates/member.jinja2:100
+msgid "Do you want to import member data from USB?"
+msgstr ""
+
+#: templates/member.jinja2:100 templates/rate_action_buttons.jinja2:9
+msgid "IMPORT"
 msgstr ""
 
 #: templates/member_report.jinja2:24 templates/payment_report.jinja2:24
@@ -431,54 +483,54 @@ msgstr ""
 msgid "Increment"
 msgstr ""
 
-#: templates/rate_action_buttons.jinja2:3
+#: templates/member_report.jinja2:30
+msgid "From M.Code"
+msgstr ""
+
+#: templates/member_report.jinja2:34
+msgid "To M.Code"
+msgstr ""
+
+#: templates/rate_action_buttons.jinja2:6
 #, python-format
 msgid "Do you want to export '%(r)s' data to USB?"
 msgstr ""
 
-#: templates/rate_action_buttons.jinja2:3
-msgid "EXPORT"
-msgstr ""
-
-#: templates/rate_action_buttons.jinja2:6
+#: templates/rate_action_buttons.jinja2:9
 #, python-format
 msgid "Do you want to import '%(r)s' data from USB?"
 msgstr ""
 
-#: templates/rate_action_buttons.jinja2:6
-msgid "IMPORT"
-msgstr ""
-
-#: templates/rate_fat.jinja2:13 templates/rate_fat.jinja2:50
+#: templates/rate_fat.jinja2:13 templates/rate_fat.jinja2:44
 #: templates/rate_total_solid.jinja2:13 templates/rate_total_solid.jinja2:66
-#: templates/rate_total_solid1.jinja2:13 templates/rate_total_solid1.jinja2:46
+#: templates/rate_total_solid1.jinja2:13 templates/rate_total_solid1.jinja2:44
 msgid "Slab No"
 msgstr ""
 
-#: templates/rate_fat.jinja2:23
+#: templates/rate_fat.jinja2:18
 msgid "Min Value"
 msgstr ""
 
-#: templates/rate_fat.jinja2:28
+#: templates/rate_fat.jinja2:23
 msgid "Max Value"
 msgstr ""
 
-#: templates/rate_fat.jinja2:33 templates/rate_total_solid1.jinja2:29
+#: templates/rate_fat.jinja2:28 templates/rate_total_solid1.jinja2:28
 msgid "Rate TS"
 msgstr ""
 
-#: templates/rate_fat.jinja2:51 templates/rate_total_solid.jinja2:19
+#: templates/rate_fat.jinja2:45 templates/rate_total_solid.jinja2:18
 #: templates/rate_total_solid.jinja2:67
 msgid "Min FAT"
 msgstr ""
 
-#: templates/rate_fat.jinja2:52 templates/rate_total_solid.jinja2:24
+#: templates/rate_fat.jinja2:46 templates/rate_total_solid.jinja2:23
 #: templates/rate_total_solid.jinja2:68
 msgid "Max FAT"
 msgstr ""
 
-#: templates/rate_fat.jinja2:53 templates/rate_total_solid.jinja2:69
-#: templates/rate_total_solid.jinja2:72 templates/rate_total_solid1.jinja2:49
+#: templates/rate_fat.jinja2:47 templates/rate_total_solid.jinja2:69
+#: templates/rate_total_solid.jinja2:72 templates/rate_total_solid1.jinja2:47
 msgid "RATE TS"
 msgstr ""
 
@@ -486,7 +538,7 @@ msgstr ""
 msgid "FAT &amp; SNF"
 msgstr ""
 
-#: templates/rate_fat_and_snf.jinja2:24 templates/system_setup.jinja2:22
+#: templates/rate_fat_and_snf.jinja2:23 templates/system_setup.jinja2:21
 #: templates/reports/dairy_report.jinja2:27
 #: templates/reports/detail_shift.jinja2:24
 #: templates/reports/detail_shift.jinja2:55
@@ -496,7 +548,7 @@ msgstr ""
 msgid "Rate"
 msgstr ""
 
-#: templates/rate_fat_and_snf.jinja2:41
+#: templates/rate_fat_and_snf.jinja2:39
 msgid "FAT/SNF"
 msgstr ""
 
@@ -516,32 +568,48 @@ msgstr ""
 msgid "Total Solid 1"
 msgstr ""
 
-#: templates/rate_total_solid.jinja2:29
+#: templates/rate_total_solid.jinja2:28
 msgid "Rate FAT TS"
 msgstr ""
 
-#: templates/rate_total_solid.jinja2:39 templates/rate_total_solid.jinja2:70
+#: templates/rate_total_solid.jinja2:38 templates/rate_total_solid.jinja2:70
 msgid "Min SNF"
 msgstr ""
 
-#: templates/rate_total_solid.jinja2:44 templates/rate_total_solid.jinja2:71
+#: templates/rate_total_solid.jinja2:43 templates/rate_total_solid.jinja2:71
 msgid "Max SNF"
 msgstr ""
 
-#: templates/rate_total_solid.jinja2:49
+#: templates/rate_total_solid.jinja2:48
 msgid "Rate SNF TS"
 msgstr ""
 
-#: templates/rate_total_solid1.jinja2:19 templates/rate_total_solid1.jinja2:47
+#: templates/rate_total_solid1.jinja2:18 templates/rate_total_solid1.jinja2:45
 msgid "From"
 msgstr ""
 
-#: templates/rate_total_solid1.jinja2:24 templates/rate_total_solid1.jinja2:48
+#: templates/rate_total_solid1.jinja2:23 templates/rate_total_solid1.jinja2:46
 msgid "To"
 msgstr ""
 
 #: templates/report_page_footer.jinja2:3
 msgid "PRINT"
+msgstr ""
+
+#: templates/report_page_footer.jinja2:17
+msgid "Available printers"
+msgstr ""
+
+#: templates/report_page_footer.jinja2:18
+msgid "Thermal"
+msgstr ""
+
+#: templates/report_page_footer.jinja2:19
+msgid "Laser"
+msgstr ""
+
+#: templates/report_page_footer.jinja2:20
+msgid "USB (PDF)"
 msgstr ""
 
 #: templates/reports.jinja2:16
@@ -580,7 +648,7 @@ msgstr ""
 msgid "Analyzer Type"
 msgstr ""
 
-#: templates/settings.jinja2:31
+#: templates/settings.jinja2:30
 msgid "Scale Type"
 msgstr ""
 
@@ -588,7 +656,7 @@ msgstr ""
 msgid "Rate Type"
 msgstr ""
 
-#: templates/settings.jinja2:55
+#: templates/settings.jinja2:54
 msgid "Collection Printer"
 msgstr ""
 
@@ -596,31 +664,39 @@ msgstr ""
 msgid "Data Export format"
 msgstr ""
 
-#: templates/settings.jinja2:76
+#: templates/settings.jinja2:75
+msgid "Can Capacity"
+msgstr ""
+
+#: templates/settings.jinja2:83
 msgid "Manual FAT"
 msgstr ""
 
-#: templates/settings.jinja2:85
+#: templates/settings.jinja2:92
 msgid "Manual SNF"
 msgstr ""
 
-#: templates/settings.jinja2:96
+#: templates/settings.jinja2:103
 msgid "Manual Quantity"
 msgstr ""
 
-#: templates/settings.jinja2:105
+#: templates/settings.jinja2:112
 msgid "Print CLR"
 msgstr ""
 
-#: templates/settings.jinja2:116
+#: templates/settings.jinja2:123
 msgid "Print Water"
 msgstr ""
 
-#: templates/settings.jinja2:125
+#: templates/settings.jinja2:132
 msgid "Print Bill"
 msgstr ""
 
-#: templates/settings.jinja2:136
+#: templates/settings.jinja2:143
+msgid "Send SMS"
+msgstr ""
+
+#: templates/settings.jinja2:152
 msgid "Quantity 2 Decimal"
 msgstr ""
 
@@ -628,7 +704,7 @@ msgstr ""
 msgid "Shift Summary Report"
 msgstr ""
 
-#: templates/shutdown.jinja2:18
+#: templates/shutdown.jinja2:14
 msgid ""
 "Shutting down the system. Please wait 20seconds before switching OFF the "
 "power"
@@ -691,10 +767,6 @@ msgstr ""
 msgid "DAY DETAIL REPORT"
 msgstr ""
 
-#: templates/reports/detail_shift.jinja2:19
-msgid "M.Name"
-msgstr ""
-
 #: templates/reports/detail_shift.jinja2:21
 #: templates/reports/detail_shift.jinja2:52
 #: templates/reports/shift_summary.jinja2:20
@@ -709,9 +781,9 @@ msgstr ""
 msgid "SNF%%"
 msgstr ""
 
-#: templates/reports/detail_shift.jinja2:84
-#: templates/reports/shift_summary.jinja2:52
-msgid "Grand Total"
+#: templates/reports/detail_shift.jinja2:79
+#: templates/reports/shift_summary.jinja2:47
+msgid "Grand value"
 msgstr ""
 
 #: templates/reports/member_list.jinja2:5
@@ -754,5 +826,9 @@ msgstr ""
 
 #: templates/reports/shift_summary.jinja2:5
 msgid "SHIFT SUMMARY REPORT"
+msgstr ""
+
+#: views/reports.py:269
+msgid "Invalid member code range"
 msgstr ""
 
