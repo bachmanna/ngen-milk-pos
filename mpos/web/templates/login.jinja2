@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css')}}"/>
 	<script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
 </head>
-<body>
+<body oncontextmenu="return false">
 
 	<div id="loginFromContainer" class="login-container">
 		<div class="row">
@@ -32,25 +32,25 @@
 		<div class="row" id="userlist">
 			<div class="medium-4 small-centered columns end">
 				{%for user in users%}
-               <button class="button expand" data-key="f{{loop.index}}" data-name="{{user.name}}">
-                 {{user.name}} <span class="access_key">F{{loop.index}}</span>
-             </button>
-             {%endfor%}
-         </div>
+       <button class="button expand" data-key="{{loop.index}}" data-name="{{user.name}}">
+         {{user.name}} <span class="access_key">{{loop.index}}</span>
+       </button>
+       {%endfor%}
      </div>
-     <div class="row hide" id="loginbox">
-         <div class="medium-4 small-centered columns end">
-            <form action="/login" method="post">
-               <label>{{_("Username")}}
-                  <input type="text" name="username" id="username" value="{{username}}" disabled="disabled" />
-              </label>
-              <label>{{_("Password")}}
-                  <input type="password" name="password" id="password" class="mousetrap"/>
-              </label>
-              <button type="submit" id="btnLogin" class="button text-center expand">{{_("Login")}}</button>
-          </form>
-      </div>
+   </div>
+   <div class="row hide" id="loginbox">
+     <div class="medium-4 small-centered columns end">
+      <form action="/login" method="post">
+       <label>{{_("Username")}}
+        <input type="text" name="username" id="username" value="{{username}}" disabled="disabled" />
+      </label>
+      <label>{{_("Password")}}
+        <input type="password" name="password" id="password" class="mousetrap"/>
+      </label>
+      <button type="submit" id="btnLogin" class="button text-center expand">{{_("Login")}}</button>
+    </form>
   </div>
+</div>
 </div>
 <div id="loadingContainer" class="login-container hide text-center">
   <h1>LOADING...</h1>
@@ -67,9 +67,9 @@
     $("[data-key]").each(function(){
       var key = $(this).data("key");
       var $that = $(this);
-      Mousetrap.bind(key, function(e) {
+      Mousetrap.bind(key.toString(), function(e) {
         $that[0].click();
-        return false;
+        return true;
       });
 
       $(this).click(function(){
@@ -88,12 +88,22 @@
     });
 
     $("#btnLogin").click(function(){
-        $("#username").prop("disabled", false);
-        $("#loginFromContainer").addClass("hide");
-        $("#loadingContainer").removeClass("hide");
-        return true;
+      $("#username").prop("disabled", false);
+      $("#loginFromContainer").addClass("hide");
+      $("#loadingContainer").removeClass("hide");
+      return true;
     });
-});
+  });
+</script>
+<script>
+  document.onmousedown=disableclick;
+  function disableclick(event)
+  {
+    if(event.button==2)
+    {
+     return false;
+   }
+ }
 </script>
 </body>
 </html>
