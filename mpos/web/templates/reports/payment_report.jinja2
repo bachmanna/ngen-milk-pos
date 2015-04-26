@@ -23,6 +23,9 @@
                 <thead>
                     <tr>
                         <th class="text-right">{{_("M.Code")}}</th>
+                        <th class="text-right">{{_("M.Name")}}</th>
+                        <th class="text-right">{{_("FAT")}}</th>
+                        <th class="text-right">{{_("SNF")}}</th>
                         <th class="text-right">{{_("QTY")}}</th>
                         <th class="text-right">{{_("Rate")}}</th>
                         <th class="text-right">{{_("Amount")}}</th>
@@ -35,6 +38,9 @@
                     {% set item = lst[id] %}
                     <tr>
                         <td class="text-right">{{id}}</td>
+                        <td class="text-right">{{item.name}}</td>
+                        <td class="text-right">{{item.fat}}</td>
+                        <td class="text-right">{{item.snf}}</td>
                         <td class="text-right">{{item.qty}}</td>
                         <td class="text-right">{{item.rate}}</td>
                         <td class="text-right">{{item.amount}}</td>
@@ -46,6 +52,9 @@
                 <tfoot>
                     <tr>
                         <th class="text-right">{{lst|count}}</th>
+                        <th class="text-right"></th>
+                        <th class="text-right">{{summary["fat"]}}</th>
+                        <th class="text-right">{{summary["snf"]}}</th>
                         <th class="text-right">{{summary["qty"]}}</th>
                         <th class="text-right">{{summary["rate"]}}</th>
                         <th class="text-right">{{summary["amount"]}}</th>

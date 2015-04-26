@@ -16,7 +16,7 @@ class MemberService:
         return member.id
 
     def get(self, _id):
-        member = Member.query.filter_by(id=_id).one()
+        member = Member.query.filter_by(id=_id).first()
         return member
 
     def update(self, _id, name, cattle_type, mobile):

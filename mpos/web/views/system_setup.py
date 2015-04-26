@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, g, flash, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask_babel import lazy_gettext, gettext
+from datetime import datetime
 
 from web import app, get_backup_directory
 
@@ -36,26 +37,35 @@ def manager_member():
   member_service = MemberService()
   member = None
   if request.method == 'POST':
-    code = request.form.get("code")
-    name = request.form.get("name")
-    mobile = request.form.get("mobile")
-    cattle_type = request.form.get("cattle_type")
-    if code and int(code):
-      id = int(code)
-      member = member_service.get(id)
-      if name and len(name) > 3:
-        if not member:
-          member_service.add(name, cattle_type, mobile, _id=id)
-        else:
-          member_service.update(id, name, cattle_type, mobile)
-        member = None
-        flash("Member saved successfully!")      
-    else:
-      flash("Invalid member data.",category="error")
+    try:
+      code = request.form.get("code")
+      name = request.form.get("name")
+      mobile = request.form.get("mobile")
+      cattle_type = request.form.get("cattle_type")
+      if code and int(code):
+        id = int(code)
+        member = member_service.get(id)
+        if name and len(name) > 3 and len(cattle_type) > 0 and len(mobile) > 0:
+          if len(mobile) != 10:
+            flash("Invalid mobile number, must be 10 digits",category="error")
+          else:
+            if not member:
+              user_id = current_user.id
+              member_service.add(name, cattle_type, mobile, user_id, datetime.now(), _id=id)
+            else:
+              member_service.update(id, name, cattle_type, mobile)
+            member = None
+            flash("Member saved successfully!")
+      else:
+        flash("Invalid member data.",category="error")
+    except Exception as e:
+      print e
+      flash(e, category="error")
+
   member_list = member_service.search()
   free_list = []
   used_list = [int(x.id) for x in member_list]
-  for i in range(1,100):
+  for i in range(1,1000):
     if len(free_list) > 10:
         break
     if i not in used_list:

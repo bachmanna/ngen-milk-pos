@@ -33,6 +33,7 @@
             </label>
         </div>
         <div class="medium-2 columns">
+            <br/>
             <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
         </div>
     </div>
@@ -44,9 +45,9 @@
     </div>
 </div>
 <div class="row">
-    <div class="medium-12 columns" style="overflow-y:scroll;max-height:300px;">
+    <div class="medium-12 columns">
         <br/>
-        <table class="expand" style="width:100%;" role="grid">
+        <table class="expand" role="grid">
             <thead>
                 <tr>
                     <th>{{_("Member Code")}}</th>
@@ -86,23 +87,30 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block statusbar %}
-<div class="row action-buttons">
-    <div class="medium-3 columns">
+<div class="row">
+    <div class="medium-12 columns">
         <a href="#" onclick="$('input:first').select();return false;" data-key="f1" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
     </div>
-    <div class="medium-3 columns">
-        <a href="/member_export" data-key="f2" data-confirm="{{_("Do you want to export member data to USB?")}}" class="button expand">{{_("EXPORT")}} <span class="access_key">F2</span></a>
+</div>
+<div class="row">
+    <div class="medium-12 columns">
+        <a href="/member_export" data-key="f2" class="button expand">{{_("EXPORT")}} <span class="access_key">F2</span></a>
     </div>
-    <div class="medium-3 columns">
-        <a href="/member_import" data-key="f3" data-confirm="{{_("Do you want to import member data from USB?")}}" class="button expand">{{_("IMPORT")}} <span class="access_key">F3</span></a>
+</div>
+<div class="row">
+    <div class="medium-12 columns">
+        <a href="/member_import" data-key="f3" class="button expand">{{_("IMPORT")}} <span class="access_key">F3</span></a>
     </div>
-    <div class="medium-3 columns end">
+</div>
+<div class="row">
+    <div class="medium-12 columns end">
         <a href="/system_setup" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
         <a href="#" onclick="$('#slab_no').focus();" data-key="f" class="hide"></a>
     </div>
 </div>
+
+{% endblock %}
+
+{% block statusbar %}
 
 {% endblock %}

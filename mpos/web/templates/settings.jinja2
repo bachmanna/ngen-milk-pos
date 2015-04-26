@@ -158,6 +158,7 @@
 					</div>
 				</div>
 			</div>
+			{% if can_access("admin") %}
 			<div class="row">
 				<div class="medium-12 columns">
 					<h1>{{_("Sensor")}}</h1>
@@ -191,20 +192,25 @@
 					<input type="text" id="thermal_port" name="thermal_port" value="{{settings['THERMAL_PRINTER_PORT']}}" class="mousetrap"/>
 				</div>
 			</div>
+			{% endif %}
 		</form>
 	</div>
 </div>
 
 {% endblock %}
-{% block statusbar %}
-<div class="row action-buttons">
-	<div class="medium-3 columns">
-		<a href="#" onclick="$('#frmBasicSetup').submit();return false;" data-key="f2" class="success button expand">{{_("SAVE")}} <span class="access_key">F2</span></a>
-	</div>
-	<div class="medium-3 columns">
+{% block sidebar %}
+<div class="row">
+	<div class="medium-12 columns">
 		<a href="#" data-key="f1" onclick="$('select:first').focus();return false;" class="button warning expand">{{_("EDIT")}} <span class="access_key">F1</span></a>
 	</div>
-	<div class="medium-3 columns end">
+</div>
+<div class="row">	
+	<div class="medium-12 columns">
+		<a href="#" onclick="$('#frmBasicSetup').submit();return false;" data-key="f2" class="success button expand">{{_("SAVE")}} <span class="access_key">F2</span></a>
+	</div>
+</div>
+<div class="row">
+	<div class="medium-12 columns end">
 		<a href="/" data-key="esc" class="button alert expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
 	</div>
 </div>

@@ -4,39 +4,36 @@
 {% include "flash_messages.jinja2" %}
 <form id="frmMemberPaymentReport" name="frmMemberPaymentReport" method="get" action="" class="inline">
     <div class="row">
-        <div class="medium-4 columns">
-            <label>{{_("From Date")}}</label><br/>
+        <div class="medium-6 columns">
+            <label>{{_("Date From")}}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" class="mousetrap tiny" name="from_day" value="{{from_date.day}}" maxlength="2"/>
             /
             <input type="text" class="mousetrap tiny" name="from_month" value="{{from_date.month}}" maxlength="2"/>
             /
             <input type="text" class="mousetrap medium" name="from_year" value="{{from_date.year}}" maxlength="4"/>
         </div>
-        <div class="medium-4 columns">
-            <label>{{_("To Date")}}</label><br/>
+        <div class="medium-6 columns">
+            <label>{{_("To")}}</label>
             <input type="text" class="mousetrap tiny" name="to_day" value="{{to_date.day}}" maxlength="2" />
             /
             <input type="text" class="mousetrap tiny" name="to_month" value="{{to_date.month}}" maxlength="2"/>
             /
             <input type="text" class="mousetrap medium" name="to_year" value="{{to_date.year}}" maxlength="4"/>
         </div>
-        <div class="medium-2 columns end">
-            <label>{{_("Increment")}}</label><br/>
-            <input type="text" class="mousetrap medium" name="increment" value="{{increment}}" maxlength="5"/>
-        </div>
     </div>
     <div class="row">
-        <div class="medium-3 columns">
-            <label>{{_("From M.Code")}}</label><br/>
+        <div class="medium-6 columns">
+            <label>{{_("M.Code From")}}</label>
             <input type="text" class="mousetrap medium" name="from_member" value="{{from_member}}" maxlength="4" />
-        </div>
-        <div class="medium-3 columns">
-            <label>{{_("To M.Code")}}</label><br/>
+            <label>{{_("to")}}</label>
             <input type="text" class="mousetrap medium" name="to_member" value="{{to_member}}" maxlength="4"/>
         </div>
+        <div class="medium-3 columns">
+            <label>{{_("Inc")}}</label>
+            <input type="text" class="mousetrap medium" name="increment" value="{{increment}}" maxlength="5"/>
+        </div>
         <div class="medium-2 columns end">
-            <br/>
-            <button type="submit" class="button expand">{{_("VIEW")}}</button>
+            <button type="submit" class="button expand success">{{_("VIEW")}}</button>
         </div>
     </div>
 </form>

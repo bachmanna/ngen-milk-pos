@@ -198,28 +198,39 @@ def payment_report():
   lst = {}
   summary = {"qty": 0.0, "rate": 0, "amount": 0, "increment": 0, "total": 0}
 
-  for x in col_lst:
-    if not x.member_id in lst.keys():
-      inc = x.qty * increment
-      total = x.total + inc
-      lst[x.member_id] = { "qty": x.qty, "rate": x.rate, 
-                           "fat": x.fat, "snf": x.snf, 
-                           "amount": x.total, "increment": inc, "total": total}
-    else:
+  if len(col_lst) > 0:
+    member_service = MemberService()
+    mlst = member_service.search()
+    member_list = {}
+    for x in mlst:
+      member_list[x.id] = x
+
+    for x in col_lst:
+      if not x.member_id in lst.keys():
+        inc = x.qty * increment
+        total = x.total + inc
+        lst[x.member_id] = { "name": member_list[x.member_id].name,
+                             "qty": x.qty, "rate": x.rate, 
+                             "fat": x.fat, "snf": x.snf, 
+                             "amount": x.total, "increment": inc, "total": total}
+      else:
+        item = lst[x.member_id]
+        item["qty"] = item["qty"] + x.qty
+        item["rate"] = item["rate"] + x.rate
+        item["fat"] = item["fat"] + x.fat
+        item["snf"] = item["snf"] + x.snf
+        item["amount"] = item["amount"] + x.total
+        item["increment"] = item["qty"] * increment
+        item["total"] = item["amount"] + item["increment"]
       item = lst[x.member_id]
-      item["qty"] = item["qty"] + x.qty
-      item["rate"] = item["rate"] + x.rate
-      item["fat"] = item["fat"] + x.fat
-      item["snf"] = item["snf"] + x.snf
-      item["amount"] = item["amount"] + x.total
-      item["increment"] = item["qty"] * increment
-      item["total"] = item["amount"] + item["increment"]
-    item = lst[x.member_id]
-    summary["qty"] = summary["qty"] + item["qty"]
-    summary["rate"] = summary["rate"] + item["rate"]
-    summary["amount"] = summary["amount"] + item["amount"]
-    summary["increment"] = summary["increment"] + item["increment"]
-    summary["total"] = summary["total"] + item["total"]
+      summary["qty"] = summary["qty"] + item["qty"]
+      summary["amount"] = summary["amount"] + item["amount"]
+      summary["increment"] = summary["increment"] + item["increment"]
+      summary["total"] = summary["total"] + item["total"]
+
+    summary["fat"] = "%.2f" % (sum([x.fat * x.qty for x in col_lst])/summary["qty"])
+    summary["snf"] = "%.2f" % (sum([x.snf * x.qty for x in col_lst])/summary["qty"])
+    summary["rate"] = "%.2f" % (sum([x.rate * x.qty for x in col_lst])/summary["qty"])
 
   data = dict(from_date=from_date,to_date=to_date,lst=lst,increment=increment,summary=summary)
 

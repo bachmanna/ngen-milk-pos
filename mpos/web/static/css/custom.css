@@ -6,6 +6,20 @@ a[disabled] {
     pointer-events: none;
 }
 
+label {
+	font-size: 24px;
+}
+
+input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea,
+select {
+	font-size: 24px;
+	height: 42px;
+}
+
+form .button{
+	margin-bottom: 0px;
+}
+
 .row{
 	max-width: 98%;
 }
@@ -186,20 +200,20 @@ form.inline label {
 }
 
 form.inline label {
-	line-height: 2.3;
+	line-height: 2.7;
+}
+
+form.inline input,
+form.inline select {
+	margin-top: 12px;
 }
 
 form.inline input.tiny {
-	width: 40px;
+	width: 50px;
 }
 
 form.inline input.medium {
 	width: 80px;
-}
-
-form.inline .button {
-	padding: 4px;
-	margin: 0;
 }
 
 .report_container {

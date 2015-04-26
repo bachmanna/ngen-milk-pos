@@ -113,12 +113,11 @@
     $("[data-key]").each(function(){
       var key = $(this).data("key");
       var $that = $(this);
-      Mousetrap.bind(key, function(e) {
 
+      Mousetrap.bind(key.toString(), function(e) {
         if($that.is("[disabled=disabled]")){
           return false;
         }
-
         $that[0].click();
         return false;
       });
