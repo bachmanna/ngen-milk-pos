@@ -9,7 +9,8 @@ scale_settings = {
 			}
 
 class WeightScale(object):
-	def __init__(self, scale_type, address = "/dev/ttyUSB1"):
+	def __init__(self, scale_type, address = "/dev/ttyUSB1", qty2decimal=False):
+		self.qty2decimal = qty2decimal == "True"
 		self.scale_type = scale_type
 		settings = scale_settings[scale_type]
 		self.settings = settings
@@ -27,6 +28,7 @@ class WeightScale(object):
 			print "Err scale", e
 
 	def get(self):
+		value = 0.0
 		data = " L +%3.3d.%3.3d" % (randint(1,10), randint(100,999))
 		if self.scale:
 			try:
@@ -38,12 +40,18 @@ class WeightScale(object):
 				self.scale.close()
 			except Exception as e:
 				print "Err scale:", e
-				data = " L +%3d.%3d" % (str(randint(1,10)), str(randint(100,999)))
+
 		if data[1] == 'L':
-			return float(data[4:])
+			value = float(data[4:])
 		if data[1] == 'W':
-			return float(data[4:])/1.033
-		return 0.0
+			value = float(data[4:])/1.033
+
+		if self.qty2decimal:
+			value = float("%.2f" % (value))
+		else:
+			value = float("%.1f" % (value))
+
+		return value
 
 	def tare(self):
 		tare_cmd = self.settings["tare"]

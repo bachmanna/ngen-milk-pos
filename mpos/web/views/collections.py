@@ -219,7 +219,7 @@ def get_qty_data():
       return jsonify({"status" : "failure"})
 
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT], qty2decimal=settings[SystemSettings.QUANTITY_2_DECIMAL])
   qty = scale.get()
 
   can_capacity = float(g.app_settings[SystemSettings.CAN_CAPACITY])
@@ -240,11 +240,14 @@ def get_manual_data():
   fat = float(request.args.get("fat", 0.0))
   snf = float(request.args.get("snf", 0.0))
   qty = float(request.args.get("qty", 0.0))
-  clr = 4.0*(snf - (0.21 * fat)) - 0.36
+  clr = 4.0* ((snf - (0.21 * fat)) - 0.36)
   S = 8.5
   if cattle_type != "COW":
     S = 9.0
   aw = (((S-snf)/S)*100.0) - 0.7
+
+  if aw < 0.0:
+    aw = 0.0
 
   rate = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
   total = fmtDecimal(rate * qty)
@@ -261,7 +264,7 @@ def get_manual_data():
 
 def get_sensor_data():
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT], qty2decimal=settings[SystemSettings.QUANTITY_2_DECIMAL])
   analyzer = MilkAnalyzer(settings[SystemSettings.ANALYZER_TYPE], address=settings[SystemSettings.ANALYZER_PORT])
   data = analyzer.get()
   data["qty"] = scale.get()
@@ -272,7 +275,7 @@ def get_sensor_data():
 @login_required
 def tare_scale():
   settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT])
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT], qty2decimal=settings[SystemSettings.QUANTITY_2_DECIMAL])
   success = scale.tare()
   return jsonify(success=success)
 

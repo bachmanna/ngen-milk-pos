@@ -87,8 +87,8 @@ header.banner{
 }
 
 .collection-wrapper label{
-	line-height: 65px;
 	font-size: 30px;
+	margin-top: 15px;
 }
 
 #lbl_member_code{
@@ -137,22 +137,46 @@ header.banner{
 #member_name, #member_cattle_type{
 	border: 1px solid #DDD;
 	height: 70px;
-	line-height: 45px;
 	padding: 12px;
 	font-size: 30px;
 	margin-bottom: 16px;
 }
 
+#lblQty{
+	margin-top: 35px;
+}
+
+#lblTotal{
+	margin-top: 55px;
+}
+
+input#fat, input#snf, input#qty {
+	color: rgba(35, 5, 123, 0.75);
+}
+
+input#qty{
+	font-size: 60px;
+}
+
+#rate{
+	color: #ff5115;
+	font-size: 160px;
+	line-height: 1;
+}
+
+.rate-bg{
+	background-color: #f1f5f6;
+}
+
 #total, #rate {
-	font-size: 100px;
 	white-space: nowrap;
 	letter-spacing: 6px;
 }
 
 #total {	
-	color:#ff5115;
-	font-size: 160px;
-	margin: 20px 0;
+	color:#368A55;
+	font-size: 135px;
+	line-height: 1;
 }
 
 .button{
@@ -257,17 +281,4 @@ form.inline input.medium {
 .modal-footer{
   position: relative;
   bottom: -35px;
-}
-
-input#fat, input#snf, input#qty {
-	color: rgba(35, 5, 123, 0.75);
-}
-
-span#rate{
-	color: #368A55;
-}
-
-.rate-bg{
-	background-color: #f1f5f6;
-	padding-top: 26px;
 }

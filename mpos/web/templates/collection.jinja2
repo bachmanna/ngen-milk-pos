@@ -49,7 +49,7 @@
 						</div>
 						<div class="row">
 							<div class="medium-4 columns text-right">
-								<label>{{_("QTY")}}</label>
+								<label id="lblQty">{{_("QTY")}}</label>
 							</div>
 							<div class="medium-8 columns end">
 								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
@@ -89,12 +89,14 @@
 							</div>
 						</div>
 					</div>
-				</div>		
+				</div>
+				<br/>
 				<div class="row">
-					<div class="medium-12 columns" style="text-indent: 20px;">
-						<label>{{_("TOTAL")}}
-							<div class="text-right" id="total"></div>
-						</label>
+					<div class="medium-2 columns">
+						<label id="lblTotal">{{_("TOTAL")}}</label>
+					</div>
+					<div class="medium-10 columns">
+						<div class="text-right" id="total"></div>						
 					</div>
 				</div>
 				<input type="hidden" name="rate" id="txtRate" />
@@ -217,7 +219,7 @@
 		<a href="#" data-key="d" class="button expand" data-reveal-id="dateChangeModal">{{_("CHANGE DATE")}} <span class="access_key">D</span></a>
 	</div>
 	<div class="medium-3 columns end">
-		<a href="/" data-key="esc" class="warning button expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
+		<a href="#" id="btnEscape" data-key="esc" class="alert button expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
 	</div>
 	<a href="#" onclick="$('#member_code').select();" data-key="f1" class="hide"></a>
 	<a href="#" onclick="readOverride();" data-key="r" class="hide"></a>
@@ -260,6 +262,11 @@
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
 </div>
+<style>
+body, html{
+	overflow-y: hidden;
+}
+</style>
 {% endblock %}
 
 {% block scripts %}
@@ -285,21 +292,21 @@
 			var $el = $(el);
 			var prevVal = 0;
 			if($el.is(":input")){
-			    prevVal = parseFloat($el.val());
-            }else{
-            	prevVal = parseFloat($el.text());
-        	}
+				prevVal = parseFloat($el.val());
+			}else{
+				prevVal = parseFloat($el.text());
+			}
 
-		    $({percentage: prevVal}).stop(true).animate({percentage: value}, {
-		        duration : 750,
+			$({percentage: prevVal}).stop(true).animate({percentage: value}, {
+				duration : 750,
 		        //easing: "easeOutExpo",
 		        step: function () {
-		            var percentageVal = this.percentage.toFixed(2);
-		            var fmtValue = currency_symbol + percentageVal.toString();
-		            if($el.is(":input")){
-						$el.val(fmtValue);
-		            }else{
-		            	$el.text(fmtValue);
+		        	var percentageVal = this.percentage.toFixed(2);
+		        	var fmtValue = currency_symbol + percentageVal.toString();
+		        	if($el.is(":input")){
+		        		$el.val(fmtValue);
+		        	}else{
+		        		$el.text(fmtValue);
 		        	}
 		        }
 		    }).promise().done(function () {
@@ -307,10 +314,10 @@
 		        // sure the value is correct
 		        var fmtValue = currency_symbol + value.toString();
 		        if($el.is(":input")){
-					$el.val(fmtValue);
-	            }else{
-	            	$el.text(fmtValue);
-	        	}
+		        	$el.val(fmtValue);
+		        }else{
+		        	$el.text(fmtValue);
+		        }
 		    });
 		}
 
@@ -440,7 +447,13 @@
 			updateQtyData();
 		});
 
-		$("#qty").on("keyup", function(e){
+		$("#member_code").on("keydown", function(e){
+			if(e.keyCode == 13 && $("#qty").is(":disabled")){
+				$("#btnSave").focus();
+			}
+		});
+
+		$("#qty").on("keydown", function(e){
 			if(e.keyCode == 13){
 				var cattle_type = $("#member_cattle_type").text().trim();
 				var fat = parseFloat($("#fat").val());
@@ -457,6 +470,8 @@
 						$("#rate").text(data.fmt_rate);
 						animateNumber(data.currency_symbol, data.total, "#total");
 					}
+				}).complete(function(){
+					$("#btnSave").focus();
 				});
 				return false;
 			}
@@ -532,6 +547,14 @@
 				window.location.reload();
 			});
 			return false;
+		});
+
+		$("#btnEscape").click(function(){
+			if($("#dateChangeModal").is(":visible")){
+				return false;
+			}else{
+				window.location.href = "/";
+			}
 		});
 
 		clearData();
