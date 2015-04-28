@@ -82,10 +82,16 @@ def report_member_list():
 def absence_list():
   shift = request.args.get("shift", "MORNING")
   today = datetime.now().date()
-  day   = int(request.args.get("day", today.day))
-  month = int(request.args.get("month", today.month))
-  year  = int(request.args.get("year", today.year))
-  search_date = datetime(year, month, day).date()
+
+  try:
+    day   = int(request.args.get("day", today.day))
+    month = int(request.args.get("month", today.month))
+    year  = int(request.args.get("year", today.year))
+    search_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    search_date = today
 
   if search_date > today:
     search_date = today
@@ -120,10 +126,16 @@ def absence_list():
 def report_detail_shift():
   shift = request.args.get("shift", "MORNING")
   today = datetime.now().date()
-  day   = int(request.args.get("day", today.day))
-  month = int(request.args.get("month", today.month))
-  year  = int(request.args.get("year", today.year))
-  search_date = datetime(year, month, day).date()
+  
+  try:
+    day   = int(request.args.get("day", today.day))
+    month = int(request.args.get("month", today.month))
+    year  = int(request.args.get("year", today.year))
+    search_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    search_date = today
 
   if search_date > today:
     search_date = today
@@ -146,10 +158,16 @@ def report_detail_shift():
 def report_shift_summary():
   shift = request.args.get("shift", "MORNING")
   today = datetime.now().date()
-  day   = int(request.args.get("day", today.day))
-  month = int(request.args.get("month", today.month))
-  year  = int(request.args.get("year", today.year))
-  search_date = datetime(year, month, day).date()
+
+  try:
+    day   = int(request.args.get("day", today.day))
+    month = int(request.args.get("month", today.month))
+    year  = int(request.args.get("year", today.year))
+    search_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    search_date = today
 
   if search_date > today:
     search_date = today
@@ -174,15 +192,21 @@ def payment_report():
   end = datetime.now().date()
   start = end - timedelta(days=7)
 
-  day   = int(request.args.get("from_day", start.day))
-  month = int(request.args.get("from_month", start.month))
-  year  = int(request.args.get("from_year", start.year))
-  from_date = datetime(year, month, day).date()
+  try:
+    day   = int(request.args.get("from_day", start.day))
+    month = int(request.args.get("from_month", start.month))
+    year  = int(request.args.get("from_year", start.year))
+    from_date = datetime(year, month, day).date()
 
-  day   = int(request.args.get("to_day", end.day))
-  month = int(request.args.get("to_month", end.month))
-  year  = int(request.args.get("to_year", end.year))
-  to_date = datetime(year, month, day).date()
+    day   = int(request.args.get("to_day", end.day))
+    month = int(request.args.get("to_month", end.month))
+    year  = int(request.args.get("to_year", end.year))
+    to_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    from_date = start
+    to_date = end
 
   if to_date > end:
     to_date = end
@@ -248,15 +272,21 @@ def member_payment_report():
   end = datetime.now().date()
   start = end - timedelta(days=7)
 
-  day   = int(request.args.get("from_day", start.day))
-  month = int(request.args.get("from_month", start.month))
-  year  = int(request.args.get("from_year", start.year))
-  from_date = datetime(year, month, day).date()
+  try:
+    day   = int(request.args.get("from_day", start.day))
+    month = int(request.args.get("from_month", start.month))
+    year  = int(request.args.get("from_year", start.year))
+    from_date = datetime(year, month, day).date()
 
-  day   = int(request.args.get("to_day", end.day))
-  month = int(request.args.get("to_month", end.month))
-  year  = int(request.args.get("to_year", end.year))
-  to_date = datetime(year, month, day).date()
+    day   = int(request.args.get("to_day", end.day))
+    month = int(request.args.get("to_month", end.month))
+    year  = int(request.args.get("to_year", end.year))
+    to_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    from_date = start
+    to_date = end
 
   if to_date > end:
     to_date = end
@@ -265,7 +295,7 @@ def member_payment_report():
   if to_date < from_date:
     to_date = end
     from_date = start
-    flash(str(lazy_gettext("From Date cannot be greater than to date!")), "error")
+    flash(str(lazy_gettext("From Date cannot be greater than To date!")), "error")
 
   from_member = int(request.args.get("from_member", 1))
   to_member = int(request.args.get("to_member", 10))
@@ -329,15 +359,21 @@ def dairy_report():
   end = datetime.now().date()
   start = end - timedelta(days=7)
 
-  day   = int(request.args.get("from_day", start.day))
-  month = int(request.args.get("from_month", start.month))
-  year  = int(request.args.get("from_year", start.year))
-  from_date = datetime(year, month, day).date()
+  try:
+    day   = int(request.args.get("from_day", start.day))
+    month = int(request.args.get("from_month", start.month))
+    year  = int(request.args.get("from_year", start.year))
+    from_date = datetime(year, month, day).date()
 
-  day   = int(request.args.get("to_day", end.day))
-  month = int(request.args.get("to_month", end.month))
-  year  = int(request.args.get("to_year", end.year))
-  to_date = datetime(year, month, day).date()
+    day   = int(request.args.get("to_day", end.day))
+    month = int(request.args.get("to_month", end.month))
+    year  = int(request.args.get("to_year", end.year))
+    to_date = datetime(year, month, day).date()
+  except Exception as e:
+    print e
+    flash(str(lazy_gettext("Invalid date format")), "error")
+    from_date = start
+    to_date = end
 
   if to_date > end:
     to_date = end
@@ -346,7 +382,7 @@ def dairy_report():
   if to_date < from_date:
     to_date = end
     from_date = start
-    flash(str(lazy_gettext("From Date cannot be greater than to date!")), "error")
+    flash(str(lazy_gettext("From Date cannot be greater than To date!")), "error")
 
   collectionService = MilkCollectionService()
   col_lst = collectionService.search_by_date(member_id=None,from_date=from_date,to_date=to_date)

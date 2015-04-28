@@ -1,0 +1,25 @@
+{% macro select_month(name="month", selected_value=1, class="mousetrap medium") -%}
+	{% set months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+    <select name="{{name}}" id="{{name}}" class="{{class}}">
+    	{% for month_name in months %}
+    	<option value="{{loop.index}}" {{"selected" if loop.index == selected_value}}>{{month_name}}</option>
+    	{% endfor %}
+    </select>
+{%- endmacro %}
+
+{% macro select_year(years=[], name="year", selected_value=0, class="mousetrap tiny") -%}
+    <select name="{{name}}" id="{{name}}" class="{{class}}">
+    	{% for item in years %}
+    	<option value="{{item}}" {{"selected" if item == selected_value}}>{{item}}</option>
+    	{% endfor %}
+    </select>
+{%- endmacro %}
+
+{% macro select_shift(name="shift", selected_value="MORNING", class="mousetrap") -%}
+	{% set items = [("MORNING", _("MORNING")), ("EVENING", _("EVENING"))] %}
+    <select name="{{name}}" id="{{name}}" class="{{class}}">
+    	{% for name,val in items %}
+    	<option value="{{val}}" {{"selected" if val == selected_value}}>{{name}}</option>
+    	{% endfor %}
+    </select>
+{%- endmacro %}

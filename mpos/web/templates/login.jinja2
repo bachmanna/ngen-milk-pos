@@ -32,8 +32,8 @@
 		<div class="row" id="userlist">
 			<div class="medium-4 small-centered columns end">
 				{%for user in users%}
-       <button class="button expand" data-key="{{loop.index}}" data-name="{{user.name}}">
-         {{user.name}} <span class="access_key">{{loop.index}}</span>
+       <button class="button expand" data-key="f{{loop.index}}" data-name="{{user.name}}">
+         {{user.name}} <span class="access_key">F{{loop.index}}</span>
        </button>
        {%endfor%}
      </div>
@@ -69,7 +69,7 @@
       var $that = $(this);
       Mousetrap.bind(key.toString(), function(e) {
         $that[0].click();
-        return true;
+        return false;
       });
 
       $(this).click(function(){
@@ -84,6 +84,7 @@
     Mousetrap.bind("esc", function(e) {
       $("#loginbox").addClass("hide");
       $("#userlist").removeClass("hide");
+      $("#password").val("");
       return false;
     });
 

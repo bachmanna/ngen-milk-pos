@@ -16,6 +16,10 @@ select {
 	height: 42px;
 }
 
+select {
+	font-size: 22px;
+}
+
 form .button{
 	margin-bottom: 0px;
 }
@@ -232,12 +236,21 @@ form.inline select {
 	margin-top: 12px;
 }
 
-form.inline input.tiny {
+form.inline input.tiny{
 	width: 50px;
+}
+
+form.inline select.tiny {
+	width: 80px;
 }
 
 form.inline input.medium {
 	width: 80px;
+}
+
+form.inline select.medium {
+	width: 120px;
+	font-size: 20px;
 }
 
 .report_container {

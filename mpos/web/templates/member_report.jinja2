@@ -8,17 +8,17 @@
             <label>{{_("Date From")}}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" class="mousetrap tiny" name="from_day" value="{{from_date.day}}" maxlength="2"/>
             /
-            <input type="text" class="mousetrap tiny" name="from_month" value="{{from_date.month}}" maxlength="2"/>
+            {{ select_month(name="from_month", selected_value=from_date.month) }}
             /
-            <input type="text" class="mousetrap medium" name="from_year" value="{{from_date.year}}" maxlength="4"/>
+            {{ select_year(name="from_year", years=select_control_years, selected_value=from_date.year) }}
         </div>
         <div class="medium-6 columns">
             <label>{{_("To")}}</label>
             <input type="text" class="mousetrap tiny" name="to_day" value="{{to_date.day}}" maxlength="2" />
             /
-            <input type="text" class="mousetrap tiny" name="to_month" value="{{to_date.month}}" maxlength="2"/>
+            {{ select_month(name="to_date", selected_value=to_date.month) }}
             /
-            <input type="text" class="mousetrap medium" name="to_year" value="{{to_date.year}}" maxlength="4"/>
+            {{ select_year(name="to_date", years=select_control_years, selected_value=to_date.year) }}
         </div>
     </div>
     <div class="row">
@@ -33,7 +33,7 @@
             <input type="text" class="mousetrap medium" name="increment" value="{{increment}}" maxlength="5"/>
         </div>
         <div class="medium-2 columns end">
-            <button type="submit" class="button expand success">{{_("VIEW")}}</button>
+            <button type="submit" class="button expand">{{_("VIEW")}}</button>
         </div>
     </div>
 </form>

@@ -113,10 +113,13 @@ def set_user_on_request_g():
 def settings_provider():
     settings = g.app_settings
 
-    d = datetime.now().strftime("%d/%m/%Y")
-    t = datetime.now().strftime("%I:%M%p")
+    today = datetime.now()
+    d = today.strftime("%d/%m/%Y")
+    t = today.strftime("%I:%M%p")
 
-    return dict(settings=settings, sys_date=d, sys_time=t, SystemSettings=SystemSettings)
+    select_control_years = [x for x in range(today.year - 5 , today.year + 1)]
+
+    return dict(settings=settings, sys_date=d, sys_time=t, SystemSettings=SystemSettings, select_control_years=select_control_years)
 
 
 @app.route("/")

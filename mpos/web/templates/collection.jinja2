@@ -36,7 +36,7 @@
 								<label>{{_("FAT")}}</label>
 							</div>
 							<div class="medium-8 columns">
-								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" />
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_FAT") == "True" else "disabled"}} name="fat" id="fat" maxlength="5" />
 							</div>
 						</div>
 						<div class="row">
@@ -44,7 +44,7 @@
 								<label>{{_("SNF")}}</label>
 							</div>
 							<div class="medium-8 columns">
-								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf"/>
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_SNF") == "True" else "disabled"}} name="snf" id="snf" maxlength="5"/>
 							</div>
 						</div>
 						<div class="row">
@@ -52,7 +52,7 @@
 								<label id="lblQty">{{_("QTY")}}</label>
 							</div>
 							<div class="medium-8 columns end">
-								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" />
+								<input class="mousetrap" type="text" {{ "" if settings.get("MANUAL_QTY") == "True" else "disabled"}} name="qty" id="qty" maxlength="6"/>
 							</div>					
 						</div>
 					</div>

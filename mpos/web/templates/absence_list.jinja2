@@ -10,18 +10,15 @@
         <div class="medium-4 columns">
             <input type="text" class="mousetrap tiny" name="day" value="{{search_date.day}}" />
             /
-            <input type="text" class="mousetrap tiny" name="month" value="{{search_date.month}}"/>
+            {{ select_month(selected_value=search_date.month) }}
             /
-            <input type="text" class="mousetrap medium" name="year" value="{{search_date.year}}" />
+            {{ select_year(years=select_control_years, selected_value=search_date.year) }}
         </div>
         <div class="medium-1 columns">
             <label>{{_("Shift")}}</label>
         </div>
         <div class="medium-4 columns">
-            <select name="shift" class="mousetrap">
-                <option {{ "selected" if shift == "MORNING" else ""}} value="MORNING">{{_("MORNING")}}</option>
-                <option {{ "selected" if shift == "EVENING" else ""}} value="EVENING">{{_("EVENING")}}</option>
-            </select>
+            {{ select_shift(selected_value=shift) }}
         </div>
         <div class="medium-2 columns">
             <button type="submit" class="button expand">{{_("VIEW")}}</button>

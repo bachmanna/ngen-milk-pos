@@ -29,19 +29,23 @@ def rate_fat():
   rate_service = RateService()
 
   if request.method == 'POST':
-    id = int(request.form.get("id", 0))
-    cattle_type = request.form.get("cattle_type", "COW")
-    min_value = request.form.get("min_value", "0.0")
-    min_value = request.form.get("min_value", "0.0")
-    max_value = request.form.get("max_value", "0.0")
-    rate = request.form.get("rate", "0.0")
-    if min_value and max_value and rate:
-      min_value = float(min_value)
-      max_value = float(max_value)
-      rate = float(rate)
-      rate_service.update_fat_collection_rate(cattle_type,id,min_value,max_value,rate)
-      flash("Rate data saved successfully!")
-    else:
+    try:
+      id = int(request.form.get("id", 0))
+      cattle_type = request.form.get("cattle_type", "COW")
+      min_value = request.form.get("min_value", "0.0")
+      min_value = request.form.get("min_value", "0.0")
+      max_value = request.form.get("max_value", "0.0")
+      rate = request.form.get("rate", "0.0")
+      if min_value and max_value and rate:
+        min_value = float(min_value)
+        max_value = float(max_value)
+        rate = float(rate)
+        rate_service.update_fat_collection_rate(cattle_type,id,min_value,max_value,rate)
+        flash("Rate data saved successfully!")
+      else:
+        flash("Invalid data!", category="error")
+    except Exception as e:
+      print e
       flash("Invalid data!", category="error")
 
   rate_list = rate_service.get_fat_collection_rate(cattle_type=cattle_type)
