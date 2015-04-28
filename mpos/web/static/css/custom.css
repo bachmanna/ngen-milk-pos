@@ -295,3 +295,16 @@ form.inline select.medium {
   position: relative;
   bottom: -35px;
 }
+
+table tbody tr:hover td{
+	background-color: rgba(237, 237, 18, 0.75);
+	cursor: pointer;
+}
+
+.highlight {
+	background-color: rgba(237, 237, 18, 0.75) !important;
+}
+
+table tr:nth-of-type(even) {
+    background: none; 
+}

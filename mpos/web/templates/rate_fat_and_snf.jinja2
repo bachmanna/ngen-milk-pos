@@ -25,6 +25,7 @@
             </label>
         </div>
         <div class="medium-2 columns end">
+            <br/>
             <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
             <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
         </div>
@@ -33,7 +34,11 @@
 <hr/>
 <div class="row">
     <div class="medium-12 columns" style="overflow:scroll;max-height:350px">
-        <table class="expand" style="width:100%;" role="grid">
+        <table class="expand" id="tblFatSNFRate" role="grid">
+            <colgroup></colgroup>
+            {% for snf in snf_list %}
+                <colgroup></colgroup>
+            {% endfor %}
             <thead>
                 <tr>
                     <th class="text-right">{{_("FAT/SNF")}}</th>
@@ -47,7 +52,10 @@
                 <tr>
                     <td class="text-right">{{fat}}</td>
                     {% for snf in snf_list %}
-                        <td class="text-right">{{ "%0.2f" | format(rates[fat][snf])}}</td>
+                        {% set rate = "%0.2f" | format(rates[fat][snf]) %}
+                        <td class="text-right" data-fat="{{fat}}" data-snf="{{snf}}" data-rate="{{rate}}">
+                            {{ rate }}
+                        </td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -63,4 +71,30 @@
 
 {% block statusbar %}
 {% include "rate_action_buttons.jinja2" %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+$(function(){
+    $("#tblFatSNFRate tbody tr td").click(function(){
+        var item = $(this);
+        $("input[name=fat]").val(item.data("fat"));
+        $("input[name=snf]").val(item.data("snf"));
+        $("input[name=rate]").val(item.data("rate"));
+    });
+
+    $("#tblFatSNFRate").on('mouseover mouseleave', 'td', function(e) {
+        if (e.type == 'mouseover') {
+          $(this).parent().addClass("highlight");
+          $("colgroup").eq($(this).index()).addClass("highlight");
+        }
+        else {
+          $(this).parent().removeClass("highlight");
+          $("colgroup").eq($(this).index()).removeClass("highlight");
+        }
+    });
+});
+
+</script>
 {% endblock %}

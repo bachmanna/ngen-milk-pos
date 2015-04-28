@@ -30,6 +30,7 @@
             </label>
         </div>
         <div class="medium-2 columns">
+            <br/>
             <button type="submit" id="btnSave" class="success button expand">{{_("SAVE")}}</button>
             <input type="hidden" name="cattle_type" value="{{cattle_type}}"/>
         </div>
@@ -38,7 +39,7 @@
 <hr/>
 <div class="row">
     <div class="medium-12 columns">
-        <table class="expand" style="width:100%;" role="grid">
+        <table class="expand" id="tblFatRate" role="grid">
             <thead>
                 <tr>
                     <th class="text-right">{{_("Slab No")}}</th>
@@ -49,7 +50,7 @@
             </thead>
             <tbody>
                 {% for item in rate_list %}
-                <tr>
+                <tr data-id="{{item.id}}" data-rate="{{item.rate}}" data-min="{{item.min_value}}" data-max="{{item.max_value}}">
                     <td class="text-right">{{item.id}}</td>
                     <td class="text-right">{{item.min_value}}</td>
                     <td class="text-right">{{item.max_value}}</td>
@@ -68,4 +69,20 @@
 
 {% block statusbar %}
 {% include "rate_action_buttons.jinja2" %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+$(function(){
+    $("#tblFatRate tbody tr td").click(function(){
+        var tr = $(this).closest("tr");
+        $("input[name=id]").val(tr.data("id"));
+        $("input[name=min_value]").val(tr.data("min"));
+        $("input[name=max_value]").val(tr.data("max"));
+        $("input[name=rate]").val(tr.data("rate"));
+    });
+});
+
+</script>
 {% endblock %}

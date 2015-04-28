@@ -33,7 +33,7 @@
 <hr/>
 <div class="row">
     <div class="medium-12 columns">
-        <table class="expand" style="width:100%;" role="grid">
+        <table class="expand" id="tblUser" role="grid">
             <thead>
                 <tr>
                     <th>{{_("User Id")}}</th>
@@ -43,7 +43,7 @@
             </thead>
             <tbody>
                 {% for item in user_list %}
-                <tr>
+                <tr data-id="{{item.id}}" data-name="{{item.name}}">
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.roles}}</td>
@@ -66,6 +66,17 @@
     </div>
 </div>
 {% endblock %}
-{% block scripts %}
 
+{% block scripts %}
+<script>
+
+$(function(){
+    $("#tblUser tbody tr td").click(function(){
+        var tr = $(this).closest("tr");
+        $("input[name=id]").val(tr.data("id"));
+        $("input[name=name]").val(tr.data("name"));
+    });
+});
+
+</script>
 {% endblock %}

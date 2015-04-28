@@ -47,7 +47,7 @@
 <div class="row">
     <div class="medium-12 columns">
         <br/>
-        <table class="expand" role="grid">
+        <table class="expand" role="grid" id="tblMember">
             <thead>
                 <tr>
                     <th>{{_("Member Code")}}</th>
@@ -59,7 +59,7 @@
             </thead>
             <tbody>
                 {% for item in member_list %}
-                <tr>
+                <tr data-id="{{item.id}}" data-name="{{item.name}}"  data-mobile="{{item.mobile}}"  data-cattle="{{item.cattle_type}}">
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.mobile}}</td>
@@ -113,4 +113,20 @@
 
 {% block statusbar %}
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+$(function(){
+    $("#tblMember tbody tr td").click(function(){
+        var tr = $(this).closest("tr");
+        $("input[name=code]").val(tr.data("id"));
+        $("input[name=name]").val(tr.data("name"));
+        $("select[name=cattle_type]").val(tr.data("cattle"));
+        $("input[name=mobile]").val(tr.data("mobile"));
+    });
+});
+
+</script>
 {% endblock %}
