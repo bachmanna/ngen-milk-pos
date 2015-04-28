@@ -86,6 +86,7 @@ setup(
 						'templates/*.jinja2',
 						'templates/reports/*.jinja2',
 						'templates/thermal/*.jinja2',
+						'templates/macros/*.jinja2',
 						'static/css/*.*',
 						'static/js/*.*',
 						'static/js/vendor/*.*',
