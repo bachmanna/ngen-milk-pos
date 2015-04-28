@@ -52,9 +52,10 @@
 				</colgroup>
 				<tbody>
 					{% for key in settings_keys %}
+					{% set val = settings[key] if settings[key] != None else "" %}
 					<tr>
 						<td>{{key}}</td>
-						<td>{{settings[key] if settings[key] != None else ""}}</td>
+						<td>{{ "ON" if val == "True" else ("OFF" if val == "False" else val) }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
