@@ -16,60 +16,61 @@ __version__ = '%s'
 """
 
 def update_version_py():
-    if not os.path.isdir(".git"):
-        print "This does not appear to be a Git repository."
-        return
-    try:
-        p = subprocess.Popen(["git", "describe",
-                              "--tags", "--dirty", "--always"],
-                             stdout=subprocess.PIPE)
-    except EnvironmentError:
-        print "unable to run git, leaving mpos/_version.py alone"
-        return
-    stdout = p.communicate()[0]
-    if p.returncode != 0:
-        print "unable to run git, leaving mpos/_version.py alone"
-        return
-    # we use tags like "python-ecdsa-0.5", so strip the prefix
-    print stdout
-    assert stdout.startswith("ngen-milk-pos-")
-    ver = stdout[len("ngen-milk-pos-"):].strip()
-    f = open("mpos/_version.py", "w")
-    f.write(VERSION_PY % ver)
-    f.close()
-    print "set mpos/_version.py to '%s'" % ver
+	if not os.path.isdir(".git"):
+		print "This does not appear to be a Git repository."
+		return
+	try:
+		p = subprocess.Popen(["git", "describe",
+							  "--tags", "--dirty", "--always"],
+							 stdout=subprocess.PIPE)
+	except EnvironmentError:
+		print "unable to run git, leaving mpos/_version.py alone"
+		return
+	stdout = p.communicate()[0]
+	if p.returncode != 0:
+		print "unable to run git, leaving mpos/_version.py alone"
+		return
+	# we use tags like "python-ecdsa-0.5", so strip the prefix
+	print stdout
+	assert stdout.startswith("mpos-")
+	ver = stdout[len("mpos-"):].strip()
+	f = open("mpos/_version.py", "w")
+	f.write(VERSION_PY % ver)
+	f.close()
+	print "set mpos/_version.py to '%s'" % ver
 
 def get_version():
-    try:
-        f = open("mpost/_version.py")
-    except EnvironmentError:
-        return None
-    for line in f.readlines():
-        mo = re.match("__version__ = '([^']+)'", line)
-        if mo:
-            ver = mo.group(1)
-            return ver
-    return None
+	try:
+		f = open("mpos/_version.py")
+	except EnvironmentError:
+		print "Unable to read version file"
+		return None
+	for line in f.readlines():
+		mo = re.match("__version__ = '([^']+)'", line)
+		if mo:
+			ver = mo.group(1)
+			return ver
+	return None
 
 class Version(Command):
-    description = "update _version.py from Git repo"
-    user_options = []
-    boolean_options = []
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
-    def run(self):
-        update_version_py()
-        print "Version is now", get_version()
+	description = "update _version.py from Git repo"
+	user_options = []
+	boolean_options = []
+	def initialize_options(self):
+		pass
+	def finalize_options(self):
+		pass
+	def run(self):
+		update_version_py()
+		print "Version is now", get_version()
 
 class sdist(_sdist):
-    def run(self):
-        update_version_py()
-        # unless we update this, the sdist command will keep using the old
-        # version
-        self.distribution.metadata.version = get_version()
-        return _sdist.run(self)
+	def run(self):
+		update_version_py()
+		# unless we update this, the sdist command will keep using the old
+		# version
+		self.distribution.metadata.version = get_version()
+		return _sdist.run(self)
 
 # Get the long description from the relevant file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
