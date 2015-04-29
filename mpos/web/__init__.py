@@ -1,3 +1,6 @@
+
+from _version import __version__
+
 from flask import Flask, session, render_template, request, redirect, g, flash, current_app, jsonify
 from flask import make_response, Response
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
@@ -119,7 +122,7 @@ def settings_provider():
 
     select_control_years = [x for x in range(today.year - 5 , today.year + 1)]
 
-    return dict(settings=settings, sys_date=d, sys_time=t, SystemSettings=SystemSettings, select_control_years=select_control_years)
+    return dict(app_version=__version__, settings=settings, sys_date=d, sys_time=t, SystemSettings=SystemSettings, select_control_years=select_control_years)
 
 
 @app.route("/")

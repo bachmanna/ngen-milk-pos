@@ -10,6 +10,7 @@
   <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
 </head>
 <body oncontextmenu="return false">
+  <!-- Version: {{app_version}} -->
   {% from "macros/select_controls.jinja2" import select_month, select_year, select_shift %}
   <div class="wrapper">
     <header class="banner">
