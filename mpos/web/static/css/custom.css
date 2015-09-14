@@ -48,11 +48,21 @@ form .button{
 	background-size: 100%;
 }
 
+body{
+	/*overflow: hidden;*/
+}
+
 .wrapper {
-	min-height: 100%;
+	min-height: 99%;
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -80px;
+}
+
+.main__content__container{
+	padding-top: 20px;
+	overflow-y: auto;
+	min-height: 600px;
 }
 
 footer, .push {
@@ -121,7 +131,6 @@ header.banner{
 	border-color: #d2d2d2;
 	border-style: solid;
 	border-width: 1px;
-	margin-bottom: 20px;
 }
 
 .breadcrumbs {
@@ -245,7 +254,7 @@ form.inline select.tiny {
 }
 
 form.inline input.medium {
-	width: 80px;
+	width: 90px;
 }
 
 form.inline select.medium {
@@ -254,8 +263,8 @@ form.inline select.medium {
 }
 
 .report_container {
-	border: 2px solid #333;
-	padding: 10px 0 0;
+  border: 2px solid #333;
+  padding: 10px 0 0;
 }
 
 .report_container h1,
@@ -272,6 +281,43 @@ form.inline select.medium {
 	margin: 0;
 	margin-top: 20px;
 	border-top: 3px solid #333;
+	display: flex;
+  flex-flow: column;
+}
+
+.report_container table:focus {
+	border: 1px solid blue;
+}
+
+.report_container table thead,
+.report_container table tfoot { 
+	flex: 0 0 auto;
+  width: calc(100% - 0.9em);
+}
+
+.report_container table tbody{
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: scroll;
+}
+
+.report_container table.scroll tbody{
+  height: 300px;
+}
+
+.report_container table.noscroll tbody{
+  height: auto;
+}
+
+.report_container table tbody tr {
+    width: 100%;
+}
+
+.report_container table thead,
+.report_container table tfoot,
+.report_container table tbody tr {
+    display: table;
+    table-layout: fixed;
 }
 
 .loading{

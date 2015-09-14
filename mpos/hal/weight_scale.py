@@ -27,9 +27,13 @@ class WeightScale(object):
 		except Exception as e:
 			print "Err scale", e
 
+	def get_rand_values(self):
+		data = " L +%3.3d.%3.3d" % (randint(1,10), randint(100,999))
+		return data
+
 	def get(self):
 		value = 0.0
-		data = " L +%3.3d.%3.3d" % (randint(1,10), randint(100,999))
+		data = "" # self.get_rand_values()
 		if self.scale:
 			try:
 				self.scale.open()
@@ -41,10 +45,11 @@ class WeightScale(object):
 			except Exception as e:
 				print "Err scale:", e
 
-		if data[1] == 'L':
-			value = float(data[4:])
-		if data[1] == 'W':
-			value = float(data[4:])/1.033
+		if data and len(data) > 1:
+			if data[1] == 'L':
+				value = float(data[4:])
+			if data[1] == 'W':
+				value = float(data[4:])/1.033
 
 		if self.qty2decimal:
 			value = float("%.2f" % (value))
@@ -61,7 +66,7 @@ class WeightScale(object):
 				self.scale.flushInput()
 				self.scale.flushOutput()
 
-				self.scale.write("T")
+				self.scale.write(tare_cmd)
 				self.scale.close()
 				return True
 			except Exception as e:

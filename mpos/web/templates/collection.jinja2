@@ -352,19 +352,19 @@ body, html{
 					return;
 				}				
 
-				/*$("#fat").val(data.fat);
+				$("#fat").val(data.fat);
 				$("#snf").val(data.snf);
 				$("#clr").val(data.clr);
 				$("#water").val(data.water);
 				$("#qty").val(data.qty);
-				$("#total").text(data.fmt_total);*/
+				$("#total").text(data.fmt_total);
 				$("#rate").text(data.fmt_rate);
-				animateNumber(data.currency_symbol, data.total, "#total");
-				animateNumber("", data.fat, "#fat");
-				animateNumber("", data.snf, "#snf");
-				animateNumber("", data.clr, "#clr");
-				animateNumber("", data.water, "#water");
-				animateNumber("", data.qty, "#qty");
+				// animateNumber(data.currency_symbol, data.total, "#total");
+				// animateNumber("", data.fat, "#fat");
+				// animateNumber("", data.snf, "#snf");
+				// animateNumber("", data.clr, "#clr");
+				// animateNumber("", data.water, "#water");
+				// animateNumber("", data.qty, "#qty");
 
 				$("#txtRate").val(data.rate);
 				$("#txtTotal").val(data.total);
@@ -463,12 +463,15 @@ body, html{
 				var args = { "fat": fat, "snf": snf, "qty": qty, "cattle_type": cattle_type}
 				$.get("/get_manual_data", args, function(data){
 					if(data && data.status === "success"){
-						animateNumber("", data.clr, "#clr");
-						animateNumber("", data.water, "#water");
+						// animateNumber("", data.clr, "#clr");
+						// animateNumber("", data.water, "#water");
+						$("#clr").val(data.clr);
+						$("#water").val(data.water);
 						$("#txtRate").val(data.rate);
 						$("#txtTotal").val(data.total);
 						$("#rate").text(data.fmt_rate);
-						animateNumber(data.currency_symbol, data.total, "#total");
+						$("#total").text(data.fmt_total);
+						// animateNumber(data.currency_symbol, data.total, "#total");
 					}
 				}).complete(function(){
 					$("#btnSave").focus();

@@ -100,6 +100,8 @@ def collection():
       if can_send_sms:
         sendSms(saved_entity, settings[SystemSettings.GSM_PORT])
 
+      do_tare_scale(settings)
+
       flash("Saved successfully!", "success")
     else:
       flash("Invalid data!", "error")
@@ -270,13 +272,16 @@ def get_sensor_data():
   data["qty"] = scale.get()
   return data
 
+def do_tare_scale(settings):
+  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT], qty2decimal=settings[SystemSettings.QUANTITY_2_DECIMAL])
+  success = scale.tare()
+  print "Tare scale: %s" % (success)
+  return success
 
 @app.route("/tare_scale")
 @login_required
 def tare_scale():
-  settings = g.app_settings
-  scale = WeightScale(settings[SystemSettings.SCALE_TYPE], address=settings[SystemSettings.WEIGH_SCALE_PORT], qty2decimal=settings[SystemSettings.QUANTITY_2_DECIMAL])
-  success = scale.tare()
+  success = do_tare_scale(g.app_settings)
   return jsonify(success=success)
 
 

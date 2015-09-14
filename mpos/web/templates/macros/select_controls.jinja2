@@ -1,25 +1,32 @@
 {% macro select_month(name="month", selected_value=1, class="mousetrap medium") -%}
-	{% set months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+    {% set months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+    {# 
     <select name="{{name}}" id="{{name}}" class="{{class}}">
-    	{% for month_name in months %}
-    	<option value="{{loop.index}}" {{"selected" if loop.index == selected_value}}>{{month_name}}</option>
-    	{% endfor %}
+        {% for month_name in months %}
+        <option value="{{loop.index}}" {{"selected" if loop.index == selected_value}}>{{month_name}}</option>
+        {% endfor %}
     </select>
+    #}
+    <input type="number" maxlength="2" min="1" max="12" name="{{name}}" id="{{name}}" class="{{class}}" value="{{selected_value}}"/>
 {%- endmacro %}
 
-{% macro select_year(years=[], name="year", selected_value=0, class="mousetrap tiny") -%}
+{% macro select_year(years=[], name="year", selected_value=0, class="mousetrap medium") -%}
+    {#
     <select name="{{name}}" id="{{name}}" class="{{class}}">
-    	{% for item in years %}
-    	<option value="{{item}}" {{"selected" if item == selected_value}}>{{item}}</option>
-    	{% endfor %}
+        {% for item in years %}
+        <option value="{{item}}" {{"selected" if item == selected_value}}>{{item}}</option>
+        {% endfor %}
     </select>
+    #}
+    {% set maxyear_index = years | count %}
+    <input type="number" maxlength="4" min="{{years[0]}}" max="{{years[maxyear_index-1]}}" name="{{name}}" id="{{name}}" class="{{class}}" value="{{selected_value}}"/>
 {%- endmacro %}
 
 {% macro select_shift(name="shift", selected_value="MORNING", class="mousetrap") -%}
-	{% set items = [("MORNING", _("MORNING")), ("EVENING", _("EVENING"))] %}
+    {% set items = [("MORNING", _("MORNING")), ("EVENING", _("EVENING"))] %}
     <select name="{{name}}" id="{{name}}" class="{{class}}">
-    	{% for name,val in items %}
-    	<option value="{{val}}" {{"selected" if val == selected_value}}>{{name}}</option>
-    	{% endfor %}
+        {% for name,val in items %}
+        <option value="{{val}}" {{"selected" if val == selected_value}}>{{name}}</option>
+        {% endfor %}
     </select>
 {%- endmacro %}

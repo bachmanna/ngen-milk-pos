@@ -13,7 +13,7 @@ class MilkAnalyzer(object):
 		settings = analyzer_settings[scale_type]
 		self.scale = None
 		try:
-			self.scale = serial.Serial(address, settings["baud"], timeout=3)
+			self.scale = serial.Serial(address, settings["baud"], timeout=10)
 			self.scale.bytesize = settings["bytesize"]
 			self.scale.parity = settings["parity"]
 			self.scale.stopbits = settings["stopbits"]
@@ -24,12 +24,16 @@ class MilkAnalyzer(object):
 		except Exception as e:
 			print "Err milk analyzer", e
 
-	def get(self):
+	def get_rand_values(self):
 		f = randint(1000,1200)
 		s = randint(1000,1200)
 		w = randint(5000,9999)
 		c = randint(6000,9999)
 		s = "(%d%d%d%d00000000)" % (f,s,w,c)
+		return s
+
+	def get(self):
+		s = "" #self.get_rand_values()
 		result = { "fat": 0.0 , "snf": 0.0, "water": 0.0, "clr": 0.0 }
 		if self.scale:
 			try:
@@ -56,7 +60,7 @@ class MilkAnalyzer(object):
 			except Exception as e:
 				print "Err milk analyzer", e
 
-		if s[0] == '(' and len(s) > 17:
+		if s and len(s) > 0 and s[0] == '(' and len(s) > 17:
 			result["fat"] = float(s[1:3] +"." + s[3:5])
 			result["snf"] = float(s[5:7] +"." + s[7:9])
 			result["water"] = float(s[9:11] +"." + s[11:13])

@@ -35,7 +35,8 @@ class MilkCollectionService:
           end = start + timedelta(days=1)
           query = query.filter(MilkCollection.created_at >= start)
           query = query.filter(MilkCollection.created_at < end)
-        query = query.order_by(MilkCollection.created_at.desc())
+        # query = query.order_by(MilkCollection.created_at.desc())
+        query = query.order_by(MilkCollection.member_id)
         lst = query.all()
         return lst
 

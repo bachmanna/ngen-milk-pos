@@ -76,7 +76,7 @@ class ThermalPrinter(object):
         self.printer.write(chr(35))
         self.printer.write(chr((printDensity << 4) | printBreakTime))
 
-        self.add_custom_rupee_char()
+        # self.add_custom_rupee_char()
 
     def reset(self):
         self.printer.write(self._ESC)

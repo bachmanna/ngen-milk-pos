@@ -13,6 +13,7 @@
   <!-- Version: {{app_version}} -->
   {% from "macros/select_controls.jinja2" import select_month, select_year, select_shift %}
   <div class="wrapper">
+
     <header class="banner">
       <div class="row">
         <div class="medium-9 columns text-center">
@@ -39,37 +40,41 @@
       </div>
     </div>
 
-  <div class="loading text-center hide" id="page_loading">
-    <h1>{{_("LOADING...")}}</h1>
-  </div>
-
-    <div class="row">
-      <div class="medium-7 columns">
-        {% block body %}
-
-        {% endblock %}
-      </div>
-      <div class="medium-2 columns sidebar">
-        {% block sidebar %}
-
-        {% endblock %}
-      </div>
-      <div class="medium-3 columns sidebar-img end">        
-      </div>
+    <div class="loading text-center hide" id="page_loading">
+      <h1>{{_("LOADING...")}}</h1>
     </div>
-    <div class="push"></div>
-  </div>
 
-  <footer>
-   <div class="row">
-      <div class="medium-9 columns">
-        {% block statusbar %}
-        {% endblock %}
+    <section class="main__content__container">
+      <div class="row">
+        <div class="medium-7 columns">
+          {% block body %}
+
+          {% endblock %}
+        </div>
+        <div class="medium-2 columns sidebar">
+          {% block sidebar %}
+
+          {% endblock %}
+        </div>
+        <div class="medium-3 columns sidebar-img end">        
+        </div>
       </div>
-      <div class="medium-3 columns footer-img text-right">        
-      </div>
-   </div>
- </footer>
+      <div class="push"></div>
+
+
+      <footer>
+        <div class="row">
+          <div class="medium-9 columns">
+            {% block statusbar %}
+            {% endblock %}
+          </div>
+          <div class="medium-3 columns footer-img text-right">        
+          </div>
+        </div>
+      </footer>
+  </section>
+
+</div>
 
  <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
  <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>

@@ -37,7 +37,8 @@ class MemberService:
             query = query.filter_by(mobile=mobile)
         if cattle_type:
             query = query.filter_by(cattle_type=cattle_type)
-        query = query.order_by(Member.created_at.desc())
+        # query = query.order_by(Member.created_at.desc())
+        query = query.order_by(Member.id)
         lst = query.all()
         return lst
 
