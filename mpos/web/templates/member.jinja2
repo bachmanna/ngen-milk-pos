@@ -39,6 +39,7 @@
     </div>
 </form>
 <hr/>
+<div class="report_container">
 <div class="row">
     <div class="medium-12 columns">
         <h4 style="margin:0">{{_("Total Member")}}: <b>{{member_list|count}}</b></h4>
@@ -47,29 +48,30 @@
 <div class="row">
     <div class="medium-12 columns">
         <br/>
-        <table class="expand" role="grid" id="tblMember">
+        <table class="expand scroll" role="grid" id="tblMember">
             <thead>
                 <tr>
-                    <th>{{_("Member Code")}}</th>
+                    <th style="width:80px;">{{_("M.Code")}}</th>
                     <th>{{_("Name")}}</th>
                     <th>{{_("Mobile")}}</th>
-                    <th>{{_("Cattle Type")}}</th>
+                    <th style="width:100px;">{{_("Cattle Type")}}</th>
                     <th>{{_("Created on")}}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in member_list %}
                 <tr data-id="{{item.id}}" data-name="{{item.name}}"  data-mobile="{{item.mobile}}"  data-cattle="{{item.cattle_type}}">
-                    <td>{{item.id}}</td>
+                    <td style="width:80px;">{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.mobile}}</td>
-                    <td>{{item.cattle_type}}</td>
+                    <td style="width:100px;">{{item.cattle_type}}</td>
                     <td>{{item.created_at.strftime("%d/%m/%Y %I:%M%p")}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
 </div>
 {% endblock %}
 
