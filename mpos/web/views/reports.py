@@ -425,9 +425,11 @@ def dairy_report():
       summary["qty"] = summary["qty"] + item["qty"]
       summary["total"] = summary["total"] + item["total"]
 
-  summary["fat"] = kg_fat/len(lst)
-  summary["snf"] = kg_snf/len(lst)
-  summary["rate"] = kg_rate/len(lst)
+  len_lst = len(lst)
+  if len_lst > 0:
+    summary["fat"] = kg_fat/len_lst
+    summary["snf"] = kg_snf/len_lst
+    summary["rate"] = kg_rate/len_lst
 
   data = dict(from_date=from_date,to_date=to_date,lst=lst,summary=summary)
 

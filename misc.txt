@@ -8,6 +8,17 @@ sudo apt-get install tightvncserver
 
 abcd1234
 
+2a4d4293
+
+/opt/vc/bin/vcgencmd version
+sudo nano /etc/rc.local
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+sudo update-rc.d -f nginx disable
+sudo i2cdetect -y 1
+
+snd_soc_wm8804
+
+
 pip install --upgrade lxml
 pip install uwsgi
 
@@ -22,7 +33,7 @@ address 192.168.137.8
 netmask 255.255.255.0
 network 192.168.137.0
 broadcast 192.168.137.255
-gateway 192.168.137.1
+gateway 192.168.137.137
 
 python setup.py bdist_wheel && scp dist/mpos-1.0.0a1-py2-none-any.whl pi@pi:~/mpos.zip && ssh pi@pi 'unzip -oq mpos.zip' && ssh pi@pi 'chmod +x ~/mpos/web/runprod.sh'
 
