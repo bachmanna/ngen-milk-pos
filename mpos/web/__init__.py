@@ -180,7 +180,8 @@ def app_shutdown():
     print output
   return render_template('shutdown.jinja2')
 
-USB_DRV_PATH = "/media/usb0"
+# USB_DRV_PATH = "/media/usb0"
+USB_DRV_PATH = "/home/pi/usbdrv"
 USB_DRV_MOUNT_PATH = "/dev/sda1"
 
 def is_usb_storage_connected():

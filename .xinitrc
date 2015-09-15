@@ -13,6 +13,8 @@ while true; do
 
 	killall -9 uwsgi 2>/dev/null;
 
+	sudo python /home/pi/mpos/app_upgrade.pyc;
+
 	sudo uwsgi --ini /home/pi/mpos/web/uwsgi.ini;
 
 	sleep 2;
@@ -29,6 +31,7 @@ while true; do
 	# Disable DPMS / Screen blanking
 	xset -dpms
 	xset s off
+	# xset s noblank
 
 	# Reset the framebuffer's colour-depth
 	fbset -depth $( cat /sys/module/*fb*/parameters/fbdepth );
