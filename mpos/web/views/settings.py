@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, g, flash, jsonify
 from flask_login import login_required
 from flask_babel import lazy_gettext
-from dateutil.parser import parse
+from dateutil import parser
+from datetime import datetime
 import sys
 import os
 
@@ -13,19 +14,22 @@ from models.constants import *
 @app.route("/basic_setup", methods=['GET', 'POST'])
 @login_required
 def basic_setup():
+  date = datetime.now()
 
   if request.method == 'POST':
     try:
         settings = {}
-        d = request.form.get("date", None)
-        t = request.form.get("time", None)
 
-        dt = parse(d + " " + t)
+        day, month, year  = request.form.get("day", date.day), request.form.get("month", date.month), request.form.get("year", date.year)
+        hour, minute, dn = request.form.get("hour", date.hour), request.form.get("minute", date.minute), request.form.get("dn", date.strftime("%p"))
+        curr_datetime = "%s/%s/%s %s:%s%s" % (day,month,year,hour,minute,dn)
+        dt = parser.parse(curr_datetime, default=date, dayfirst=True)
+
         print "Set datetime value = ", dt
         if sys.platform == "linux2":
             os.system("sudo hwclock --set --date '%s'" % str(dt)) # set rtc hardware
-            os.system("sudo hwclock -s") # copy to system        
-        
+            os.system("sudo hwclock -s") # copy to system
+
         settings[SystemSettings.SOCIETY_NAME] = request.form["society_name"]
         settings[SystemSettings.SOCIETY_ADDRESS] = request.form["society_address"]
         settings[SystemSettings.SOCIETY_ADDRESS1] = request.form["society_address1"]
@@ -44,7 +48,7 @@ def basic_setup():
         print "basic_setup", e
         flash(str(lazy_gettext("Invalid datetime value")), category="error")
 
-  return render_template("basic_setup.jinja2")
+  return render_template("basic_setup.jinja2", date=date)
 
 
 @app.route("/settings", methods=['GET', 'POST'])

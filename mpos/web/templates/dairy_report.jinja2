@@ -4,7 +4,7 @@
 {% include "flash_messages.jinja2" %}
 <form id="frmPaymentReport" name="frmPaymentReport" method="get" action="" class="inline">
     <div class="row">
-        <div class="medium-4 columns">
+        <div class="medium-5 columns">
             <label>{{_("Date From")}}</label><br/>
             <input type="text" class="mousetrap tiny" name="from_day" value="{{from_date.day}}" maxlength="2"/>
             /
@@ -12,7 +12,7 @@
             /
             {{ select_year(name="from_year", years=select_control_years, selected_value=from_date.year) }}
         </div>
-        <div class="medium-4 columns">
+        <div class="medium-5 columns">
             <label>{{_("To")}}</label><br/>
             <input type="text" class="mousetrap tiny" name="to_day" value="{{to_date.day}}" maxlength="2" />
             /

@@ -45,7 +45,7 @@ def manager_member():
       if code and int(code):
         id = int(code)
         member = member_service.get(id)
-        if name and len(name) > 3 and len(cattle_type) > 0 and len(mobile) > 0:
+        if name and len(name) > 1 and len(cattle_type) > 0 and len(mobile) > 0:
           if len(mobile) != 10:
             flash("Invalid mobile number, must be 10 digits",category="error")
           else:
@@ -56,6 +56,8 @@ def manager_member():
               member_service.update(id, name, cattle_type, mobile)
             member = None
             flash("Member saved successfully!")
+        else:
+            flash("Invalid member name and mobile number!", category="error")
       else:
         flash("Invalid member data.",category="error")
     except Exception as e:

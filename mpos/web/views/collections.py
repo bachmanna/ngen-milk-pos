@@ -25,12 +25,12 @@ def sendSms(entity, address):
   mobile = entity.member.mobile
   #mobile = "+919789443696"
   #mobile = "+919952463624"
-  
+
   tmp = app.jinja_env.get_template("thermal/ticket_sms.jinja2")
   data = settings_provider()
   data.update(entity=entity)
   markup = tmp.render(data)
-  
+
   modem = SmsService(address=address)
   modem.send(mobile, markup)
 
@@ -46,8 +46,11 @@ def collection():
 
   if changeDate:
     day, month, year  = request.args.get("day", date.day), request.args.get("month", date.month), request.args.get("year", date.year)
-    hour, minute, dn = request.args.get("hour", date.hour), request.args.get("minute", date.minute), request.args.get("dn", date.strftime("%p"))
-    created_at = "%s/%s/%s %s:%s%s" % (day,month,year,hour,minute,dn)
+    shift = request.args.get("shift", shift)
+    time = "09:00 AM"
+    if shift == "EVENING":
+      time = "03:01 PM"
+    created_at = "%s/%s/%s %s" % (day,month,year,time)
     date1 = parser.parse(created_at, default=date, dayfirst=True)
 
     if date1 > date:
@@ -106,7 +109,7 @@ def collection():
     else:
       flash("Invalid data!", "error")
     return redirect("/collection")
-  
+
   member_list = member_service.search()
   members_json = json.dumps([{'id': x.id, 'name': x.name, 'cattle_type': x.cattle_type} for x in member_list])
 
@@ -120,7 +123,7 @@ def collection():
 
   can_litres = collectionService.get_total_litres(shift=shift, can_no=current_can_no, created_at=date.date())
   can_height = (1 - ((can_capacity - can_litres)/can_capacity))*100.0
-  
+
   currency_symbol = get_currency_symbol()
 
   return render_template('collection.jinja2',
@@ -171,7 +174,7 @@ def get_collection_data():
         return jsonify(**data)
 
   rateCalc = RateCalc(g.app_settings[SystemSettings.RATE_TYPE])
-  
+
   sensor_data = get_sensor_data()
 
   fat = data["fat"] = fmtDecimal(sensor_data["fat"])
@@ -238,7 +241,7 @@ def get_qty_data():
 def get_manual_data():
   cattle_type = request.args.get("cattle_type", "COW")
   rateCalc = RateCalc(g.app_settings[SystemSettings.RATE_TYPE])
-  
+
   fat = float(request.args.get("fat", 0.0))
   snf = float(request.args.get("snf", 0.0))
   qty = float(request.args.get("qty", 0.0))
