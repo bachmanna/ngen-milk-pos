@@ -5,5 +5,5 @@ nl Member: {{entity.member.name}}/{{entity.member_id}}
 nl    FAT: {{ "%4.2f" | format(entity.fat) }}       {{ "CLR: %4.2f" | format(entity.clr) if settings["PRINT_CLR"] == "True" }}
 nl    SNF: {{ "%4.2f" | format(entity.snf) }}       {{ " AW: %4.2f" | format(entity.aw) if settings["PRINT_WATER"] == "True" }}
 nl    QTY: {{ "%4.2f" | format(entity.qty) }}
-nl   RATE: Rs. {{ "%4.2f" | format(entity.rate) }}    TOTAL: Rs. {{ "%4.2f" | format(entity.total) }}
+nl   RATE: Rs.{{ "%4.2f" | format(entity.rate) }} TOTAL: Rs.{{ "%4.2f" | format(entity.total) }}
 {% include "thermal/footer.jinja2" %}

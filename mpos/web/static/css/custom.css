@@ -60,7 +60,7 @@ body{
 }
 
 .main__content__container{
-	padding-top: 20px;
+	margin-top: 10px;
 	overflow-y: auto;
 	min-height: 600px;
 }
@@ -136,12 +136,12 @@ header.banner{
 .breadcrumbs {
 	background: none;
 	border: none;
-	padding: 20px;
 	margin-bottom: 0;
 }
 
 .breadcrumbs li{
-	font-size: 18px;
+	font-size: 28px;
+	line-height: 30px;
 }
 .breadcrumbs li span{
 	font-weight: bolder;

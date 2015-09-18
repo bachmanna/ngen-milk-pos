@@ -13,7 +13,9 @@ while true; do
 
 	killall -9 uwsgi 2>/dev/null;
 
-	sudo python /home/pi/mpos/app_upgrade.pyc;
+	if [ -f /home/pi/mpos/app_upgrade.pyc ]; then
+		sudo python /home/pi/mpos/app_upgrade.pyc;
+	fi
 
 	sudo uwsgi --ini /home/pi/mpos/web/uwsgi.ini;
 

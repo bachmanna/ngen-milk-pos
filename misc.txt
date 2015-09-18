@@ -18,6 +18,18 @@ sudo i2cdetect -y 1
 
 snd_soc_wm8804
 
+sudo iwlist wlan0 scan
+
+Open the wpa-supplicant configuration file in nano:
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+Go to the bottom of the file and add the following:
+
+network={
+    ssid="The_ESSID_from_earlier"
+    psk="Your_wifi_password"
+}
 
 pip install --upgrade lxml
 pip install uwsgi
