@@ -6,19 +6,19 @@ from glob import glob
 import zipfile
 from subprocess import call
 
-EXTRACT_PATH = "/home/pi/mpostest"
+EXTRACT_PATH = "/home/pi"
 
 USB_DRV_PATH = "/home/pi/usbdrv"
 FIRMWARE_PATH = "/home/pi/usbdrv/mpos_firmware"
 # USB_DRV_PATH = "/media/usb0"
 USB_DRV_MOUNT_PATH = "/dev/sda1"
 
-VERSION_FILE = "/home/pi/mpos/_version.py"
-DB_FILE = "/home/pi/mpos/web/app.db"
+VERSION_FILE = EXTRACT_PATH + "/mpos/_version.py"
+DB_FILE = EXTRACT_PATH + "/mpos/web/app.db"
 
 MIDORI_CONFIG_PATH = "/home/pi/.midori/"
-APP_CONFIG_PATH = "/home/pi/mpos/config/"
-APP_EXECUTE_FILE = "/home/pi/mpos/web/runprod.sh"
+APP_CONFIG_PATH = EXTRACT_PATH + "/mpos/config/"
+APP_EXECUTE_FILE = EXTRACT_PATH + "/mpos/web/runprod.sh"
 
 
 def is_usb_storage_connected():
@@ -82,8 +82,12 @@ def link_midori():
 def link_file(src, dest):
 	if not os.path.exists(src):
 		return
-	os.link(src, dest)
-	print("Linking config file %s -> %s" % (src, dest))
+	try:
+		os.remove(dest)
+		os.symlink(src, dest)
+		print("Linking config file %s -> %s" % (src, dest))
+	except Exception as e:
+		print(e)
 
 def restart_uwsgi():
 	# killall -9 uwsgi 2>/dev/null;
@@ -99,7 +103,7 @@ def get_versions(zf):
 			continue
 		with zf.open(member) as f:
 			upgrade_version = parse_version(f.read())
-		break
+			break
 	return current_version, upgrade_version
 
 def can_upgrade_version(current_version, upgrade_version):

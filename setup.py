@@ -86,7 +86,7 @@ import py_compile
 class custom_build_pyc(build_py):
 	def byte_compile(self, files):
 		for file in files:
-			if file.endswith('.py'):
+			if file.endswith('.py') and not file.endswith('_version.py'):
 				py_compile.compile(file)
 				os.unlink(file)
 
@@ -141,6 +141,7 @@ setup(
 		# installed, specify them here.  If using Python 2.6 or less, then these
 		# have to be included in MANIFEST.in as well.
 		package_data={
+				'mpos': ['config/.xinitrc','config/*'],
 				'mpos.web': ['*.ini',
 						'*.sh',
 						'*.cfg',
