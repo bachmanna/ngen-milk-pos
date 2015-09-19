@@ -3,12 +3,14 @@ while true; do
 
 	# Clean up previously running apps, gracefully at first then harshly
 	killall -TERM chromium 2>/dev/null;
+	killall -TERM midori 2>/dev/null;
 	killall -TERM matchbox-window-manager 2>/dev/null;
 
 	killall -TERM uwsgi 2>/dev/null;
 
 	sleep 2;
 	killall -9 chromium 2>/dev/null;
+	killall -9 midori 2>/dev/null;
 	killall -9 matchbox-window-manager 2>/dev/null;
 
 	killall -9 uwsgi 2>/dev/null;
@@ -47,6 +49,7 @@ while true; do
 
 	# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
 	sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
-	chromium --noerrdialogs --kiosk http://localhost --incognito
+	# chromium  --incognito --noerrdialogs --kiosk http://localhost/
+	midori -e Fullscreen -c /home/pi/.midori/ --app http://localhost/
 
 done;
