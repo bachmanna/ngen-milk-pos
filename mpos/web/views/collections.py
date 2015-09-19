@@ -145,7 +145,7 @@ def get_collection_data():
   shift = request.args.get("shift", None)
   cattle_type = request.args.get("cattle_type", "COW")
   today = datetime.now()
-  created_at = parser.parse(request.form.get("created_at", str(today))).date()
+  created_at = parser.parse(request.args.get("created_at", str(today))).date()
   data = { "collection_id": None, "currency_symbol": get_currency_symbol() }
   collectionService = MilkCollectionService()
 
@@ -215,7 +215,7 @@ def get_qty_data():
   shift = request.args.get("shift", None)
   cattle_type = request.args.get("cattle_type", "COW")
   today = datetime.now()
-  created_at = parser.parse(request.form.get("created_at", str(today))).date()
+  created_at = parser.parse(request.args.get("created_at", str(today))).date()
   collectionService = MilkCollectionService()
 
   if member_id and int(member_id) > 0 and shift and created_at:
