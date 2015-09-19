@@ -62,7 +62,7 @@
 /* Bar container - this guy is a real parent of a bar's parts - they all are positioned relative to him */
 .bar-container {
     position: relative;
-    width: 15em; /* required, we have to define the width of a bar */
+    width: 11vw; /* required, we have to define the width of a bar */
 }
 /* right bottom patch - make sure inner bar's right bottom corner is "cut" when it slides down */
 .bar-container:before {
@@ -116,7 +116,7 @@
 .bar-container,
 .graph-container:after,
 .graph-container > li:last-child {
-  height: 240px;
+  height: 24vh;
 }
 
 /****************

@@ -1,0 +1,59 @@
+<div class="milk__can__status__container">
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("Can count")}}
+    </div>
+    <div class="medium-6 columns">
+      <b id="current_can_no">{{current_can_no}}</b>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("Total Qty")}}
+    </div>
+    <div class="medium-6 columns">
+      <b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("COW")}}
+    </div>
+    <div class="medium-6 columns">
+      {{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("BUFFALO")}}
+    </div>
+    <div class="medium-6 columns">
+      {{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("Total Mem")}}
+    </div>
+    <div class="medium-6 columns">
+      <b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b>
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("COW")}}
+    </div>
+    <div class="medium-6 columns">
+      {{summary["member"][0]}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="medium-6 columns">
+      {{_("BUFFALO")}}
+    </div>
+    <div class="medium-6 columns">
+      {{summary["member"][1]}}
+    </div>
+  </div>
+</div>

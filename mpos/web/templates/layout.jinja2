@@ -9,75 +9,72 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bar_graph.css', _external=True)}}"/>
   <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
 </head>
-<body oncontextmenu="return false">
+<!-- <body oncontextmenu="return false"> -->
+<body class="page">
   <!-- Version: {{app_version}} -->
   {% from "macros/select_controls.jinja2" import select_month, select_year, select_shift %}
-  <div class="wrapper">
 
-    <header class="banner">
-      <div class="row">
-        <div class="medium-9 columns text-center">
-          <h1>{{ settings["SOCIETY_NAME"] }}</h1>
-          <h3>{{ settings["SOCIETY_ADDRESS"] }}</h3>
-          <h4>{{ settings.get("SOCIETY_ADDRESS1", "") }}</h4>
-        </div>
-        <div class="medium-3 columns text-right">
-          {% if current_user.is_authenticated() %}
-          {{_("User")}}: <b>{{ current_user.name }}</b>
-          {% endif %}
-          <p style="position: relative; bottom: -40px; font-size: 12px;">
-            Version:{{app_version}}
-          </p>
-        </div>
+  <header class="banner">
+    <div class="row">
+      <div class="medium-9 columns text-center">
+        <h1>{{ settings["SOCIETY_NAME"] }}</h1>
+        <h3>{{ settings["SOCIETY_ADDRESS"] }}</h3>
+        <h4>{{ settings.get("SOCIETY_ADDRESS1", "") }}</h4>
       </div>
-    </header>
-
-    <div class="breadcrumbs__bg">
-      <div class="row">
-        <ul class="breadcrumbs">
-          <li> {{_("Date")}}: <span id="sys_date">{{sys_date}}</span></li>
-          <li> {{_("Time")}}: <span id="sys_time">{{sys_time}}</span></li>
-          {% block breadcrumb %}
-          {% endblock %}
-        </ul>
+      <div class="medium-3 columns text-right">
+        {% if current_user.is_authenticated() %}
+        {{_("User")}}: <b>{{ current_user.name }}</b>
+        {% endif %}
+        <p style="position: relative; bottom: -40px; font-size: 12px;">
+          Version:{{app_version}}
+        </p>
       </div>
     </div>
+  </header>
+  <div class="breadcrumbs__bg">
+    <div class="row">
+      <ul class="breadcrumbs">
+        <li> {{_("Date")}}: <span id="sys_date">{{sys_date}}</span></li>
+        <li> {{_("Time")}}: <span id="sys_time">{{sys_time}}</span></li>
+        {% block breadcrumb %}
+        {% endblock %}
+      </ul>
+    </div>
+  </div>
 
+  <div class="wrapper">
     <div class="loading text-center hide" id="page_loading">
       <h1>{{_("LOADING...")}}</h1>
     </div>
 
-    <section class="main__content__container">
-      <div class="row">
-        <div class="medium-7 columns">
-          {% block body %}
+    <article class="flexbox">
+      <div class="col">
+        {% block body %}
 
-          {% endblock %}
-        </div>
-        <div class="medium-2 columns sidebar">
-          {% block sidebar %}
-
-          {% endblock %}
-        </div>
-        <div class="medium-3 columns sidebar-img end">
-        </div>
+        {% endblock %}
       </div>
-      <div class="push"></div>
+      <div class="col">
+        {% block sidebar %}
 
+        {% endblock %}
+      </div>
+      <div class="col">
+        <img src="/static/images/cow.png" style="width:100%;height:100%;"/>
+      </div>
+    </article>
+  </div>
 
-      <footer>
-        <div class="row">
-          <div class="medium-9 columns">
-            {% block statusbar %}
-            {% endblock %}
-          </div>
-          <div class="medium-3 columns footer-img text-right">
-          </div>
-        </div>
-      </footer>
-  </section>
-
-</div>
+  <footer>
+    <div class="row">
+      <div class="medium-9 columns">
+        {% block statusbar %}
+        {% endblock %}
+      </div>
+      <div class="medium-3 columns text-right">
+        <img src="/static/images/footer.png" style="width:100%;height:100%;"/>
+      </div>
+    </div>
+  </footer>
 
  <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
  <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>

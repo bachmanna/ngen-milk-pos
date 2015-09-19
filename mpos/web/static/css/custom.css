@@ -1,3 +1,54 @@
+body {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  top: -10px;
+}
+
+div.wrapper {
+	flex: 1;
+}
+
+.flexbox {
+	margin-top: 10px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.flexbox .col {
+  flex: 1;
+}
+.flexbox .col:nth-child(1) {
+  flex-grow: 4;
+  height: calc(90vh - 180px);
+  order: 0;
+  overflow-y: auto;
+}
+.flexbox .col:nth-child(2) {
+  order: 1;
+  height: calc(90vh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.flexbox .col:nth-child(3) {
+  flex-grow: 2;
+  order: 2;
+  height: calc(90vh - 180px);
+  overflow: hidden;
+}
+
+.panel{
+	margin-bottom: 0;
+	padding: 10px;
+}
+
 h1{
 	margin: 0 0 24px;
 }
@@ -30,44 +81,6 @@ form .button{
 
 .sidebar{
 	border-left: 1px solid #aaa;
-	min-height: 500px;
-	height:100%;
-}
-
-.sidebar-img{
-	background: url('/static/images/cow.png') no-repeat 0% 0%;
-	min-height: 620px;
-	height: 100%;
-	background-size: 100%;
-	background-size:cover;
-}
-
-.footer-img{
-	background: url('/static/images/footer.png') no-repeat 0% 0%;
-	min-height: 98px;
-	background-size: 100%;
-}
-
-body{
-	/*overflow: hidden;*/
-}
-
-.wrapper {
-	min-height: 99%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -80px;
-}
-
-.main__content__container{
-	margin-top: 10px;
-	overflow-y: auto;
-	min-height: 600px;
-}
-
-footer, .push {
-	clear: both;
-	/*height: 45px;*/
 }
 
 footer{
@@ -75,7 +88,7 @@ footer{
 }
 
 footer .action-buttons{
-	padding-top: 15px;
+	padding-top: 10px;
 }
 
 .login-container{
@@ -91,13 +104,13 @@ header.banner{
 .collection-wrapper label,
 .collection-wrapper input {
 	font-family: "ITC Avant Garde Gothic W01";
-	font-size: 22px;
+	font-size: 2vw;
 }
 
 .collection-wrapper input{
 	height: auto;
-    padding: 12px;
-    font-size: 36px;
+  padding: 0.8vw;
+  font-size: 2.2vw;
 }
 
 .collection-wrapper label{
@@ -106,7 +119,7 @@ header.banner{
 }
 
 #lbl_member_code{
-	font-size: 22px;	
+	font-size: 1.2vw;
 }
 
 .banner h1,
@@ -160,7 +173,7 @@ header.banner{
 }
 
 #lblTotal{
-	margin-top: 55px;
+	margin-top: 25px;
 }
 
 input#fat, input#snf, input#qty {
@@ -168,12 +181,12 @@ input#fat, input#snf, input#qty {
 }
 
 input#qty{
-	font-size: 60px;
+	font-size: 3.3vw;
 }
 
 #rate{
 	color: #ff5115;
-	font-size: 160px;
+	font-size: 8vw;
 	line-height: 1;
 }
 
@@ -188,8 +201,17 @@ input#qty{
 
 #total {	
 	color:#368A55;
-	font-size: 135px;
+	font-size: 7vw;
 	line-height: 1;
+}
+
+.milk__can__status__container {
+	font-size: 1vw;
+}
+
+#dateChangeModal select {
+	display: inline-block;
+	width: 220px;
 }
 
 .button{
@@ -197,6 +219,7 @@ input#qty{
 	text-align: left;
 	text-transform: uppercase;
 	text-indent: 20px;
+	margin-bottom: 10px;
 }
 
 .switch input:focus + label,
@@ -264,7 +287,7 @@ form.inline select.medium {
 
 .report_container {
   border: 2px solid #333;
-  padding: 10px 0 0;
+  margin: 6px;
 }
 
 .report_container h1,
@@ -280,29 +303,30 @@ form.inline select.medium {
 .report_container table {
 	margin: 0;
 	margin-top: 20px;
-	border-top: 3px solid #333;
 	display: flex;
   flex-flow: column;
 }
 
-.report_container table:focus {
+.report_container:focus {
 	border: 1px solid blue;
 }
 
 .report_container table thead,
 .report_container table tfoot { 
-	flex: 0 0 auto;
-  width: calc(100% - 0.9em);
+	/*flex: 0 0 auto;*/
+	flex: 1 1 auto;
+	width: calc(100% - 0.0em);
+  /*width: calc(100% - 0.9em);*/
 }
 
 .report_container table tbody{
   flex: 1 1 auto;
   display: block;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
 }
 
 .report_container table.scroll tbody{
-  height: 300px;
+  /*height: 300px;*/
 }
 
 .report_container table.noscroll tbody{

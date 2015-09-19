@@ -7,10 +7,10 @@
 {% block body %}
 <div class=" collection-wrapper">
 	<div class="row">
-		<div class="medium-6 columns">
+		<div class="medium-9 columns">
 			<h1>{{_("Milk Collection")}}</h1>
 		</div>
-		<div class="medium-6 columns text-right" style="line-height: 80px;">
+		<div class="medium-3 columns text-right" style="line-height: 80px;">
 			<span id="edit_date">{{date.strftime("%d/%m/%Y")}}</span>
 		</div>
 	</div>
@@ -90,7 +90,6 @@
 						</div>
 					</div>
 				</div>
-				<br/>
 				<div class="row">
 					<div class="medium-2 columns">
 						<label id="lblTotal">{{_("TOTAL")}}</label>
@@ -146,65 +145,8 @@
 			</li>
 		</ul>
 	</div>
-	<hr/>
 </div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("Can count")}}
-	</div>
-	<div class="medium-6 columns">
-		<b id="current_can_no">{{current_can_no}}</b>
-	</div>
-</div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("Total Qty")}}
-	</div>
-	<div class="medium-6 columns">
-		<b id="total_milk">{{'%0.2f'| format(summary["milk"][0]+summary["milk"][1]|float)}}</b>&nbsp;{{_("litres")}}
-	</div>
-</div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("COW")}}
-	</div>
-	<div class="medium-6 columns">
-		{{'%0.2f'| format(summary["milk"][0]|float)}}&nbsp;{{_("litres")}}
-	</div>
-</div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("BUFFALO")}}
-	</div>
-	<div class="medium-6 columns">
-		{{'%0.2f'| format(summary["milk"][1]|float)}}&nbsp;{{_("litres")}}
-	</div>
-</div>
-<br/>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("Total Mem")}}
-	</div>
-	<div class="medium-6 columns">
-		<b id="total_member">{{summary["member"][0]+summary["member"][1]}}</b>
-	</div>
-</div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("COW")}}
-	</div>
-	<div class="medium-6 columns">
-		{{summary["member"][0]}}
-	</div>
-</div>
-<div class="row">
-	<div class="medium-6 columns">
-		{{_("BUFFALO")}}
-	</div>
-	<div class="medium-6 columns">
-		{{summary["member"][1]}}
-	</div>
-</div>
+{% include 'milk_can_status.jinja2' %}
 {% endblock %}
 
 {% block statusbar %}
@@ -218,7 +160,7 @@
 	<div class="medium-3 columns">
 		<a href="#" data-key="d" class="button expand" data-reveal-id="dateChangeModal">{{_("CHANGE DATE")}} <span class="access_key">D</span></a>
 	</div>
-	<div class="medium-3 columns end">
+	<div class="medium-2 columns end">
 		<a href="#" id="btnEscape" data-key="esc" class="alert button expand">{{_("EXIT")}} <span class="access_key">ESC</span></a>
 	</div>
 	<a href="#" onclick="$('#member_code').select();" data-key="f1" class="hide"></a>
@@ -235,11 +177,8 @@
 				<input type="text" class="mousetrap tiny" name="month" value="{{date.month}}" maxlength="2" />
 				/
 				<input type="text" class="mousetrap medium" name="year" value="{{date.year}}"  maxlength="4" />
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="medium-12 columns">
+				<br/>
+				<label>{{_("Shift")}}</label>
 				{{ select_shift(selected_value=shift) }}
 			</div>
 		</div>

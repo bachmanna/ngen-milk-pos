@@ -2,46 +2,46 @@
 {% block body %}
 
 <div class="row">
-    <div class="medium-12 columns text-center">
-        <div class="panel">
-            <div class="row">
-                <div class="medium-12 columns text-center">
-                    <h2>{{_("Main Menu")}}</h2>
-                </div>
-            </div>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="medium-6 columns">
-                    <a href="/collection" class="large button expand" data-key="1">{{_("Collection")}} <span class="access_key">1</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/reports" class="large button expand" data-key="2">{{_("Reports")}} <span class="access_key">2</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/basic_setup" class="large button expand" data-key="3" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("setup"))}}>{{_("Basic Setup")}} <span class="access_key">3</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/settings" class="large button expand" data-key="4" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("setup"))}}>{{_("Settings")}} <span class="access_key">4</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/system_setup" class="large button expand" data-key="5">{{_("System Setup")}} <span class="access_key">5</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/data_reset" class="large button expand" data-key="6" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("data"))}}>{{_("Data Reset")}} <span class="access_key">6</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/user" class="large button expand" data-key="7" {{"disabled='disabled' tabindex='-1'" if not can_access("admin")}}>{{_("Manage User")}} <span class="access_key">7</span></a>
-                </div>
-                <div class="medium-6 columns">
-                    <a href="/logout" class="warning large button expand" data-key="9">{{_("Logout")}}  <span class="access_key">9</span></a>
-                </div>
-                <div class="medium-6 columns end">
-                    <a href="/shutdown" class="alert large button expand" data-key="end">{{_("Shutdown")}} <span class="access_key">END</span></a>
-                </div>
-            </div>
+  <div class="medium-12 columns text-center">
+    <div class="panel">
+      <div class="row">
+        <div class="medium-12 columns text-center">
+          <h1>{{_("Main Menu")}}</h1>
         </div>
+      </div>
+      <br/>
+      <br/>
+      <div class="row">
+        <div class="medium-6 columns">
+          <a href="/collection" class="large button expand" data-key="1">{{_("Collection")}} <span class="access_key">1</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/reports" class="large button expand" data-key="2">{{_("Reports")}} <span class="access_key">2</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/basic_setup" class="large button expand" data-key="3" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("setup"))}}>{{_("Basic Setup")}} <span class="access_key">3</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/settings" class="large button expand" data-key="4" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("setup"))}}>{{_("Settings")}} <span class="access_key">4</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/system_setup" class="large button expand" data-key="5">{{_("System Setup")}} <span class="access_key">5</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/data_reset" class="large button expand" data-key="6" {{"disabled='disabled' tabindex='-1'" if not (can_access("admin") or can_access("data"))}}>{{_("Data Reset")}} <span class="access_key">6</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/user" class="large button expand" data-key="7" {{"disabled='disabled' tabindex='-1'" if not can_access("admin")}}>{{_("Manage User")}} <span class="access_key">7</span></a>
+        </div>
+        <div class="medium-6 columns">
+          <a href="/logout" class="warning large button expand" data-key="9">{{_("Logout")}}  <span class="access_key">9</span></a>
+        </div>
+        <div class="medium-6 columns end">
+          <a href="/shutdown" class="alert large button expand" data-key="end">{{_("Shutdown")}} <span class="access_key">END</span></a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock %}
