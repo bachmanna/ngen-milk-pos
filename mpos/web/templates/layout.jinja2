@@ -25,6 +25,9 @@
           {% if current_user.is_authenticated() %}
           {{_("User")}}: <b>{{ current_user.name }}</b>
           {% endif %}
+          <p style="position: relative; bottom: -40px; font-size: 12px;">
+            Version:{{app_version}}
+          </p>
         </div>
       </div>
     </header>
@@ -56,7 +59,7 @@
 
           {% endblock %}
         </div>
-        <div class="medium-3 columns sidebar-img end">        
+        <div class="medium-3 columns sidebar-img end">
         </div>
       </div>
       <div class="push"></div>
@@ -68,7 +71,7 @@
             {% block statusbar %}
             {% endblock %}
           </div>
-          <div class="medium-3 columns footer-img text-right">        
+          <div class="medium-3 columns footer-img text-right">
           </div>
         </div>
       </footer>
@@ -107,7 +110,7 @@
       var inputs = frm.find(':input[disabled!=disabled][type!=hidden]');
       var t = inputs.eq( inputs.index(e.target) + 1 );
       t.focus();
-      
+
       if(t.is("input[type=text]"))
       {
         t.select();
@@ -143,6 +146,13 @@
       });
     });
 
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
     function updateClock() {
       var months = ['January','February','March','April','May',
         'June','July','August','September','October','November','December'];
@@ -163,7 +173,7 @@
         hours = 12;
       }
 
-      var time = hours + ':' + now.getMinutes() + " " + dn;
+      var time = hours + ':' + addZero(now.getMinutes()) + " " + dn;
       var date = [now.getDate(), now.getMonth()+1, now.getFullYear()].join('/');
 
       // set the content of the element with the ID time to the formatted string
