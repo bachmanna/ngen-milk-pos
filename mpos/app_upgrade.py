@@ -20,12 +20,17 @@ MIDORI_CONFIG_PATH = "/home/pi/.midori/"
 APP_CONFIG_PATH = EXTRACT_PATH + "/mpos/config/"
 APP_EXECUTE_FILE = EXTRACT_PATH + "/mpos/web/runprod.sh"
 
+SPLASHSCREEN_FILE = dict(source=FIRMWARE_PATH + '/splash.png', target='/etc/splash.png')
+COW_IMAGE_FILE = dict(source=FIRMWARE_PATH+'/cow.png', target=EXTRACT_PATH + '/mpos/web/static/images/cow.png')
+FOOTER_IMAGE_FILE = dict(source=FIRMWARE_PATH+'/footer.png', target=EXTRACT_PATH + '/mpos/web/static/images/footer.png')
+
 
 def is_usb_storage_connected():
 	return os.path.exists(USB_DRV_MOUNT_PATH) and os.path.ismount(USB_DRV_PATH)
 
-def do_upgrade(directory):
-	files = glob(os.path.join(directory, "mpos*.zip"))
+def web_app_upgrade_task():
+	files = glob(os.path.join(FIRMWARE_PATH, "mpos*.zip"))
+
 	if len(files) > 0:
 		source_filename = files[0]
 		print("Found upgrade file at %s" % source_filename)
@@ -44,7 +49,7 @@ def do_upgrade(directory):
 			print(e)
 			print("UPGRADE FAILED!!!")
 	else:
-		print("No upgrade file found..")
+		print("No application upgrade file found..")
 
 def mkdir(path):
 	if not os.path.exists(path):
@@ -55,7 +60,7 @@ def backup_db(version):
 		return
 	filename = "app_data_%s.db" % (version.replace('.', '_'))
 	dest_file = os.path.join(FIRMWARE_PATH, 'data_backup', filename)
-	
+
 	mkdir(os.path.dirname(dest_file))
 
 	call(['cp', DB_FILE, dest_file])
@@ -71,7 +76,7 @@ def link_config_files():
 def link_xinitrc():
 	xinitrc_file = os.path.join(APP_CONFIG_PATH,'.xinitrc')
 	link_file(xinitrc_file, "/home/pi/.xinitrc")
-	
+
 def link_midori():
 	config_file = os.path.join(APP_CONFIG_PATH,'midori_config')
 	accels_file = os.path.join(APP_CONFIG_PATH,'midori_accels')
@@ -123,14 +128,30 @@ def parse_version(text):
 		return None
 	return s.group('v')
 
+
+def splash_screen_upgrade_task():
+	update_image_file(SPLASHSCREEN_FILE['source'], SPLASHSCREEN_FILE['target'])
+
+def web_app_image_upgrade_task():
+	update_image_file(COW_IMAGE_FILE['source'], COW_IMAGE_FILE['target'])
+	update_image_file(FOOTER_IMAGE_FILE['source'], FOOTER_IMAGE_FILE['target'])
+
+def update_image_file(src, dest):
+	if not os.path.exists(src):
+		return
+	os.remove(dest)
+	os.link(src, dest)
+
+tasks = [web_app_upgrade_task, splash_screen_upgrade_task, web_app_image_upgrade_task]
+
 if __name__ == "__main__":
 	print("MPOS --- Checking for upgrade file in pendrive")
 
 	if not is_usb_storage_connected():
 		print("NO USB PENDRIVE FOUND")
 		print("Exiting upgrade...")
-	else:
-		if os.path.exists(FIRMWARE_PATH):
-			do_upgrade(FIRMWARE_PATH)
-		else:
+	elif not os.path.exists(FIRMWARE_PATH):
 			print("No upgrade file found..")
+	else:
+		for task in tasks:
+			task()
