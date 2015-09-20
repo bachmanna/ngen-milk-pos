@@ -19,7 +19,7 @@ class DefaultDbData:
 
         for i in range(1,100):
             name = "John" + str(random.randint(0, 9999))
-            mobile = str(random.randint(111111111, 999999999))
+            mobile = str(random.randint(1111111111, 9999999999))
             cattle_type = CattleType.BUFFALO
 
             if i%2 == 0:
@@ -143,8 +143,8 @@ class DefaultDbData:
         data = []
         for fat in frange(3, 12):
           for snf in frange(7,22):
-            data.append({ "fat_value": fat, 
-                          "snf_value": snf, 
+            data.append({ "fat_value": fat,
+                          "snf_value": snf,
                           "rate":20.0+random.random()})
 
         rate_service.set_fat_and_snf_collection_rate(cattle_type="COW",data=data)

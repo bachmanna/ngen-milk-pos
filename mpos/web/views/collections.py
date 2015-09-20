@@ -23,8 +23,6 @@ def get_current_can_count():
 
 def sendSms(entity, address):
   mobile = entity.member.mobile
-  #mobile = "+919789443696"
-  #mobile = "+919952463624"
 
   tmp = app.jinja_env.get_template("thermal/ticket_sms.jinja2")
   data = settings_provider()
@@ -182,6 +180,10 @@ def get_collection_data():
   data["clr"] = fmtDecimal(sensor_data["clr"])
   data["water"] = fmtDecimal(sensor_data["water"])
 
+  clr, aw = calculate_clr_aw(snf, fat, cattle_type)
+  data['clr'] = clr
+  data['water'] = aw
+
   qty = data["qty"] = fmtDecimal(sensor_data["qty"])
 
   rate = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
@@ -235,6 +237,20 @@ def get_qty_data():
 
   return jsonify({"status" : "success", "value": qty, "can_litres": can_litres, "can_height": can_height})
 
+def calculate_clr_aw(snf, fat, cattle_type):
+  if snf <= 0.0 or fat <= 0.0:
+    return 0, 0
+
+  clr = 4.0 * ((snf - (0.21 * fat)) - 0.36)
+  S = 8.5
+  if cattle_type != "COW":
+    S = 9.0
+  aw = (((S-snf)/S)*100.0) - 0.7
+
+  if aw < 0.0:
+    aw = 0.0
+
+  return clr, aw
 
 @app.route("/get_manual_data")
 @login_required
@@ -245,14 +261,7 @@ def get_manual_data():
   fat = float(request.args.get("fat", 0.0))
   snf = float(request.args.get("snf", 0.0))
   qty = float(request.args.get("qty", 0.0))
-  clr = 4.0* ((snf - (0.21 * fat)) - 0.36)
-  S = 8.5
-  if cattle_type != "COW":
-    S = 9.0
-  aw = (((S-snf)/S)*100.0) - 0.7
-
-  if aw < 0.0:
-    aw = 0.0
+  clr, aw = calculate_clr_aw(snf, fat, cattle_type)
 
   rate = fmtDecimal(rateCalc.get_rate(cattle_type, fat, snf))
   total = fmtDecimal(rate * qty)
